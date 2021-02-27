@@ -2,10 +2,14 @@ package methods;
 
 import java.util.function.Function;
 
-public class DichotomyMethod implements OptimizationAlgorithm {
+public class DichotomyMethod extends AbstractMethod {
+
+    public DichotomyMethod(Function<Double, Double> function) {
+        super(function);
+    }
 
     @Override
-    public double findMin(Function<Double, Double> function, double a, double b) {
+    public double findMin(double a, double b) {
         return 0;
     }
 }
