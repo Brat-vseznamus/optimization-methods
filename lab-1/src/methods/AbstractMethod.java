@@ -2,21 +2,22 @@ package methods;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public abstract class AbstractMethod implements OptimizationAlgorithm{
     protected Function<Double, Double> function;
     protected List<Info> table;
-    protected double eps = 1e-6d;
+    protected double eps;
     
-    public AbstractMethod(Function<Double, Double> function) {
-        this.function = function;
-    }
-    
-    public AbstractMethod(Function<Double, Double> function, double eps) {
+    protected AbstractMethod(UnaryOperator<Double> function, double eps) {
         this.function = function;
         this.eps = eps;
     }
 
+    protected AbstractMethod(UnaryOperator<Double> function) {
+        this(function, 1e-6d);
+    }
+    
     @Override
     public List<Info> getTable() {
         return table;
