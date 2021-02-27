@@ -1,11 +1,10 @@
 package methods;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public abstract class AbstractMethod implements OptimizationAlgorithm{
-    protected Function<Double, Double> function;
+    protected UnaryOperator<Double> function;
     protected List<Info> table;
     protected double eps;
     

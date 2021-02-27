@@ -1,14 +1,14 @@
 package methods;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class FibonacciMethod extends AbstractMethod {
 
-    public FibonacciMethod(Function<Double, Double> function) {
+    public FibonacciMethod(UnaryOperator<Double> function) {
         super(function);
     }
 
-    public FibonacciMethod(Function<Double, Double> function, double eps) {
+    public FibonacciMethod(UnaryOperator<Double> function, double eps) {
         super(function, eps);
     }
 

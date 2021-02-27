@@ -1,15 +1,15 @@
 package methods;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class ParabolicMethod extends AbstractMethod {
 
     
-    public ParabolicMethod(Function<Double, Double> function) {
+    public ParabolicMethod(UnaryOperator<Double> function) {
         super(function);
     }
 
-    public ParabolicMethod(Function<Double, Double> function, double eps) {
+    public ParabolicMethod(UnaryOperator<Double> function, double eps) {
         super(function, eps);
     }
 
