@@ -6,7 +6,10 @@ public class FibonacciMethod extends AbstractMethod {
 
     public FibonacciMethod(Function<Double, Double> function) {
         super(function);
-        // TODO Auto-generated constructor stub
+    }
+
+    public FibonacciMethod(Function<Double, Double> function, double eps) {
+        super(function, eps);
     }
 
     @Override
@@ -14,5 +17,6 @@ public class FibonacciMethod extends AbstractMethod {
         // TODO Auto-generated method stub
         return 0;
     }
+
     
 }

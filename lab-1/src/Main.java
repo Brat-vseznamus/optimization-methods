@@ -1,3 +1,4 @@
+import methods.BrentsMethod;
 import methods.DichotomyMethod;
 import methods.OptimizationAlgorithm;
 
