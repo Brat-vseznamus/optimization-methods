@@ -8,8 +8,8 @@ public class Main {
         Function<Double, Double> function;
         function = x -> x * x + Math.exp(-0.35d * x);
 
-        OptimizationAlgorithm method = new DichotomyMethod();
-        double min = method.findMin(function, -2d, 3d);
+        OptimizationAlgorithm method = new DichotomyMethod(function);
+        double min = method.findMin(-2d, 3d);
 
         System.out.println(min);
     }
