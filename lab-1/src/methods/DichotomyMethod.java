@@ -14,8 +14,9 @@ public class DichotomyMethod extends AbstractMethod {
     
     @Override
     public double findMin(double a, double b) {
+        table.clear();
         
-        double delta = 1e-12d;
+        double delta = 15e-11d;
         double epsN = (b - a) / 2d;
         while (epsN > eps) {
             // step 1
@@ -30,6 +31,8 @@ public class DichotomyMethod extends AbstractMethod {
             } else {
                 a = x1;
             }
+
+            addInfo(a, b, (a + b) / 2);
 
             // step 3
             epsN = (b - a) / 2d;

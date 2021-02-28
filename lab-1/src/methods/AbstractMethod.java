@@ -1,6 +1,7 @@
 package methods;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.function.UnaryOperator;
 
 public abstract class AbstractMethod implements OptimizationAlgorithm{
@@ -11,10 +12,11 @@ public abstract class AbstractMethod implements OptimizationAlgorithm{
     protected AbstractMethod(UnaryOperator<Double> function, double eps) {
         this.function = function;
         this.eps = eps;
+        table = new ArrayList<>();
     }
 
     protected AbstractMethod(UnaryOperator<Double> function) {
-        this(function, 1e-6d);
+        this(function, 1e-9d);
     }
     
     @Override
@@ -53,6 +55,11 @@ public abstract class AbstractMethod implements OptimizationAlgorithm{
 
         public double getValue() {
             return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("\n<a: %.10f, b: %.10f, mid: %.10f>", left, right, value);
         }
     }
     

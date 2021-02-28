@@ -14,6 +14,7 @@ public class GoldenRatioMethod extends AbstractMethod {
 
     @Override
     public double findMin(double a, double b) {
+        table.clear();
 
         double epsN = (b - a) / 2d;
         double tau = ((Math.sqrt(5d) - 1d) / 2d);
@@ -42,6 +43,8 @@ public class GoldenRatioMethod extends AbstractMethod {
                 x2 = a + tau * (b - a);
                 fx2 = function.apply(x2);
             }
+            addInfo(a, b, (a + b) / 2);
+
             epsN = (b - a) / 2d;
         }
 

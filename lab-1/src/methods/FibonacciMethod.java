@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class FibonacciMethod extends AbstractMethod {
-    List<Long> fs;
+    private List<Long> fs;
+
 
     public FibonacciMethod(UnaryOperator<Double> function) {
         super(function);
@@ -18,6 +19,7 @@ public class FibonacciMethod extends AbstractMethod {
     @Override
     public double findMin(double a, double b) {
         fs = new ArrayList<>();
+        table = new ArrayList<Info>();
         fs.add(0l);
         fs.add(1l);
         long lastFibonacci = (long)((b - a) / eps);
@@ -27,47 +29,44 @@ public class FibonacciMethod extends AbstractMethod {
             tmp += fs.get(fs.size() - 2);
             fs.add(tmp);
         }
-        double lamda = a + getF(-2) * (b - a) / (double)getF(0);
-        double mu = a + getF(-1) * (b - a) / (double)getF(0);
+        
+        double x1 = a + getF(-2) * (b - a) / (double)getF(0);
+        double x2 = b - getF(-2) * (b - a) / (double)getF(0);
         int k = 1;
-        double fx1 = function.apply(lamda);
-        double fx2 = function.apply(mu);
+        double fx1 = function.apply(x1);
+        double fx2 = function.apply(x2);
         double an = a, bn = b;
-        while (k < fs.size()) {
+        while (k < fs.size() - 2) {
             // step 1
             if (fx1 > fx2) {
                 // step 2
-                an = lamda;
-                lamda = mu;
-                mu = an + getF(-k-1) * (bn - an) / (double)getF(-k);
-                if (k == fs.size() - 2) {
-                    // go to step 5
-                    break;
-                } else {
-                    fx2 = function.apply(mu);
+                an = x1;
+                x1 = x2;
+                x2 = bn - getF(-k-2) * (bn - an) / (double)getF(-k);
+                if (k < fs.size() - 3) {
+                    fx1 = fx2;
+                    fx2 = function.apply(x2);
                 }
             } else {
                 // step 3
-                bn = mu;
-                mu = lamda;
-                lamda = an + getF(-k-2) * (bn - an) / (double)getF(-k);
-                if (k == fs.size() - 2) {
-                    // go to step 5
-                    break;
-                } else {
-                    fx1 = function.apply(lamda);
+                bn = x2;
+                x2 = x1;
+                x1 = an + getF(-k-2) * (bn - an) / (double)getF(-k);
+                if (k < fs.size() - 3) {
+                    fx2 = fx1;
+                    fx1 = function.apply(x1);
                 }
             }
             // step 4
             k++;
-            System.out.println(String.format("[%s, %s]", an, bn));
+            addInfo(an, bn, (an + bn) / 2d);
         }
         // step 5
-        mu = lamda + eps;
-        if (function.apply(lamda).equals(function.apply(mu))) {
-            an = lamda;
+        x2 = x1 + eps;
+        if (function.apply(x1).equals(function.apply(x2))) {
+            an = x1;
         } else {
-            bn = mu;
+            bn = x2;
         }
         return (an + bn) / 2d;
     }
