@@ -1,9 +1,10 @@
-package methods;
+package functions;
 
 import java.util.function.UnaryOperator;
 
 public class DichotomyMethod extends AbstractMethod {
-    
+    private static final double DELTA = 15e-11d;
+
     public DichotomyMethod(UnaryOperator<Double> function) {
         super(function);
     }
@@ -16,12 +17,11 @@ public class DichotomyMethod extends AbstractMethod {
     public double findMin(double a, double b) {
         table.clear();
         
-        double delta = 15e-11d;
         double epsN = (b - a) / 2d;
         while (epsN > eps) {
             // step 1
-            double x1 = (a + b - delta) / 2d;
-            double x2 = (a + b + delta) / 2d;
+            double x1 = (a + b - DELTA) / 2d;
+            double x2 = (a + b + DELTA) / 2d;
             double fx1 = function.apply(x1);
             double fx2 = function.apply(x2);
             
@@ -42,4 +42,8 @@ public class DichotomyMethod extends AbstractMethod {
         return (a + b) / 2d;
     }
 
+    @Override
+    public String getName() {
+        return "Дихотомия";
+    }
 }

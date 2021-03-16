@@ -1,10 +1,10 @@
-package methods;
+package functions;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.UnaryOperator;
 
-public abstract class AbstractMethod implements OptimizationAlgorithm{
+public abstract class AbstractMethod implements DrawableOptimizationAlgorithm{
     protected UnaryOperator<Double> function;
     protected List<Info> table;
     protected double eps;
@@ -24,8 +24,8 @@ public abstract class AbstractMethod implements OptimizationAlgorithm{
         return table;
     }
 
-    public void addInfo(double x, double y, double value) {
-        table.add(new Info(x, y, value));
+    public void addInfo(double l, double r, double value) {
+        table.add(new Info(l, r, value));
     }
 
     public void setEps(double eps) {

@@ -1,4 +1,4 @@
-package methods;
+package functions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ public class FibonacciMethod extends AbstractMethod {
     @Override
     public double findMin(double a, double b) {
         fs = new ArrayList<>();
-        table = new ArrayList<Info>();
-        fs.add(0l);
-        fs.add(1l);
+        table = new ArrayList<>();
+        fs.add(0L);
+        fs.add(1L);
         long lastFibonacci = (long)((b - a) / eps);
         // System.out.println(lastFibonacci);
         while (lastFibonacci > getF(0)) {
@@ -76,5 +76,9 @@ public class FibonacciMethod extends AbstractMethod {
         return fs.get(fs.size() + k - 1);
     }
 
-    
+
+    @Override
+    public String getName() {
+        return "Фиббоначи";
+    }
 }

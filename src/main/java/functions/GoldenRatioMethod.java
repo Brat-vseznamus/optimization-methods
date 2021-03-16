@@ -1,8 +1,9 @@
-package methods;
+package functions;
 
 import java.util.function.UnaryOperator;
 
 public class GoldenRatioMethod extends AbstractMethod {
+    public final static double GOLD = ((Math.sqrt(5d) - 1d) / 2d);
 
     public GoldenRatioMethod(UnaryOperator<Double> function) {
         super(function);
@@ -17,11 +18,10 @@ public class GoldenRatioMethod extends AbstractMethod {
         table.clear();
 
         double epsN = (b - a) / 2d;
-        double tau = ((Math.sqrt(5d) - 1d) / 2d);
 
         // step 1
-        double x1 = b - tau * (b - a);
-        double x2 = a + tau * (b - a);
+        double x1 = b - GOLD * (b - a);
+        double x2 = a + GOLD * (b - a);
         double fx1 = function.apply(x1);
         double fx2 = function.apply(x2);
 
@@ -33,14 +33,14 @@ public class GoldenRatioMethod extends AbstractMethod {
                 x2 = x1;
                 fx2 = fx1;
 
-                x1 = b - tau * (b - a);
+                x1 = b - GOLD * (b - a);
                 fx1 = function.apply(x1);
             } else {
                 a = x1;
                 x1 = x2;
                 fx1 = fx2;
 
-                x2 = a + tau * (b - a);
+                x2 = a + GOLD * (b - a);
                 fx2 = function.apply(x2);
             }
             addInfo(a, b, (a + b) / 2);
@@ -52,4 +52,8 @@ public class GoldenRatioMethod extends AbstractMethod {
         return (a + b) / 2d;
     }
 
+    @Override
+    public String getName() {
+        return "Золотое сечение";
+    }
 }
