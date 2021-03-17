@@ -12,19 +12,20 @@ public class DichotomyMethod extends AbstractMethod {
     public DichotomyMethod(UnaryOperator<Double> function, double eps) {
         super(function, eps);
     }
-    
+
     @Override
     public double findMin(double a, double b) {
         table.clear();
-        
+
         double epsN = (b - a) / 2d;
+
         while (epsN > eps) {
             // step 1
             double x1 = (a + b - DELTA) / 2d;
             double x2 = (a + b + DELTA) / 2d;
             double fx1 = function.apply(x1);
             double fx2 = function.apply(x2);
-            
+
             // step 2
             if (fx1 <= fx2) {
                 b = x2;
@@ -32,7 +33,7 @@ public class DichotomyMethod extends AbstractMethod {
                 a = x1;
             }
 
-            addInfo(a, b, (a + b) / 2);
+            addInfo(a, b, (a + b) / 2d);
 
             // step 3
             epsN = (b - a) / 2d;

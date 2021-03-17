@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator;
 
 public class ParabolicMethod extends AbstractMethod {
 
-    
+
     public ParabolicMethod(UnaryOperator<Double> function) {
         super(function);
     }
@@ -93,7 +93,7 @@ public class ParabolicMethod extends AbstractMethod {
 
 
     @Override
-    public String  getName() {
+    public String getName() {
         return "Параболы";
     }
 }

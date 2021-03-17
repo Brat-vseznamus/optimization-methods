@@ -1,6 +1,5 @@
 package functions;
 
-import java.nio.channels.GatheringByteChannel;
 import java.util.function.UnaryOperator;
 
 public class BrentsMethod extends AbstractMethod {
@@ -13,29 +12,31 @@ public class BrentsMethod extends AbstractMethod {
         super(function, eps);
     }
 
+    public void addInfo(double l, double r, double value, boolean isParabolic) {
+        table.add(new BrentInfo(l, r, value, isParabolic));
+    }
 
     @Override
     public double findMin(double a, double b) {
+        table.clear();
 
         double x, fX;  // temp min
         double w, fW;  // second min
         double v, fV;  // last second min
         double d, e;   // temp and last lengths
-        x = w = v = (a + b) / 2d;
+        x = w = v = b - GoldenRatioMethod.GOLD * (b - a);
         fX = fW = fV = function.apply(x);
         d = e = b - a;
 
         int iteration = 0;
-        while (true) {
+        while (iteration < 100) {
             iteration++;
-            System.out.println("next iteration " + iteration + ":\n");
 
             double g = e;
             e = d;
-            System.out.println("g = " + g);
-            System.out.println("e = " + e);
+            double tol = eps * Math.abs(x) + eps / 10d;
 
-            if (Math.abs(x - (a + b) / 2d) + (b - a) / 2d <= 2 * eps) {
+            if (Math.abs(x - (a + b) / 2d) + (b - a) / 2d <= 2 * tol) {
                 break;
             }
 
@@ -46,34 +47,43 @@ public class BrentsMethod extends AbstractMethod {
                     && fX != fW && fW != fV && fX != fV) {
                 u = ParabolicMethod.getMin(x, w, v, fX, fW, fV);  // parabola min
 
-                if ((a + eps <= u && u <= b - eps) && Math.abs(u - x) < g / 2d) {
+                if ((a <= u && u <= b) && Math.abs(u - x) < g / 2d) {
                     parabolaAccepted = true; // accept u
-                    System.out.println("parabola was accepted !");
-                    d = b - x;
+                    if (u - a < 2 * tol || b - u < 2 * tol) {
+                        u = x - Math.signum(x - (a + b) / 2d) * tol;
+                    }
+                    addInfo(x, v, w, true);
                 }
             }
 
             if (!parabolaAccepted) {
-                System.out.println("parabola was NOT accepted !");
                 if (x < (b - a) / 2d) {
                     u = b - GoldenRatioMethod.GOLD * (b - x);
-                    d = b - x;
+                    e = b - x;
                 } else {
                     u = a + GoldenRatioMethod.GOLD * (x - a);
-                    d = x - a;
+                    e = x - a;
                 }
+
             }
 
-            if (Math.abs(u - x) < eps) {
-                u = x + Math.signum(u - x) * eps;
+            if (Math.abs(u - x) < tol) {
+                u = x + Math.signum(u - x) * tol;
             }
+            d = Math.abs(u - x);
 
             double fU = function.apply(u);
 
             if (fU <= fX) {
                 if (u >= x) {
+                    if (a == x) {
+                        break;
+                    }
                     a = x;
                 } else {
+                    if (b == x) {
+                        break;
+                    }
                     b = x;
                 }
                 v = w;
@@ -84,8 +94,14 @@ public class BrentsMethod extends AbstractMethod {
                 fX = fU;
             } else {
                 if (u >= x) {
+                    if (b == u) {
+                        break;
+                    }
                     b = u;
                 } else {
+                    if (a == u) {
+                        break;
+                    }
                     a = u;
                 }
 
@@ -100,14 +116,23 @@ public class BrentsMethod extends AbstractMethod {
                 }
             }
 
-            System.out.println("u = " + u);
-
+            if (!parabolaAccepted) {
+                addInfo(a, b, (a + b) / 2d, false);
+            }
 
         }
 
         return (a + b) / 2d;
     }
 
+    public static class BrentInfo extends Info {
+        public boolean isParabolic;
+
+        public BrentInfo(double l, double r, double value, boolean isParabolic) {
+            super(l, r, value);
+            this.isParabolic = isParabolic;
+        }
+    }
 
     @Override
     public String getName() {

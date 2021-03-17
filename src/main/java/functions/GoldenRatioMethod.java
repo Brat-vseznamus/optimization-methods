@@ -43,7 +43,7 @@ public class GoldenRatioMethod extends AbstractMethod {
                 x2 = a + GOLD * (b - a);
                 fx2 = function.apply(x2);
             }
-            addInfo(a, b, (a + b) / 2);
+            addInfo(a, b, (a + b) / 2d);
 
             epsN = (b - a) / 2d;
         }

@@ -14,7 +14,6 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/xml/sample.fxml"));
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-
         primaryStage.setScene(new Scene(root));
         primaryStage.setFullScreen(true);
         primaryStage.show();
