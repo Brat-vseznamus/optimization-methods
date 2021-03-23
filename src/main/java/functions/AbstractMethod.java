@@ -1,6 +1,7 @@
 package functions;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.function.UnaryOperator;
 
@@ -61,6 +62,28 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm{
         public String toString() {
             return String.format("\n<a: %.10f, b: %.10f, mid: %.10f>", left, right, value);
         }
+    }
+
+    public static class Pair<T, E> {
+        public T a;
+        public E b;
+        Pair(T a, E b) {
+            this.a = a;
+            this.b = b;
+        }
+    }
+
+    
+    public List<Pair<Double, Integer>> lnToNumberOfCalculations(double l, double r) {
+        List<Pair<Double, Integer>> values = new ArrayList<>();
+        eps = 1;
+        for (int i = 0; i < 10; i++) {
+            eps /= 10d;
+            table = new ArrayList<>();
+            findMin(l, r);
+            values.add(new Pair<>(-Math.log10(eps), table.size()));
+        }
+        return values;
     }
     
 }

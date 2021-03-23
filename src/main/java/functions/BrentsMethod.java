@@ -108,6 +108,11 @@ public class BrentsMethod extends AbstractMethod {
         return (a + b) / 2d;
     }
 
+    public static class BrentInfo extends Info {
+        public boolean isParabola = false;
+    }
+
+
 
     @Override
     public String getName() {
