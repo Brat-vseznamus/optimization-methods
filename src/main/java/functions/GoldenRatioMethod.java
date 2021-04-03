@@ -16,7 +16,7 @@ public class GoldenRatioMethod extends AbstractMethod {
     @Override
     public double findMin(double a, double b) {
         table.clear();
-
+        calcs = 0;
         double epsN = (b - a) / 2d;
 
         // step 1
@@ -24,7 +24,7 @@ public class GoldenRatioMethod extends AbstractMethod {
         double x2 = a + GOLD * (b - a);
         double fx1 = function.apply(x1);
         double fx2 = function.apply(x2);
-
+        calcs += 2;
         // step 2
         while (epsN > eps) {
             // step 3
@@ -43,8 +43,8 @@ public class GoldenRatioMethod extends AbstractMethod {
                 x2 = a + GOLD * (b - a);
                 fx2 = function.apply(x2);
             }
+            calcs++;
             addInfo(a, b, (a + b) / 2d);
-
             epsN = (b - a) / 2d;
         }
 

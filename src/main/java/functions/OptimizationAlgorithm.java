@@ -8,4 +8,6 @@ public interface OptimizationAlgorithm {
     List<AbstractMethod.Info> getTable();
 
     List<AbstractMethod.Pair<Double, Integer>> lnToCalculations(double l, double r);
+
+    int getCalculations();
 }

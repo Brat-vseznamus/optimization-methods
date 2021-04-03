@@ -1,6 +1,9 @@
 package functions;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
@@ -16,17 +19,33 @@ public class Main {
         double left2 = -1d;
         double right2 = 1d;
 
-        System.out.println(new DichotomyMethod(multimodulfunction).findMin(left2, right2));
-        System.out.println(new FibonacciMethod(multimodulfunction).findMin(left2, right2));
-        System.out.println(new GoldenRatioMethod(multimodulfunction).findMin(left2, right2));
-        System.out.println(new BrentsMethod(multimodulfunction).findMin(left2, right2));
-        System.out.println(new ParabolicMethod(multimodulfunction, 1e-9).findMin(left2, right2));
+        // System.out.println(new DichotomyMethod(multimodulfunction).findMin(left2, right2));
+        // System.out.println(new FibonacciMethod(multimodulfunction).findMin(left2, right2));
+        // System.out.println(new GoldenRatioMethod(multimodulfunction).findMin(left2, right2));
+        // System.out.println(new BrentsMethod(multimodulfunction).findMin(left2, right2));
+        // System.out.println(new ParabolicMethod(multimodulfunction, 1e-9).findMin(left2, right2));
 
 
         OptimizationAlgorithm methodBrent = new BrentsMethod(function);
-        for (AbstractMethod.Pair<Double, Integer> pair : methodBrent.lnToCalculations(left, right)) {
-            System.out.println(pair.a + " :: " + pair.b);
+        // for (AbstractMethod.Pair<Double, Integer> pair : methodBrent.lnToCalculations(left, right)) {
+        //     System.out.println(pair.b);
+        // }
+
+        ArrayList<AbstractMethod> methods = new ArrayList<>(List.of(
+            new DichotomyMethod(function),
+            new FibonacciMethod(function),
+            new GoldenRatioMethod(function),
+            new BrentsMethod(function),
+            new ParabolicMethod(function)
+        ));
+
+        for (AbstractMethod method : methods) {
+            System.out.println(method.getName());
+            for (AbstractMethod.Pair<Double, Integer> pair : method.lnToCalculations(left, right)) {
+                System.out.println(pair.b);
+            }
         }
+
         methodBrent.findMin(left, right);
         List<AbstractMethod.Info> table = methodBrent.getTable();
         System.out.printf("%7s %7s %7s %7s %7s %7s%n", "Iteration", "left", "right", "X", "Y", "leng");

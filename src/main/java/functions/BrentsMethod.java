@@ -19,6 +19,7 @@ public class BrentsMethod extends AbstractMethod {
     @Override
     public double findMin(double a, double b) {
         table.clear();
+        calcs = 0;
 
         double x, fX;  // temp min
         double w, fW;  // second min
@@ -26,6 +27,7 @@ public class BrentsMethod extends AbstractMethod {
         double d, e;   // temp and last lengths
         x = w = v = b - GoldenRatioMethod.GOLD * (b - a);
         fX = fW = fV = function.apply(x);
+        calcs++;
         d = e = b - a;
 
         int iteration = 0;
@@ -73,6 +75,7 @@ public class BrentsMethod extends AbstractMethod {
             d = Math.abs(u - x);
 
             double fU = function.apply(u);
+            calcs++;
 
             if (fU <= fX) {
                 if (u >= x) {
@@ -139,4 +142,3 @@ public class BrentsMethod extends AbstractMethod {
         return "Брент";
     }
 }
-
