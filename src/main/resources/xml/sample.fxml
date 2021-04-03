@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="505.0" prefWidth="986.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grapics.Controller">
+<AnchorPane prefHeight="557.0" prefWidth="908.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grapics.Controller">
    <children>
       <BorderPane layoutX="114.0" layoutY="54.0" prefHeight="400.0" prefWidth="791.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -57,13 +57,13 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Text fx:id="currentIterationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="currentIterationText" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/">
                            <HBox.margin>
                               <Insets left="4.0" right="4.0" />
                            </HBox.margin>
                         </Text>
-                        <Text fx:id="sizeIterationsText" layoutX="531.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="sizeIterationsText" layoutX="531.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <Label fx:id="Menu" layoutX="14.0" layoutY="36.0" prefHeight="23.0" prefWidth="162.0" text="Методы" textFill="#b7b7b7" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="36.0">
@@ -103,9 +103,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                                  <image>
-                                    <Image url="@../img/dash.png" />
+                                    <Image url="@../img/Dichotomi.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -115,9 +115,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../img/add.png" />
+                                    <Image url="@../img/Golden_ratio.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -127,9 +127,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../img/report.png" />
+                                    <Image url="@../img/Fibbonaci_circle.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -139,9 +139,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../img/data.png" />
+                                    <Image url="@../img/Porabolic.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -151,9 +151,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../img/data.png" />
+                                    <Image url="@../img/Brent.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -177,7 +177,7 @@
             </LineChart>
          </center>
          <right>
-            <VBox prefHeight="440.0" prefWidth="201.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="492.0" prefWidth="316.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                      <children>
@@ -203,6 +203,16 @@
                         <Text fx:id="actualMinimumText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
+                  <VBox alignment="CENTER" prefWidth="202.0" spacing="50.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#setFunction1" ripplerFill="#0a4969" style="-fx-border-color: #0a4969;" text="x^2 + e^(-0.35*x) [-2, 3]" />
+                        <JFXButton buttonType="RAISED" layoutX="142.0" layoutY="281.0" onAction="#setFunction2" ripplerFill="#0a4969" style="-fx-border-color: #000000; -fx-border-radius: 4;" text="40x^5-12x^4+x^3+6x^2-90x [0, 1.5]" />
+                        <JFXButton layoutX="142.0" layoutY="342.0" onAction="#setFunction3" style="-fx-border-color: #000000; -fx-border-radius: 4;" text="x^3-x [0, 1]" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
                </children>
             </VBox>
          </right>
