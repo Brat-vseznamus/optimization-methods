@@ -62,4 +62,8 @@ public class Matrix {
         return values.get(i).get(j);
     }
 
+    public void suka() {
+        
+    }
+
 }

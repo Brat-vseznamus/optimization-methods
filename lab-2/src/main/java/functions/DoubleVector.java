@@ -95,7 +95,7 @@ public class DoubleVector {
             vectors.add(new DoubleVector(column.toArray(new Double[matrix.getN()])));
         }
         return (new Matrix(vectors.toArray(new DoubleVector[matrix.getN()]))).multiply(this);
-        // return new DoubleVector(IntStream.range(0, matrix.getM()).map(
+        // return new DoubleVector(IntStream.range(0, matrix.getM()).mapToObj(
         //     i -> {
         //         List<Double> column = new ArrayList<>();
         //         for (int j = 0; j < matrix.getN(); j++) {
