@@ -11,8 +11,12 @@ public class QuadraticForm {
     private final double[][] a;
     private final double[] b;
     private final double c;
+    private final double[] values;
+    private final double minValue, maxValue;
 
-    public QuadraticForm(double[][] a, double[] b, double c) {
+    private static double eps = 1e-6d;
+
+    public QuadraticForm(double[][] a, double[] b, double c, double[] values) {
         this.n = a.length;
         this.a = a;
         if (Arrays.stream(a).anyMatch(Objects::isNull) || !(checkMatrix())) {
@@ -23,6 +27,28 @@ public class QuadraticForm {
         }
         this.b = b;
         this.c = c;
+        // if (values.length != n) {
+        //     throw new IllegalArgumentException("values and Matrix should have same dimension.");
+        // }
+        this.values = values;
+        this.minValue = Arrays.stream(values).min().orElse(0);
+        this.maxValue = Arrays.stream(values).max().orElse(0);
+    }
+
+    public QuadraticForm(double[][] a, double[] b, double c) {
+        this(a, b, c, new double[]{1d});
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public double getMinValue() {
+        return minValue;
+    }
+
+    public double getMaxValue() {
+        return maxValue;
     }
 
     private IntStream range() {
@@ -30,7 +56,7 @@ public class QuadraticForm {
     }
 
     private boolean checkMatrix() {
-        IntPredicate checkRow = i -> range().allMatch(j -> a[i][j] == a[j][i]);
+        IntPredicate checkRow = i -> range().allMatch(j -> compare(a[i][j],a[j][i]));
         return Arrays.stream(a).allMatch(row -> row.length == n) && range().allMatch(checkRow);
     }
 
@@ -49,6 +75,10 @@ public class QuadraticForm {
 
     @Override
     public String toString() {
-        return Arrays.deepToString(a);
+        return Arrays.deepToString(a).replace("],", "],\n");
+    }
+
+    private static boolean compare(double a, double b) {
+        return Math.abs(a - b) <= eps;
     }
 }
