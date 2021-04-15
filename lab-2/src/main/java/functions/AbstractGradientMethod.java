@@ -10,7 +10,6 @@ public abstract class AbstractGradientMethod implements OptimizationMethod {
     }
 
     protected AbstractGradientMethod(QuadraticForm form) {
-        this(form, 1e-6d);
+        this(form, 1e-5d);
     }
 }
-
