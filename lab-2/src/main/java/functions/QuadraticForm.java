@@ -1,28 +1,49 @@
 package functions;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 public class QuadraticForm {
     private final int n;
-    private final double[][] a;
-    private final double[] b;
+    private final Matrix a;
+    private final DoubleVector b;
     private final double c;
-    private final double[] values;
+    private final DoubleVector values;
     private final double minValue, maxValue;
 
     private static double eps = 1e-6d;
 
-    public QuadraticForm(double[][] a, double[] b, double c, double[] values) {
-        this.n = a.length;
+    // public QuadraticForm(double[][] a, double[] b, double c, double[] values) {
+    //     this.n = a.length;
+    //     this.a = a;
+    //     if (Arrays.stream(a).anyMatch(Objects::isNull) || !(checkMatrix())) {
+    //         throw new IllegalArgumentException("Illegal matrix input.");
+    //     }
+    //     if (b.length != n) {
+    //         throw new IllegalArgumentException("Vector and Matrix should have same dimension.");
+    //     }
+    //     this.b = b;
+    //     this.c = c;
+    //     // if (values.length != n) {
+    //     //     throw new IllegalArgumentException("values and Matrix should have same dimension.");
+    //     // }
+    //     this.values = values;
+    //     this.minValue = Arrays.stream(values).min().orElse(0);
+    //     this.maxValue = Arrays.stream(values).max().orElse(0);
+    // }
+
+    public QuadraticForm(Matrix a, DoubleVector b, double c, DoubleVector values) {
+        this.n = a.getN();
         this.a = a;
-        if (Arrays.stream(a).anyMatch(Objects::isNull) || !(checkMatrix())) {
+        if (a.stream().anyMatch(Objects::isNull) || !(checkMatrix())) {
             throw new IllegalArgumentException("Illegal matrix input.");
         }
-        if (b.length != n) {
+        if (b.size() != n) {
             throw new IllegalArgumentException("Vector and Matrix should have same dimension.");
         }
         this.b = b;
@@ -31,12 +52,12 @@ public class QuadraticForm {
         //     throw new IllegalArgumentException("values and Matrix should have same dimension.");
         // }
         this.values = values;
-        this.minValue = Arrays.stream(values).min().orElse(0);
-        this.maxValue = Arrays.stream(values).max().orElse(0);
+        this.minValue = values.stream().min(Comparator.naturalOrder()).orElse(0d);
+        this.maxValue = values.stream().max(Comparator.naturalOrder()).orElse(0d);
     }
 
-    public QuadraticForm(double[][] a, double[] b, double c) {
-        this(a, b, c, new double[]{1d});
+    public QuadraticForm(Matrix a, DoubleVector b, Double c) {
+        this(a, b, c, new DoubleVector(1d));
     }
 
     public int getN() {
@@ -56,26 +77,26 @@ public class QuadraticForm {
     }
 
     private boolean checkMatrix() {
-        IntPredicate checkRow = i -> range().allMatch(j -> compare(a[i][j],a[j][i]));
-        return Arrays.stream(a).allMatch(row -> row.length == n) && range().allMatch(checkRow);
+        IntPredicate checkRow = i -> range().allMatch(j -> compare(a.get(i, j), a.get(j, i)));
+        return a.stream().allMatch(row -> row.size() == n) && range().allMatch(checkRow);
     }
 
-    private double scalarProduct(double[] x, double[] y) {
-        return range().mapToDouble(i -> x[i] * y[i]).sum();
+    private double scalarProduct(DoubleVector x, DoubleVector y) {
+        return range().mapToDouble(i -> x.get(i) * y.get(i)).sum();
     }
 
-    public double apply(double[] x) {
-        return scalarProduct(range().mapToDouble(i -> scalarProduct(x, a[i])).toArray(), x) / 2d
+    public double apply(DoubleVector x) {
+        return scalarProduct(new DoubleVector(range().mapToDouble(i -> scalarProduct(x, a.get(i))).toArray()), x) / 2d
             + scalarProduct(x, b) + c;
     }
 
-    public double[] gradient(double[] x) {
-        return range().mapToDouble(i -> (scalarProduct(x, a[i]) + b[i])).toArray();
+    public DoubleVector gradient(DoubleVector x) {
+        return new DoubleVector(range().mapToDouble(i -> (scalarProduct(x, a.get(i)) + b.get(i))).toArray());
     }
 
     @Override
     public String toString() {
-        return Arrays.deepToString(a).replace("],", "],\n");
+        return a.toString();
     }
 
     private static boolean compare(double a, double b) {

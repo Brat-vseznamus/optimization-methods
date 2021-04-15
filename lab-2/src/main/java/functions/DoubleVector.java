@@ -5,7 +5,10 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import java.util.*;
+
+import functions.Matrix;
 
 public class DoubleVector {
     private int n;
@@ -14,6 +17,7 @@ public class DoubleVector {
         if (n < 0) {
             throw new IllegalArgumentException("Size of vector should be > 0!!!");
         }
+        this.n = n;
         values =  new Double[n];
     }
 
@@ -29,6 +33,11 @@ public class DoubleVector {
 
     public DoubleVector(double[] doubles) {
         n = doubles.length;
+        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[n]);
+    }
+
+    public DoubleVector(double[] doubles, int size) {
+        n = size;
         values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[n]);
     }
 
@@ -66,7 +75,7 @@ public class DoubleVector {
         return values[i];
     }
 
-    public void get(int i, Double v) {
+    public void set(int i, Double v) {
         if (i < 0 || i >= n) {
             throw new IndexOutOfBoundsException("Index should be in range [0, " + n + ").");
         }
@@ -86,23 +95,10 @@ public class DoubleVector {
         if (n != matrix.getN()) {
             throw new IndexOutOfBoundsException("cringe");
         }
-        List<DoubleVector> vectors = new ArrayList<>();
-        for (int i = 0; i < matrix.getM(); i++) {
-            List<Double> column = new ArrayList<>();
-            for (int j = 0; j < matrix.getN(); j++) {
-                column.add(matrix.get(j, i));
-            }
-            vectors.add(new DoubleVector(column.toArray(new Double[matrix.getN()])));
-        }
-        return (new Matrix(vectors.toArray(new DoubleVector[matrix.getN()]))).multiply(this);
-        // return new DoubleVector(IntStream.range(0, matrix.getM()).mapToObj(
-        //     i -> {
-        //         List<Double> column = new ArrayList<>();
-        //         for (int j = 0; j < matrix.getN(); j++) {
-        //             column.add(matrix.get(j, i));
-        //         }
-        //         return new DoubleVector(column.toArray(new Double[matrix.getN()]));
-        //     }
-        // ).map(v -> v.scalar(this)).toArray());
+        return  matrix.transpose().multiply(this);
+    }
+
+    public Stream<Double> stream() {
+        return Arrays.stream(values);
     }
 }

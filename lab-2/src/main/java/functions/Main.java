@@ -6,31 +6,32 @@ import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
-        double[][] a = {
-            {1, 0},
-            {0, 3}
-        };
-        double[] b = {2, 3};
-        double c = 4;
-        double[] values = {1, 3};
+        // double[][] a = {
+        //     {1, 0},
+        //     {0, 3}
+        // };
+        // double[] b = {2, 3};
+        // double c = 4;
+        // double[] values = {1, 3};
+        Matrix a = new Matrix(
+            new DoubleVector(1d, 0d),
+            new DoubleVector(0d, 3d)
+        );
+        DoubleVector b = new DoubleVector(2d, 3d);
+        Double c = 4d;
+        DoubleVector values = new DoubleVector(1d, 3d);
         QuadraticForm form = new QuadraticForm(a, b, c, values);
         OptimisationMethod method = new GradientDescendMethod(form);
-        double[] x = method.findMin();
+        DoubleVector x = new DoubleVector(1d, 1d);
         System.out.println(form.apply(x));
-        System.out.println(x[0] + " " + x[1]);
-
-        // double[][] a = {{1, 2}, {2, 1}};
-        // double[] b = {0, 0};
-        // double c = 0;
-        // QuadraticForm form = new QuadraticForm(a, b, c);
-        // System.out.println(Arrays.toString(form.gradient(new double[]{1.0, 0.0})));
-        // System.out.println(form);
-        // System.out.println(FormGenerator.generate(5, 3));
-        // DoubleVector v1 = new DoubleVector(1d, 2d, 3d);
-        // DoubleVector v2 = new DoubleVector(1d, 4d, 3d);
-        // System.out.println(v1.add(v2));
-        // // v1.get(2) = (Double)(3d);
-        // System.out.println(v1.norm());
+        System.out.println(form.gradient(x));
+        DoubleVector v = new DoubleVector(1d, 2.4, 3d);
+        Matrix mat = new Matrix(
+            new DoubleVector(2d, 1d, 1d), 
+            new DoubleVector(2d, 1d, 1d),
+            new DoubleVector(1d, 1d, 2d));
+        System.out.println(v.multiply(mat));
+        System.out.println(mat.multiply(v));
     }
 
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import functions.DoubleVector;
 
@@ -20,6 +21,9 @@ public class Matrix {
         this.n = n;
         this.m = m;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(m)));
+        for (int i = 0; i < n; i++) {
+            values.set(i, new DoubleVector(m));
+        }
     }
 
     public Matrix(DoubleVector...rows) {
@@ -32,6 +36,19 @@ public class Matrix {
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
         IntStream.range(0, n).forEach(
             i -> values.set(i, new DoubleVector(rows[i], maxSize))
+        );
+    }
+
+    public Matrix(double[][] matrix) {
+        n = matrix.length;
+        if (Arrays.stream(matrix).anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("Rows have null vectors.");
+        }
+        int maxSize = Arrays.stream(matrix).map(v -> v.length).max(Comparator.naturalOrder()).orElse(0);
+        m = maxSize;
+        values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
+        IntStream.range(0, n).forEach(
+            i -> values.set(i, new DoubleVector(matrix[i], maxSize))
         );
     }
 
@@ -62,8 +79,39 @@ public class Matrix {
         return values.get(i).get(j);
     }
 
-    public void suka() {
-        
+    public DoubleVector get(int i) {
+        return values.get(i);
+    }
+
+    public List<DoubleVector> getValues() {
+        return values;
+    }
+
+    public Matrix transpose() {
+        Matrix mat = new Matrix(m, n);
+        IntStream.range(0, n).forEach(
+            i -> {
+                IntStream.range(0, m).forEach(
+                    j -> {
+                        // System.out.printf("i = %d, j = %d%n", i, j);
+                        mat.values.get(j).set(i, get(i, j));
+                    }
+                );
+            }
+        );
+        // System.out.println(this);
+        // System.out.println(mat);
+        return mat;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return Arrays.deepToString(values.toArray()).replace("],", "],\n");
+    }
+
+    public Stream<DoubleVector> stream() {
+        return values.stream();
     }
 
 }
