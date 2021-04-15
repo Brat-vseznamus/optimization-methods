@@ -26,7 +26,7 @@ public class Matrix {
         }
     }
 
-    public Matrix(DoubleVector...rows) {
+    public Matrix(DoubleVector... rows) {
         n = rows.length;
         if (Arrays.stream(rows).anyMatch(v -> Objects.isNull(v))) {
             throw new IllegalArgumentException("Rows have null vectors.");
@@ -35,7 +35,7 @@ public class Matrix {
         m = maxSize;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
         IntStream.range(0, n).forEach(
-            i -> values.set(i, new DoubleVector(rows[i], maxSize))
+                i -> values.set(i, new DoubleVector(rows[i], maxSize))
         );
     }
 
@@ -48,7 +48,7 @@ public class Matrix {
         m = maxSize;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
         IntStream.range(0, n).forEach(
-            i -> values.set(i, new DoubleVector(matrix[i], maxSize))
+                i -> values.set(i, new DoubleVector(matrix[i], maxSize))
         );
     }
 
@@ -83,6 +83,14 @@ public class Matrix {
         return values.get(i);
     }
 
+    public void set(int i, int j, double val) {
+        values.get(i).set(j, val);
+    }
+
+    public void set(int i, DoubleVector val) {
+        values.set(i, val);
+    }
+
     public List<DoubleVector> getValues() {
         return values;
     }
@@ -90,14 +98,14 @@ public class Matrix {
     public Matrix transpose() {
         Matrix mat = new Matrix(m, n);
         IntStream.range(0, n).forEach(
-            i -> {
-                IntStream.range(0, m).forEach(
-                    j -> {
-                        // System.out.printf("i = %d, j = %d%n", i, j);
-                        mat.values.get(j).set(i, get(i, j));
-                    }
-                );
-            }
+                i -> {
+                    IntStream.range(0, m).forEach(
+                            j -> {
+                                // System.out.printf("i = %d, j = %d%n", i, j);
+                                mat.values.get(j).set(i, get(i, j));
+                            }
+                    );
+                }
         );
         // System.out.println(this);
         // System.out.println(mat);

@@ -12,20 +12,21 @@ public class FormGenerator {
         }
         Random random = new Random();
         if (n == 1) {
-            return new QuadraticForm(new double[][]{{k}}, new double[]{k * random.nextDouble()}, 0);
+            return new QuadraticForm(new Matrix(1, 1), new DoubleVector(k * random.nextDouble()), 0d);
         }
-        double[][] a = new double[n][n];
+        Matrix a = new Matrix(n, n);
         double l = random.nextDouble() * range/2d + range/2d;
         double ll = k * l;
         IntStream.range(0, n).forEach(
             i -> {
-                a[i][i] = l + (ll - l) * random.nextDouble();
+                a.set(i, i, l + (ll - l) * random.nextDouble());
             }
         );
-        double[] b = IntStream.range(0, n).mapToDouble(i -> new Random().nextDouble() * range - range/2).toArray();
+        DoubleVector b = new DoubleVector(IntStream.range(0, n)
+                .mapToDouble(i -> new Random().nextDouble() * range - range/2).toArray());
         double c = new Random().nextDouble() * range - range/2;
-        a[0][0] = l;
-        a[1][1] = ll;
+        a.set(0, 0, l);
+        a.set(1, 1, ll);
         return new QuadraticForm(a, b, c);
     }
 }

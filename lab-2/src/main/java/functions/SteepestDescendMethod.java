@@ -13,37 +13,33 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         super(form);
     }
 
-    public double[] findMin() {
+    public DoubleVector findMin() {
         int n = form.getN();
         // step 1
-        double[] x = new double[n];
-        double[] y = new double[n];
-        double f_x = form.apply(x);
-        double f_y;
+        DoubleVector x = new DoubleVector(n);
 
         while (true) {
             // step 2
-            double[] gradient = form.gradient(x);
-            double norm = Arrays.stream(gradient).sum();
-            if (norm < eps) {
+            DoubleVector gradient = form.gradient(x);
+            System.out.printf("x = %s\n%n", x);
+            System.out.printf("f(x) = %f\n%n", form.apply(x));
+            System.out.printf("grad = %s\n%n", gradient);
+            if (gradient.norm() < eps) {
                 break;
             }
 
             // step 3
             double a = 0d, b = 2d / form.getMaxValue();
-             UnaryOperator<Double> function = (arg) -> {
-                 double[] vector = new double[n];
-                 for (int i = 0; i < n; ++i) {
-                     vector[i] = vector[i] - arg * gradient[i];
-                 }
-                 return form.apply(vector);
-             };
-             OptimizationAlgorithm brent = new BrentsMethod(function);
-             double alpha = brent.findMin(a, b);
-//
-             for (int i = 0; i < n; ++i) {
-                 x[i] = x[i] - alpha * gradient[i];
-             }
+            final DoubleVector xCopy = x;
+            UnaryOperator<Double> function = (arg)
+                    -> form.apply(xCopy.subtract(gradient.multiplyBy(arg)));
+            OptimizationAlgorithm brent = new BrentsMethod(function);
+            double alpha = brent.findMin(a, b);
+
+            System.out.printf("alpha = %f\n%n", alpha);
+            System.out.println("###############################");
+
+            x = x.subtract(gradient.multiplyBy(alpha));
         }
 
         return x;

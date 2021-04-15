@@ -18,7 +18,8 @@ public class DoubleVector {
             throw new IllegalArgumentException("Size of vector should be > 0!!!");
         }
         this.n = n;
-        values =  new Double[n];
+        values = new Double[n];
+        Arrays.fill(values, 0d);
     }
 
     public DoubleVector(Double...doubles) {
