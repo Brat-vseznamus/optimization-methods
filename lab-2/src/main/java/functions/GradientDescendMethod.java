@@ -36,12 +36,12 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             }
 
             while (true) {
-                System.out.println(String.format("x = %s\n", toStr(x)));
-                System.out.println(String.format("f(x) = %f\n", f_x));
-                System.out.println(String.format("y = %s\n", toStr(y)));
-                System.out.println(String.format("f(y) = %f\n", f_y));
-                System.out.println(String.format("grad = %s\n", toStr(gradient)));
-                System.out.println(String.format("alpha = %f\n", alpha));
+                System.out.printf("x = %s\n%n", toStr(x));
+                System.out.printf("f(x) = %f\n%n", f_x);
+                System.out.printf("y = %s\n%n", toStr(y));
+                System.out.printf("f(y) = %f\n%n", f_y);
+                System.out.printf("grad = %s\n%n", toStr(gradient));
+                System.out.printf("alpha = %f\n%n", alpha);
                 System.out.println("###############################");
                 // step 3
                 for (int i = 0; i < n; ++i) {

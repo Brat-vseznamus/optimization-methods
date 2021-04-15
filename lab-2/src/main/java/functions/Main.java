@@ -1,9 +1,5 @@
 package functions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Function;
-
 public class Main {
     public static void main(String[] args) {
         double[][] a = {
@@ -14,7 +10,7 @@ public class Main {
         double c = 4;
         double[] values = {1, 3};
         QuadraticForm form = new QuadraticForm(a, b, c, values);
-        OptimisationMethod method = new GradientDescendMethod(form);
+        OptimizationMethod method = new GradientDescendMethod(form);
         double[] x = method.findMin();
         System.out.println(form.apply(x));
         System.out.println(x[0] + " " + x[1]);
