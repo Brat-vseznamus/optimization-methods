@@ -1,25 +1,17 @@
 package functions;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 public class GradientDescendMethod extends AbstractGradientMethod {
 
-    public GradientDescendMethod(QuadraticForm form, double eps) {
+    public GradientDescendMethod(final QuadraticForm form, final double eps) {
         super(form, eps);
     }
 
-    public GradientDescendMethod(QuadraticForm form) {
+    public GradientDescendMethod(final QuadraticForm form) {
         super(form);
     }
 
-    private String toStr(double[] point) {
-        return Arrays.deepToString(
-                Arrays.stream(point).boxed().collect(Collectors.toList()).toArray(new Double[1]));
-    }
-
     public DoubleVector findMin() {
-        int n = form.getN();
+        final int n = form.getN();
         // step 1
         double alpha = 2d / (form.getMaxValue() + form.getMinValue());
         DoubleVector x = new DoubleVector(n);
@@ -29,19 +21,19 @@ public class GradientDescendMethod extends AbstractGradientMethod {
 
         while (true) {
             // step 2
-            DoubleVector gradient = form.gradient(x);
+            final DoubleVector gradient = form.gradient(x);
             if (gradient.norm() < eps) {
                 break;
             }
 
             while (true) {
-                System.out.printf("x = %s\n%n", x);
-                System.out.printf("f(x) = %f\n%n", f_x);
-                System.out.printf("y = %s\n%n", y);
-                System.out.printf("f(y) = %f\n%n", f_y);
-                System.out.printf("grad = %s\n%n", gradient);
-                System.out.printf("alpha = %f\n%n", alpha);
-                System.out.println("###############################");
+//                System.out.printf("x = %s%n%n", x);
+//                System.out.printf("f(x) = %f%n%n", f_x);
+//                System.out.printf("y = %s%n%n", y);
+//                System.out.printf("f(y) = %f%n%n", f_y);
+//                System.out.printf("grad = %s%n%n", gradient);
+//                System.out.printf("alpha = %f%n%n", alpha);
+//                System.out.println("###############################");
                 // step 3
                 y = x.subtract(gradient.multiplyBy(alpha));
                 f_y = form.apply(y);

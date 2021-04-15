@@ -2,22 +2,18 @@ package functions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import functions.DoubleVector;
-
 public class Matrix {
-    private List<DoubleVector> values;
-    private int n, m;
+    private final List<DoubleVector> values;
+    private final int n, m;
 
-    public Matrix(int n, int m) {
+    public Matrix(final int n, final int m) {
         this.n = n;
         this.m = m;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(m)));
@@ -26,12 +22,12 @@ public class Matrix {
         }
     }
 
-    public Matrix(DoubleVector... rows) {
+    public Matrix(final DoubleVector... rows) {
         n = rows.length;
-        if (Arrays.stream(rows).anyMatch(v -> Objects.isNull(v))) {
+        if (Arrays.stream(rows).anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("Rows have null vectors.");
         }
-        int maxSize = Arrays.stream(rows).map(DoubleVector::size).max(Comparator.naturalOrder()).orElse(0);
+        final int maxSize = Arrays.stream(rows).map(DoubleVector::size).max(Comparator.naturalOrder()).orElse(0);
         m = maxSize;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
         IntStream.range(0, n).forEach(
@@ -39,12 +35,12 @@ public class Matrix {
         );
     }
 
-    public Matrix(double[][] matrix) {
+    public Matrix(final double[][] matrix) {
         n = matrix.length;
         if (Arrays.stream(matrix).anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("Rows have null vectors.");
         }
-        int maxSize = Arrays.stream(matrix).map(v -> v.length).max(Comparator.naturalOrder()).orElse(0);
+        final int maxSize = Arrays.stream(matrix).map(v -> v.length).max(Comparator.naturalOrder()).orElse(0);
         m = maxSize;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
         IntStream.range(0, n).forEach(
@@ -52,7 +48,7 @@ public class Matrix {
         );
     }
 
-    public DoubleVector multiply(DoubleVector vector) {
+    public DoubleVector multiply(final DoubleVector vector) {
         if (m != vector.size()) {
             throw new IllegalArgumentException("Wide and height should be save.");
         }
@@ -63,31 +59,23 @@ public class Matrix {
         return n;
     }
 
-    public void setN(int n) {
-        this.n = n;
-    }
-
     public int getM() {
         return m;
     }
 
-    public void setM(int m) {
-        this.m = m;
-    }
-
-    public Double get(int i, int j) {
+    public Double get(final int i, final int j) {
         return values.get(i).get(j);
     }
 
-    public DoubleVector get(int i) {
+    public DoubleVector get(final int i) {
         return values.get(i);
     }
 
-    public void set(int i, int j, double val) {
+    public void set(final int i, final int j, final double val) {
         values.get(i).set(j, val);
     }
 
-    public void set(int i, DoubleVector val) {
+    public void set(final int i, final DoubleVector val) {
         values.set(i, val);
     }
 
@@ -96,26 +84,18 @@ public class Matrix {
     }
 
     public Matrix transpose() {
-        Matrix mat = new Matrix(m, n);
+        final Matrix mat = new Matrix(m, n);
         IntStream.range(0, n).forEach(
-                i -> {
-                    IntStream.range(0, m).forEach(
-                            j -> {
-                                // System.out.printf("i = %d, j = %d%n", i, j);
-                                mat.values.get(j).set(i, get(i, j));
-                            }
-                    );
-                }
+                i -> IntStream.range(0, m).forEach(
+                        j -> mat.values.get(j).set(i, get(i, j))
+                )
         );
-        // System.out.println(this);
-        // System.out.println(mat);
         return mat;
     }
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return Arrays.deepToString(values.toArray()).replace("],", "],\n");
+        return Arrays.deepToString(values.toArray()).replace("],", String.format("],%n"));
     }
 
     public Stream<DoubleVector> stream() {
