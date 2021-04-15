@@ -86,6 +86,7 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
         for (int i = 0; i < 10; i++) {
             eps /= 10d;
             table = new ArrayList<>();
+            // System.out.println("value=" + findMin(l, r));
             findMin(l, r);
             values.add(new Pair<>(-Math.log10(eps), (int)getCalculations()));
         }

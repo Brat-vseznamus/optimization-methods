@@ -1,8 +1,8 @@
 package functions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Function;
+import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,17 +21,18 @@ public class Main {
         Double c = 4d;
         DoubleVector values = new DoubleVector(1d, 3d);
         QuadraticForm form = new QuadraticForm(a, b, c, values);
-        OptimisationMethod method = new GradientDescendMethod(form);
-        DoubleVector x = new DoubleVector(1d, 1d);
+        double[] x;
+
+        OptimizationMethod gradient = new GradientDescendMethod(form);
+        x = gradient.findMin();
         System.out.println(form.apply(x));
-        System.out.println(form.gradient(x));
-        DoubleVector v = new DoubleVector(1d, 2.4, 3d);
-        Matrix mat = new Matrix(
-            new DoubleVector(2d, 1d, 1d), 
-            new DoubleVector(2d, 1d, 1d),
-            new DoubleVector(1d, 1d, 2d));
-        System.out.println(v.multiply(mat));
-        System.out.println(mat.multiply(v));
+        System.out.println("Gradient result: " + x[0] + " " + x[1]);
+
+        OptimizationMethod steepest = new SteepestDescendMethod(form);
+        x = steepest.findMin();
+        System.out.println(form.apply(x));
+        System.out.println("Steepest result: " + x[0] + " " + x[1]);
+
     }
 
 }

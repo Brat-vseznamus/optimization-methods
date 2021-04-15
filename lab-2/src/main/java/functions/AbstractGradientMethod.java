@@ -1,6 +1,6 @@
 package functions;
 
-public abstract class AbstractGradientMethod implements OptimisationMethod {
+public abstract class AbstractGradientMethod implements OptimizationMethod {
     protected QuadraticForm form;
     protected double eps;
 
@@ -10,6 +10,6 @@ public abstract class AbstractGradientMethod implements OptimisationMethod {
     }
 
     protected AbstractGradientMethod(QuadraticForm form) {
-        this(form, 1e-6d);
+        this(form, 1e-5d);
     }
 }

@@ -1,6 +1,7 @@
 package functions;
 
 import java.util.Arrays;
+import java.util.function.UnaryOperator;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
 
@@ -30,19 +31,19 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
 
             // step 3
             double a = 0d, b = 2d / form.getMaxValue();
-            // UnaryOperator<Double> function = (arg) -> {
-                // double[] vector = new double[n];
-                // for (int i = 0; i < n; ++i) {
-                    // vector[i] = vector[i] - arg * gradient[i];
-                // }
-                // return f.apply(vector);
-            // };
-            // OptimizationAlgorithm brent = new BrentsMethod(function);
-            // double alpha = brent.findMin(a, b);
-            
-            // for (int i = 0; i < n; ++i) {
-                // x[i] = x[i] - alpha * gradient[i];
-            // }
+             UnaryOperator<Double> function = (arg) -> {
+                 double[] vector = new double[n];
+                 for (int i = 0; i < n; ++i) {
+                     vector[i] = vector[i] - arg * gradient[i];
+                 }
+                 return form.apply(vector);
+             };
+             OptimizationAlgorithm brent = new BrentsMethod(function);
+             double alpha = brent.findMin(a, b);
+//
+             for (int i = 0; i < n; ++i) {
+                 x[i] = x[i] - alpha * gradient[i];
+             }
         }
 
         return x;
