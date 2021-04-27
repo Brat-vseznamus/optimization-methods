@@ -2,11 +2,11 @@ package functions;
 
 public class ConjugateGradientMethod extends AbstractGradientMethod {
 
-    public ConjugateGradientMethod(QuadraticForm form, double eps) {
+    public ConjugateGradientMethod(final QuadraticForm form, final double eps) {
         super(form, eps);
     }
 
-    public ConjugateGradientMethod(QuadraticForm form) {
+    public ConjugateGradientMethod(final QuadraticForm form) {
         super(form);
     }
 
@@ -15,12 +15,12 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
 
     @Override
     public double[] findMin() {
-        int n = form.getN();
+        final int n = form.getN();
         DoubleVector x = new DoubleVector(n);
         DoubleVector p = form.gradient(x).multiplyBy(-1);
         DoubleVector xNext = x;
         do {
-            DoubleVector[] result = iteration(x, xNext, p);
+            final DoubleVector[] result = iteration(x, xNext, p);
             x = result[0];
             xNext = result[1];
             p = result[2];
@@ -34,14 +34,14 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
                             DoubleVector p) {
         x = xNext;
         DoubleVector gradient = form.gradient(x);
-        double denominator = (a.multiply(p)).scalar(p);
+        final double denominator = (a.multiply(p)).scalar(p);
         // count alpha_k
-        double alpha = -(gradient.scalar(p)) / denominator;
+        final double alpha = -(gradient.scalar(p)) / denominator;
         // update x_k+1
         xNext = x.add(p.multiplyBy(alpha));
         // count beta_k
         gradient = form.gradient(xNext);
-        double beta = (a.multiply(gradient)).scalar(p) / denominator;
+        final double beta = (a.multiply(gradient)).scalar(p) / denominator;
         // update p_k+1
         p = (p.multiplyBy(beta)).subtract(gradient);
         return new DoubleVector[]{x, xNext, p};

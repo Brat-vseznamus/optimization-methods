@@ -3,15 +3,15 @@ import java.util.function.UnaryOperator;
 
 public class BrentsMethod extends AbstractMethod {
 
-    public BrentsMethod(UnaryOperator<Double> function) {
+    public BrentsMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
-    public BrentsMethod(UnaryOperator<Double> function, double eps) {
+    public BrentsMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
     }
 
-    public void addInfo(double l, double r, double value, boolean isParabolic) {
+    public void addInfo(final double l, final double r, final double value, final boolean isParabolic) {
         table.add(new BrentInfo(l, r, value, isParabolic));
     }
 
@@ -33,9 +33,9 @@ public class BrentsMethod extends AbstractMethod {
         while (iteration < 100) {
             iteration++;
 
-            double g = e;
+            final double g = e;
             e = d;
-            double tol = eps * Math.abs(x) + eps / 10d;
+            final double tol = eps * Math.abs(x) + eps / 10d;
 
             if (Math.abs(x - (a + b) / 2d) + (b - a) / 2d <= 2 * tol) {
                 break;
@@ -73,7 +73,7 @@ public class BrentsMethod extends AbstractMethod {
             }
             d = Math.abs(u - x);
 
-            double fU = function.apply(u);
+            final double fU = function.apply(u);
             calcs++;
 
             if (fU <= fX) {
@@ -130,7 +130,7 @@ public class BrentsMethod extends AbstractMethod {
     public static class BrentInfo extends Info {
         public boolean isParabolic;
 
-        public BrentInfo(double l, double r, double value, boolean isParabolic) {
+        public BrentInfo(final double l, final double r, final double value, final boolean isParabolic) {
             super(l, r, value);
             this.isParabolic = isParabolic;
         }

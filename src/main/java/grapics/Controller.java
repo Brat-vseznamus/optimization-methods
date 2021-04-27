@@ -1,6 +1,6 @@
 package grapics;
 
-import functions.*;
+import functions.oneDimensionOptimisation.functions.*;
 import javafx.animation.TranslateTransition;
 
 import javafx.event.ActionEvent;
@@ -89,7 +89,7 @@ public class Controller implements Initializable {
     private boolean drawParabolas = false;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(final URL location, final ResourceBundle resources) {
 
         Exit.setOnMouseClicked(event -> System.exit(0));
         slider.setTranslateX(-176);
@@ -99,7 +99,7 @@ public class Controller implements Initializable {
 
         openMenu(null);
 
-        ChartPanManager panner = new ChartPanManager(lineChart);
+        final ChartPanManager panner = new ChartPanManager(lineChart);
         //while pressing the left mouse button, you can drag to navigate
         panner.setMouseFilter(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY) {
@@ -114,7 +114,7 @@ public class Controller implements Initializable {
                 mouseEvent.consume();
         });
 
-        boolean animations = false;
+        final boolean animations = false;
 
         lineChart.setAnimated(animations);
         lineChart.getXAxis().setAnimated(animations);
@@ -133,7 +133,7 @@ public class Controller implements Initializable {
 
         actualMinimumText.setText(getFormattedDouble(ACTUAL_MINIMUM));
 
-        XYChart.Series<Number, Number> drawSeries = new XYChart.Series<>();
+        final XYChart.Series<Number, Number> drawSeries = new XYChart.Series<>();
         getFunctionSeries(function, drawSeries);
         drawSeries.setName("Исходная функция");
         lineChart.getData().add(drawSeries);
@@ -142,7 +142,7 @@ public class Controller implements Initializable {
         parabola = new XYChart.Series<>();
 
         for (int i = 0; i < 2; i++) {
-            XYChart.Series<Number, Number> border = new XYChart.Series<>();
+            final XYChart.Series<Number, Number> border = new XYChart.Series<>();
             lineChart.getData().add(border);
 
             bordersSeries.add(border);
@@ -159,10 +159,11 @@ public class Controller implements Initializable {
 
 
     private void updateCurrentSeries() {
-        AbstractMethod.Info currentInfo = currentIterations.get(currentIteration);
-        double x = currentInfo.getValue();
-        double y = function.apply(x);
-        double l = currentInfo.getLeft(), r = currentInfo.getRight();
+        final AbstractMethod.Info currentInfo = currentIterations.get(currentIteration);
+        final double x = currentInfo.getValue();
+        final double y = function.apply(x);
+        final double l = currentInfo.getLeft();
+        final double r = currentInfo.getRight();
         leftBorderText.setText(getFormattedDouble(l));
         rightBorderText.setText(getFormattedDouble(r));
         currentPointText.setText(getFormattedDouble(x));
@@ -188,31 +189,31 @@ public class Controller implements Initializable {
 
     @FXML
     private void loadDichotomy() {
-        DrawableOptimizationAlgorithm algorithm = new DichotomyMethod(function);
+        final DrawableOptimizationAlgorithm algorithm = new DichotomyMethod(function);
         createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
     }
 
     @FXML
     private void loadGoldenRatio() {
-        DrawableOptimizationAlgorithm algorithm = new GoldenRatioMethod(function);
+        final DrawableOptimizationAlgorithm algorithm = new GoldenRatioMethod(function);
         createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
     }
 
     @FXML
     private void loadFibonacci() {
-        DrawableOptimizationAlgorithm algorithm = new FibonacciMethod(function);
+        final DrawableOptimizationAlgorithm algorithm = new FibonacciMethod(function);
         createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
     }
 
     @FXML
     private void loadParabolic() {
-        DrawableOptimizationAlgorithm algorithm = new ParabolicMethod(function);
+        final DrawableOptimizationAlgorithm algorithm = new ParabolicMethod(function);
         createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, true);
     }
 
     @FXML
     private void loadBrent() {
-        DrawableOptimizationAlgorithm algorithm = new BrentsMethod(function);
+        final DrawableOptimizationAlgorithm algorithm = new BrentsMethod(function);
         createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
     }
 
@@ -235,28 +236,28 @@ public class Controller implements Initializable {
         }
     }
 
-    private void addPoint(XYChart.Series<Number, Number> series, Number x, Number y) {
+    private void addPoint(final XYChart.Series<Number, Number> series, final Number x, final Number y) {
         series.getData().add(new XYChart.Data<>(x, y));
     }
 
-    private void createVerticalBorders(double l, double r) {
-        for (XYChart.Series<Number, Number> border : bordersSeries) {
+    private void createVerticalBorders(final double l, final double r) {
+        for (final XYChart.Series<Number, Number> border : bordersSeries) {
             border.getData().clear();
         }
         drawBorders(l, r);
     }
 
-    private void drawBorders(double l, double r) {
-        double[] xForBorder = {l, r};
+    private void drawBorders(final double l, final double r) {
+        final double[] xForBorder = {l, r};
         for (int i = 0; i < 2; i++) {
-            double minY = -10;
+            final double minY = -10;
             addPoint(bordersSeries.get(i), xForBorder[i], minY);
-            double maxY = 10;
+            final double maxY = 10;
             addPoint(bordersSeries.get(i), xForBorder[i], maxY);
         }
     }
 
-    private void createDataSeriesFromDrawableOptimizationAlgorithm(DrawableOptimizationAlgorithm algorithm, boolean drawParabolas) {
+    private void createDataSeriesFromDrawableOptimizationAlgorithm(final DrawableOptimizationAlgorithm algorithm, final boolean drawParabolas) {
         clearChart();
         this.drawParabolas = drawParabolas;
         currentSeries.setName(algorithm.getName());
@@ -268,12 +269,12 @@ public class Controller implements Initializable {
         updateCurrentSeries();
     }
 
-    private String getFormattedDouble(double x) {
+    private String getFormattedDouble(final double x) {
         return String.format("%.9f", x);
     }
 
-    private void openMenu(MouseEvent event) {
-        TranslateTransition slide = new TranslateTransition();
+    private void openMenu(final MouseEvent event) {
+        final TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
         slide.setNode(slider);
 
@@ -288,8 +289,8 @@ public class Controller implements Initializable {
         });
     }
 
-    private void closeMenu(MouseEvent event) {
-        TranslateTransition slide = new TranslateTransition();
+    private void closeMenu(final MouseEvent event) {
+        final TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
         slide.setNode(slider);
 
@@ -311,20 +312,20 @@ public class Controller implements Initializable {
         parabola.getNode().setStyle("-fx-stroke-dash-array: 10px; -fx-stroke: cornflowerblue");
     }
 
-    private void drawParabolaByThreePoints(double x1, double y1, double x2, double y2, double x3, double y3) {
-        double d = (x1 - x2) * (x1 - x3) * (x2 - x3);
+    private void drawParabolaByThreePoints(final double x1, final double y1, final double x2, final double y2, final double x3, final double y3) {
+        final double d = (x1 - x2) * (x1 - x3) * (x2 - x3);
         if (d == 0) {
             System.err.println("There are some equal or too similar point given");
             return;
         }
-        double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / d;
-        double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / d;
-        double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / d;
+        final double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / d;
+        final double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / d;
+        final double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / d;
         getFunctionSeries((x) -> A * x * x + B * x + C, parabola);
     }
 
-    private void getFunctionSeries(Function<Double, Double> function, XYChart.Series<Number, Number> drawSeries) {
-        double step = 0.01;
+    private void getFunctionSeries(final Function<Double, Double> function, final XYChart.Series<Number, Number> drawSeries) {
+        final double step = 0.01;
         for (double x = left; x <= right; x += step) {
             drawSeries.getData().add(new XYChart.Data<>(x, function.apply(x)));
         }

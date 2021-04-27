@@ -26,22 +26,23 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
 
         while (true) {
             // step 2
-            DoubleVector gradient = form.gradient(x);
-            double norm = gradient.norm();
+            final DoubleVector gradient = form.gradient(x);
+            final double norm = gradient.norm();
             if (norm < eps) {
                 break;
             }
             // step 3
-            double a = 0d, b = 2d / form.getMaxValue();
+            final double a = 0d;
+            final double b = 2d / form.getMaxValue();
             final DoubleVector xc = x;
-            UnaryOperator<Double> function = (arg) -> {
+            final UnaryOperator<Double> function = (arg) -> {
                 DoubleVector vc = xc;
                 vc = vc.subtract(gradient.multiplyBy(arg));
                 return form.apply(vc);
             };
-            OptimizationAlgorithm brent = new BrentsMethod(function);
-            double alpha = brent.findMin(a, b);
-            DoubleVector alphaX = gradient.multiplyBy(alpha);
+            final OptimizationAlgorithm brent = new BrentsMethod(function);
+            final double alpha = brent.findMin(a, b);
+            final DoubleVector alphaX = gradient.multiplyBy(alpha);
             y = x.subtract(alphaX);
             f_y = form.apply(y);
             x = y;

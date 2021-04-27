@@ -10,12 +10,12 @@ public class GradientDescendMethod extends AbstractGradientMethod {
         super(form);
     }
 
-    private String toStr(DoubleVector point) {
+    private String toStr(final DoubleVector point) {
         return point.toString();
     }
 
     public double[] findMin() {
-        int n = form.getN();
+        final int n = form.getN();
         // step 1
         double alpha = 2d / (form.getMaxValue() + form.getMinValue());
         // double alpha = 100d;
@@ -29,8 +29,8 @@ public class GradientDescendMethod extends AbstractGradientMethod {
 
         while (true) {
             // step 2
-            DoubleVector gradient = form.gradient(x);
-            double norm = gradient.norm();
+            final DoubleVector gradient = form.gradient(x);
+            final double norm = gradient.norm();
             if (norm < eps) {
                 break;
             }
@@ -44,7 +44,7 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                 // System.out.println(String.format("alpha = %f\n", alpha));
                 // System.out.println("###############################");
                 // step 3
-                DoubleVector alphaX = gradient.multiplyBy(alpha);
+                final DoubleVector alphaX = gradient.multiplyBy(alpha);
                 y = x.subtract(alphaX);
                 // for (int i = 0; i < n; ++i) {
                 //     y[i] = x[i] - alpha * gradient[i];
@@ -61,7 +61,7 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                 }
                 try {
                     Thread.sleep(200);
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }

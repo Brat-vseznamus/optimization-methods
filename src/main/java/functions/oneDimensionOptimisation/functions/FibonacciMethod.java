@@ -8,22 +8,22 @@ public class FibonacciMethod extends AbstractMethod {
     private List<Long> fs;
 
 
-    public FibonacciMethod(UnaryOperator<Double> function) {
+    public FibonacciMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
-    public FibonacciMethod(UnaryOperator<Double> function, double eps) {
+    public FibonacciMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
     }
 
     @Override
-    public double findMin(double a, double b) {
+    public double findMin(final double a, final double b) {
         fs = new ArrayList<>();
         table = new ArrayList<>();
         calcs = 0;
         fs.add(0L);
         fs.add(1L);
-        long lastFibonacci = (long) ((b - a) / eps);
+        final long lastFibonacci = (long) ((b - a) / eps);
         while (lastFibonacci > getF(0)) {
             long tmp = fs.get(fs.size() - 1);
             tmp += fs.get(fs.size() - 2);
@@ -76,7 +76,7 @@ public class FibonacciMethod extends AbstractMethod {
     }
 
 
-    public Long getF(int k) {
+    public Long getF(final int k) {
         return fs.get(fs.size() + k - 1);
     }
 

@@ -5,11 +5,11 @@ import java.util.function.UnaryOperator;
 public class DichotomyMethod extends AbstractMethod {
     private static final double DELTA = 15e-11d;
 
-    public DichotomyMethod(UnaryOperator<Double> function) {
+    public DichotomyMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
-    public DichotomyMethod(UnaryOperator<Double> function, double eps) {
+    public DichotomyMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
     }
 
@@ -21,10 +21,10 @@ public class DichotomyMethod extends AbstractMethod {
 
         while (epsN > eps) {
             // step 1
-            double x1 = (a + b - DELTA) / 2d;
-            double x2 = (a + b + DELTA) / 2d;
-            double fx1 = function.apply(x1);
-            double fx2 = function.apply(x2);
+            final double x1 = (a + b - DELTA) / 2d;
+            final double x2 = (a + b + DELTA) / 2d;
+            final double fx1 = function.apply(x1);
+            final double fx2 = function.apply(x2);
             calcs += 2;
             // step 2
             if (fx1 <= fx2) {

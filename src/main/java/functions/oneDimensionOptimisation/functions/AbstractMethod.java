@@ -10,7 +10,7 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
     protected double eps;
     protected int calcs = 0;
 
-    protected AbstractMethod(UnaryOperator<Double> function, double eps) {
+    protected AbstractMethod(final UnaryOperator<Double> function, final double eps) {
         this.function = function;
         this.eps = eps;
         table = new ArrayList<>();
@@ -21,7 +21,7 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
         return calcs;
     }
 
-    protected AbstractMethod(UnaryOperator<Double> function) {
+    protected AbstractMethod(final UnaryOperator<Double> function) {
         this(function, 1e-9d);
     }
 
@@ -30,11 +30,11 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
         return table;
     }
 
-    public void addInfo(double l, double r, double value) {
+    public void addInfo(final double l, final double r, final double value) {
         table.add(new Info(l, r, value));
     }
 
-    public void setEps(double eps) {
+    public void setEps(final double eps) {
         this.eps = eps;
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
     public static class Info {
         private final double left, right, value;
 
-        public Info(double left, double right, double value) {
+        public Info(final double left, final double right, final double value) {
             this.left = left;
             this.right = right;
             this.value = value;
@@ -72,23 +72,23 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
     public static class Pair<T, E> {
         public T a;
         public E b;
-        Pair(T a, E b) {
+        Pair(final T a, final E b) {
             this.a = a;
             this.b = b;
         }
     }
 
 
-    public List<Pair<Double, Integer>> lnToCalculations(double l, double r) {
-        List<Pair<Double, Integer>> values = new ArrayList<>();
-        double epsOld = eps;
+    public List<Pair<Double, Integer>> lnToCalculations(final double l, final double r) {
+        final List<Pair<Double, Integer>> values = new ArrayList<>();
+        final double epsOld = eps;
         eps = 1;
         for (int i = 0; i < 10; i++) {
             eps /= 10d;
             table = new ArrayList<>();
             // System.out.println("value=" + findMin(l, r));
             findMin(l, r);
-            values.add(new Pair<>(-Math.log10(eps), (int)getCalculations()));
+            values.add(new Pair<>(-Math.log10(eps), getCalculations()));
         }
         eps = epsOld;
         return values;

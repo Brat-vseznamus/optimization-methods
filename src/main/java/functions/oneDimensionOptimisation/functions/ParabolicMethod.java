@@ -5,18 +5,18 @@ import java.util.function.UnaryOperator;
 public class ParabolicMethod extends AbstractMethod {
 
 
-    public ParabolicMethod(UnaryOperator<Double> function) {
+    public ParabolicMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
-    public ParabolicMethod(UnaryOperator<Double> function, double eps) {
+    public ParabolicMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
     }
 
     @Override
-    public double findMin(double a, double b) {
+    public double findMin(final double a, final double b) {
         // step 1:
-        double[] values = initValues(a, (a + b) / 2, b);
+        final double[] values = initValues(a, (a + b) / 2, b);
         calcs = 0;
         double x1 = values[0],
                 x2 = values[1],
@@ -67,9 +67,9 @@ public class ParabolicMethod extends AbstractMethod {
         return xi2;
     }
 
-    static double getMin(double x1, double x2, double x3, double f1, double f2, double f3) {
-        double up = (x2 - x1) * (x2 - x1) * (f2 - f3) - (x2 - x3) * (x2 - x3) * (f2 - f1);
-        double down = (x2 - x1) * (f2 - f3) - (x2 - x3) * (f2 - f1);
+    static double getMin(final double x1, final double x2, final double x3, final double f1, final double f2, final double f3) {
+        final double up = (x2 - x1) * (x2 - x1) * (f2 - f3) - (x2 - x3) * (x2 - x3) * (f2 - f1);
+        final double down = (x2 - x1) * (f2 - f3) - (x2 - x3) * (f2 - f1);
         return x2 - (up / (2 * down));
     }
 

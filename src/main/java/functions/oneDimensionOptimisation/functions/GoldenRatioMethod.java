@@ -5,11 +5,11 @@ import java.util.function.UnaryOperator;
 public class GoldenRatioMethod extends AbstractMethod {
     public final static double GOLD = ((Math.sqrt(5d) - 1d) / 2d);
 
-    public GoldenRatioMethod(UnaryOperator<Double> function) {
+    public GoldenRatioMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
-    public GoldenRatioMethod(UnaryOperator<Double> function, double eps) {
+    public GoldenRatioMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
     }
 

@@ -1,7 +1,7 @@
 package functions;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         // double[][] a = {
         //     {1, 0},
         //     {0, 3}
@@ -23,17 +23,17 @@ public class Main {
             try {
                 dim = Integer.parseInt(args[0]);
                 mu = Integer.parseInt(args[1]);
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 System.err.println("Two integers wsa expected: " + e.getMessage());
                 return;
             }
         }
-        QuadraticForm form = FormGenerator.generate(dim, mu);
+        final QuadraticForm form = FormGenerator.generate(dim, mu);
         // System.out.println(form.getA());
         // System.out.println(form.getB());       
-        OptimisationGradientMethod method = new GradientDescendMethod(form);
-        OptimisationGradientMethod method2 = new SteepestDescendMethod(form);
-        OptimisationGradientMethod method3 = new ConjugateGradientMethod(form);
+        final OptimisationGradientMethod method = new GradientDescendMethod(form);
+        final OptimisationGradientMethod method2 = new SteepestDescendMethod(form);
+        final OptimisationGradientMethod method3 = new ConjugateGradientMethod(form);
         // DoubleVector x = new DoubleVector(1d, 1d, 1d);
         // System.out.println(form.apply(x));
         // System.out.println(form.gradient(x));
@@ -44,14 +44,14 @@ public class Main {
         //     new DoubleVector(1d, 1d, 2d));
         // System.out.println(v.multiply(mat));
         // System.out.println(mat.multiply(v));
-        long start = System.currentTimeMillis();
-        DoubleVector res1 = new DoubleVector(method.findMin());
+        final long start = System.currentTimeMillis();
+        final DoubleVector res1 = new DoubleVector(method.findMin());
         System.out.println(res1);
-        long end0 = System.currentTimeMillis();
-        DoubleVector res2 = new DoubleVector(method2.findMin());
-        long end1 = System.currentTimeMillis();
-        DoubleVector res3 = new DoubleVector(method3.findMin());
-        long end2 = System.currentTimeMillis();
+        final long end0 = System.currentTimeMillis();
+        final DoubleVector res2 = new DoubleVector(method2.findMin());
+        final long end1 = System.currentTimeMillis();
+        final DoubleVector res3 = new DoubleVector(method3.findMin());
+        final long end2 = System.currentTimeMillis();
         System.out.printf("differences: %f, %f%n", res1.subtract(res2).norm(), res1.subtract(res3).norm());
         final String timeFormat = "Time for %s: %f sec.%n";
         System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
