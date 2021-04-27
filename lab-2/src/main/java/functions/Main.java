@@ -13,25 +13,35 @@ public class Main {
         // double[] b = {2, 3};
         // double c = 4;
         // double[] values = {1, 3};
-        Matrix a = new Matrix(
-            new DoubleVector(1d, 0d),
-            new DoubleVector(0d, 3d)
-        );
-        DoubleVector b = new DoubleVector(2d, 3d);
-        Double c = 4d;
-        DoubleVector values = new DoubleVector(1d, 3d);
-        QuadraticForm form = new QuadraticForm(a, b, c, values);
+        // Matrix a = new Matrix(
+        //     new DoubleVector(1d, 0d),
+        //     new DoubleVector(0d, 3d)
+        // );
+        // DoubleVector b = new DoubleVector(2d, 3d);
+        // Double c = 4d;
+        // DoubleVector values = new DoubleVector(1d, 3d);
+        // QuadraticForm form = new QuadraticForm(a, b, c, values);
+        QuadraticForm form = FormGenerator.generate(3, 2);
+        System.out.println(form.getA());
+        System.out.println(form.getB());       
         OptimisationMethod method = new GradientDescendMethod(form);
-        DoubleVector x = new DoubleVector(1d, 1d);
-        System.out.println(form.apply(x));
-        System.out.println(form.gradient(x));
-        DoubleVector v = new DoubleVector(1d, 2.4, 3d);
-        Matrix mat = new Matrix(
-            new DoubleVector(2d, 1d, 1d), 
-            new DoubleVector(2d, 1d, 1d),
-            new DoubleVector(1d, 1d, 2d));
-        System.out.println(v.multiply(mat));
-        System.out.println(mat.multiply(v));
+
+        OptimisationMethod method2 = new ConjugateGradientMethod(form);
+        // DoubleVector x = new DoubleVector(1d, 1d, 1d);
+        // System.out.println(form.apply(x));
+        // System.out.println(form.gradient(x));
+        // DoubleVector v = new DoubleVector(1d, 2.4, 3d);
+        // Matrix mat = new Matrix(
+        //     new DoubleVector(2d, 1d, 1d), 
+        //     new DoubleVector(2d, 1d, 1d),
+        //     new DoubleVector(1d, 1d, 2d));
+        // System.out.println(v.multiply(mat));
+        // System.out.println(mat.multiply(v));
+
+
+        System.out.println(new DoubleVector(method2.findMin()));
+        System.out.println(new DoubleVector(method.findMin()));
+        
     }
 
 }

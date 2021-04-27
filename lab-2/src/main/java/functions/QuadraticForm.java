@@ -94,6 +94,14 @@ public class QuadraticForm {
         return new DoubleVector(range().mapToDouble(i -> (scalarProduct(x, a.get(i)) + b.get(i))).toArray());
     }
 
+    public Matrix getA() {
+        return a;
+    }
+
+    public DoubleVector getB() {
+        return b;
+    }
+
     @Override
     public String toString() {
         return a.toString();

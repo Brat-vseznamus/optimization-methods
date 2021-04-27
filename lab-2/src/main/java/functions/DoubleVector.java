@@ -1,14 +1,10 @@
 package functions;
 
-import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.*;
-
-import functions.Matrix;
 
 public class DoubleVector {
     private int n;
@@ -19,6 +15,7 @@ public class DoubleVector {
         }
         this.n = n;
         values =  new Double[n];
+        IntStream.range(0, n).forEach(i -> values[i] = 0d);
     }
 
     public DoubleVector(Double...doubles) {

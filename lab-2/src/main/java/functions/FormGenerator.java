@@ -1,8 +1,6 @@
 package functions;
 
-import java.util.Collections;
 import java.util.Random;
-import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 public class FormGenerator {
     private static double range = 10;
@@ -12,10 +10,10 @@ public class FormGenerator {
         }
         Random random = new Random();
         if (n == 1) {
-            return new QuadraticForm(new double[][]{{k}}, new double[]{k * random.nextDouble()}, 0);
+            return new QuadraticForm(new Matrix(new double[][]{{k}}), new DoubleVector(new double[]{k * random.nextDouble()}), 0d);
         }
         double[][] a = new double[n][n];
-        double l = random.nextDouble() * range/2d + range/2d;
+        double l = 1;
         double ll = k * l;
         IntStream.range(0, n).forEach(
             i -> {
@@ -26,6 +24,6 @@ public class FormGenerator {
         double c = new Random().nextDouble() * range - range/2;
         a[0][0] = l;
         a[1][1] = ll;
-        return new QuadraticForm(a, b, c);
+        return new QuadraticForm(new Matrix(a), new DoubleVector(b), c);
     }
 }

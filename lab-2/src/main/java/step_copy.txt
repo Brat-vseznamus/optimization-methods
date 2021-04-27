@@ -15,15 +15,15 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
     public double[] findMin() {
         int n = form.getN();
         // step 1
-        DoubleVector x = new DoubleVector(n);
-        DoubleVector y = new DoubleVector(n); 
+        double[] x = new double[n];
+        double[] y = new double[n];
         double f_x = form.apply(x);
         double f_y;
 
         while (true) {
             // step 2
-            DoubleVector gradient = form.gradient(x);
-            double norm = gradient.norm();
+            double[] gradient = form.gradient(x);
+            double norm = Arrays.stream(gradient).sum();
             if (norm < eps) {
                 break;
             }
@@ -45,6 +45,6 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             // }
         }
 
-        return x.stream().mapToDouble(v -> v).toArray();
+        return x;
     }
 }

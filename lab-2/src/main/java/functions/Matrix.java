@@ -93,14 +93,11 @@ public class Matrix {
             i -> {
                 IntStream.range(0, m).forEach(
                     j -> {
-                        // System.out.printf("i = %d, j = %d%n", i, j);
                         mat.values.get(j).set(i, get(i, j));
                     }
                 );
             }
         );
-        // System.out.println(this);
-        // System.out.println(mat);
         return mat;
     }
 
