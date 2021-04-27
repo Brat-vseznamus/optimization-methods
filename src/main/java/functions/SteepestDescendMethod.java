@@ -1,6 +1,5 @@
 package functions;
 
-import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
 import functions.oneDimensionOptimisation.functions.BrentsMethod;
