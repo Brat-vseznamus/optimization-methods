@@ -21,6 +21,8 @@ public class GradientDescendMethod extends AbstractGradientMethod {
         int n = form.getN();
         // step 1
         double alpha = 2d / (form.getMaxValue() + form.getMinValue());
+        // double alpha = 100d;
+        
         // double[] x = new double[n];
         // double[] y = new double[n];
         DoubleVector x = new DoubleVector(n);
@@ -37,16 +39,16 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             }
 
             while (true) {
-                System.out.println(String.format("x = %s\n", toStr(x)));
-                System.out.println(String.format("f(x) = %f\n", f_x));
-                System.out.println(String.format("y = %s\n", toStr(y)));
-                System.out.println(String.format("f(y) = %f\n", f_y));
-                System.out.println(String.format("grad = %s\n", toStr(gradient)));
-                System.out.println(String.format("alpha = %f\n", alpha));
-                System.out.println("###############################");
+                // System.out.println(String.format("x = %s\n", toStr(x)));
+                // System.out.println(String.format("f(x) = %f\n", f_x));
+                // System.out.println(String.format("y = %s\n", toStr(y)));
+                // System.out.println(String.format("f(y) = %f\n", f_y));
+                // System.out.println(String.format("grad = %s\n", toStr(gradient)));
+                // System.out.println(String.format("alpha = %f\n", alpha));
+                // System.out.println("###############################");
                 // step 3
-                DoubleVector alphaX = gradient.multiplyBy(-alpha);
-                y = y.add(alphaX);
+                DoubleVector alphaX = gradient.multiplyBy(alpha);
+                y = x.subtract(alphaX);
                 // for (int i = 0; i < n; ++i) {
                 //     y[i] = x[i] - alpha * gradient[i];
                 // }
@@ -58,10 +60,10 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                     break;
                 } else {
                     // step 4
-                    alpha /= 2;
+                    alpha /= 2d;
                 }
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

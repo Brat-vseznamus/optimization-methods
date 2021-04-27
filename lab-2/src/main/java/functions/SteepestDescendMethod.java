@@ -1,6 +1,10 @@
 package functions;
 
 import java.util.Arrays;
+import java.util.function.UnaryOperator;
+
+import functions.oneDimensionOptimisation.functions.BrentsMethod;
+import functions.oneDimensionOptimisation.functions.OptimizationAlgorithm;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
 
@@ -18,7 +22,7 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         DoubleVector x = new DoubleVector(n);
         DoubleVector y = new DoubleVector(n); 
         double f_x = form.apply(x);
-        double f_y;
+        double f_y = 0;
 
         while (true) {
             // step 2
@@ -27,24 +31,22 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             if (norm < eps) {
                 break;
             }
-
             // step 3
             double a = 0d, b = 2d / form.getMaxValue();
-            // UnaryOperator<Double> function = (arg) -> {
-                // double[] vector = new double[n];
-                // for (int i = 0; i < n; ++i) {
-                    // vector[i] = vector[i] - arg * gradient[i];
-                // }
-                // return f.apply(vector);
-            // };
-            // OptimizationAlgorithm brent = new BrentsMethod(function);
-            // double alpha = brent.findMin(a, b);
-            
-            // for (int i = 0; i < n; ++i) {
-                // x[i] = x[i] - alpha * gradient[i];
-            // }
+            final DoubleVector xc = x;
+            UnaryOperator<Double> function = (arg) -> {
+                DoubleVector vc = xc;
+                vc = vc.subtract(gradient.multiplyBy(arg));
+                return form.apply(vc);
+            };
+            OptimizationAlgorithm brent = new BrentsMethod(function);
+            double alpha = brent.findMin(a, b);
+            DoubleVector alphaX = gradient.multiplyBy(alpha);
+            y = x.subtract(alphaX);
+            f_y = form.apply(y);
+            x = y;
+            f_x = f_y;
         }
-
         return x.stream().mapToDouble(v -> v).toArray();
     }
 }

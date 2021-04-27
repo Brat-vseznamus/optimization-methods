@@ -2,6 +2,6 @@ package functions;
 
 import java.util.List;
 
-public interface OptimisationMethod {
+public interface OptimisationGradientMethod {
     double[] findMin();
 }
