@@ -16,7 +16,8 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         super(form);
     }
 
-    public DoubleVector findMin() {
+    @Override
+    public double[] findMin() {
         final int n = form.getN();
         // step 1
         DoubleVector x = new DoubleVector(n);

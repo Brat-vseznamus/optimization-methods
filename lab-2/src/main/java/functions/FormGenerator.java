@@ -16,7 +16,7 @@ public class FormGenerator {
         double l = 1;
         double ll = k * l;
         IntStream.range(0, n).forEach(
-            i -> a[i][i] = l + (ll - l) * random.nextDouble();
+            i -> a[i][i] = l + (ll - l) * random.nextDouble()
         );
         double[] b = IntStream.range(0, n).mapToDouble(i -> new Random().nextDouble() * range - range/2).toArray();
         double c = new Random().nextDouble() * range - range/2;
