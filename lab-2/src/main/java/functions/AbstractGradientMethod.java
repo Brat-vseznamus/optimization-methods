@@ -4,12 +4,12 @@ public abstract class AbstractGradientMethod implements OptimisationGradientMeth
     protected QuadraticForm form;
     protected double eps;
 
-    protected AbstractGradientMethod(QuadraticForm form, double eps) {
+    protected AbstractGradientMethod(final QuadraticForm form, final double eps) {
         this.form = form;
         this.eps = eps;
     }
 
-    protected AbstractGradientMethod(QuadraticForm form) {
-        this(form, 1e-6d);
+    protected AbstractGradientMethod(final QuadraticForm form) {
+        this(form, 1e-5d);
     }
 }

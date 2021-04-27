@@ -1,15 +1,12 @@
 package functions;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 public class GradientDescendMethod extends AbstractGradientMethod {
 
-    public GradientDescendMethod(QuadraticForm form, double eps) {
+    public GradientDescendMethod(final QuadraticForm form, final double eps) {
         super(form, eps);
     }
 
-    public GradientDescendMethod(QuadraticForm form) {
+    public GradientDescendMethod(final QuadraticForm form) {
         super(form);
     }
 

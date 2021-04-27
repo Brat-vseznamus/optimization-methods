@@ -8,16 +8,16 @@ import functions.oneDimensionOptimisation.functions.OptimizationAlgorithm;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
 
-    public SteepestDescendMethod(QuadraticForm form, double eps) {
+    public SteepestDescendMethod(final QuadraticForm form, final double eps) {
         super(form, eps);
     }
 
-    public SteepestDescendMethod(QuadraticForm form) {
+    public SteepestDescendMethod(final QuadraticForm form) {
         super(form);
     }
 
-    public double[] findMin() {
-        int n = form.getN();
+    public DoubleVector findMin() {
+        final int n = form.getN();
         // step 1
         DoubleVector x = new DoubleVector(n);
         DoubleVector y = new DoubleVector(n); 
