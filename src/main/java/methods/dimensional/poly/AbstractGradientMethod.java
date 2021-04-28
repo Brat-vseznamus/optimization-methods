@@ -8,9 +8,19 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
+    protected final static double DEFAULT_EPS = 1e-6d;
+
     protected QuadraticForm form;
     protected double eps;
     protected List<State> table;
+
+    public QuadraticForm getForm() {
+        return form;
+    }
+
+    public void setForm(final QuadraticForm form) {
+        this.form = form;
+    }
 
     protected AbstractGradientMethod(final QuadraticForm form, final double eps) {
         this.form = form;
@@ -19,7 +29,11 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
     }
 
     protected AbstractGradientMethod(final QuadraticForm form) {
-        this(form, 1e-5d);
+        this(form, DEFAULT_EPS);
+    }
+
+    public AbstractGradientMethod() {
+        this(null);
     }
 
     public List<State> getTable() {

@@ -13,6 +13,10 @@ public class DichotomyMethod extends AbstractOneDimensionalMethod {
         super(function, eps);
     }
 
+    public DichotomyMethod() {
+        super(null);
+    }
+
     @Override
     public double findMin(double a, double b) {
         table.clear();

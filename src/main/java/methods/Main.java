@@ -1,5 +1,6 @@
 package methods;
 
+import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class Main {
         //     new Matrix(new Dou))
 
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
-        final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
+        GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK

@@ -10,6 +10,10 @@ public class GradientDescendMethod extends AbstractGradientMethod {
         super(form);
     }
 
+    public GradientDescendMethod() {
+        super();
+    }
+
     public double[] findMin() {
         final int n = form.getN();
         // step 1

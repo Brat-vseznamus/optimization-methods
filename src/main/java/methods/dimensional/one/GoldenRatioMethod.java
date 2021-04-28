@@ -13,6 +13,10 @@ public class GoldenRatioMethod extends AbstractOneDimensionalMethod {
         super(function, eps);
     }
 
+    public GoldenRatioMethod() {
+        super(null);
+    }
+
     @Override
     public double findMin(double a, double b) {
         table.clear();
