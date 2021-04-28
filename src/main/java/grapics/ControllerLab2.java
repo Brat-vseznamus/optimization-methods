@@ -1,8 +1,7 @@
 package grapics;
 
-import methods.dimensional.one.*;
+import grapics.contour.Contour2DMap;
 import javafx.animation.TranslateTransition;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,17 +14,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import methods.dimensional.one.*;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Function;
+import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
-public class Controller implements Initializable {
+public class ControllerLab2 implements Initializable {
 
     @FXML
     private ImageView Exit;
@@ -43,24 +42,12 @@ public class Controller implements Initializable {
     private LineChart<Number, Number> lineChart;
 
     @FXML
-    private Text leftBorderText;
-
-    @FXML
-    private Text rightBorderText;
-
-    @FXML
-    private Text currentPointText;
-
-    @FXML
-    private Text actualMinimumText;
-
-    @FXML
     private Text currentIterationText;
 
     @FXML
     private Text sizeIterationsText;
 
-    private UnaryOperator<Double> function = x -> x * x + Math.exp(-0.35d * x);
+    private final BinaryOperator<Double> function = (x, y) -> x * x + 2 * y * y;
     private final UnaryOperator<Double> function1 = x -> x * x + Math.exp(-0.35d * x);
     private final UnaryOperator<Double> function2 = x -> 40 * x * x * x * x * x
             - 12 * x * x * x * x
@@ -78,15 +65,12 @@ public class Controller implements Initializable {
     private final List<Double> actualMinimums = List.of(actualMinimum1, actualMinimum2, actualMinimum3);
 
 
-    private double left = -2d;
-    private double right = 3d;
+    private final double left = -10d;
+    private final double right = 10d;
     double ACTUAL_MINIMUM = 0.1651701916490658914488911;
     private XYChart.Series<Number, Number> currentSeries;
     private List<AbstractOneDimensionalMethod.Info> currentIterations;
-    private List<XYChart.Series<Number, Number>> bordersSeries;
-    private XYChart.Series<Number, Number> parabola;
     private int currentIteration = 0;
-    private boolean drawParabolas = false;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -129,92 +113,23 @@ public class Controller implements Initializable {
 
     private void initializeLineChart() {
         lineChart.getData().clear();
+        getFunctionLevels(function);
 
 
-        actualMinimumText.setText(getFormattedDouble(ACTUAL_MINIMUM));
-
-        final XYChart.Series<Number, Number> drawSeries = new XYChart.Series<>();
-        getFunctionSeries(function, drawSeries);
-        drawSeries.setName("Исходная функция");
-        lineChart.getData().add(drawSeries);
-        drawSeries.getNode().setStyle("-fx-stroke: peachpuff");
-        bordersSeries = new ArrayList<>();
-        parabola = new XYChart.Series<>();
-
-        for (int i = 0; i < 2; i++) {
-            final XYChart.Series<Number, Number> border = new XYChart.Series<>();
-            lineChart.getData().add(border);
-
-            bordersSeries.add(border);
-            border.getNode().setStyle("-fx-stroke: red");
-            border.setName("");
-        }
-        currentSeries = new XYChart.Series<>();
-        currentSeries = new XYChart.Series<>();
-
-        lineChart.getData().add(currentSeries);
-        lineChart.getData().add(parabola);
-        parabola.getNode().setStyle("-fx-stroke-dash-array: 10px; -fx-stroke: cornflowerblue");
     }
 
 
     private void updateCurrentSeries() {
         final AbstractOneDimensionalMethod.Info currentInfo = currentIterations.get(currentIteration);
         final double x = currentInfo.getValue();
-        final double y = function.apply(x);
+        final double y = 0;//functionPositive.apply(x, 0d);
         final double l = currentInfo.getLeft();
         final double r = currentInfo.getRight();
-        leftBorderText.setText(getFormattedDouble(l));
-        rightBorderText.setText(getFormattedDouble(r));
-        currentPointText.setText(getFormattedDouble(x));
         addPoint(currentSeries, x, y);
-        createVerticalBorders(l, r);
-        parabola.getData().clear();
-        boolean drawForOnce = false;
-        if (currentInfo instanceof BrentsMethod.BrentInfo) {
-            drawForOnce = ((BrentsMethod.BrentInfo) currentInfo).isParabolic;
-        }
-        if (drawForOnce || drawParabolas) {
-            drawParabolaByThreePoints(l, function.apply(l), r, function.apply(r), x, y);
-        } else {
-            refreshParabola();
-        }
     }
 
     private void clearChart() {
         currentSeries.getData().clear();
-        refreshParabola();
-        bordersSeries.forEach(x -> x.getData().clear());
-    }
-
-    @FXML
-    private void loadDichotomy() {
-        final DrawableMethod algorithm = new DichotomyMethod(function);
-        createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
-    }
-
-    @FXML
-    private void loadGoldenRatio() {
-        final DrawableMethod algorithm = new GoldenRatioMethod(function);
-        createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
-    }
-
-    @FXML
-    private void loadFibonacci() {
-        final DrawableMethod algorithm = new FibonacciMethod(function);
-        createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
-    }
-
-    @FXML
-    private void loadParabolic() {
-        final DrawableMethod algorithm = new ParabolicMethod(function);
-        createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, true);
-    }
-
-    @FXML
-    private void loadBrent() {
-        final DrawableMethod algorithm = new BrentsMethod(function);
-        createDataSeriesFromDrawableOptimizationAlgorithm(algorithm, false);
     }
 
     @FXML
@@ -240,26 +155,9 @@ public class Controller implements Initializable {
         series.getData().add(new XYChart.Data<>(x, y));
     }
 
-    private void createVerticalBorders(final double l, final double r) {
-        for (final XYChart.Series<Number, Number> border : bordersSeries) {
-            border.getData().clear();
-        }
-        drawBorders(l, r);
-    }
-
-    private void drawBorders(final double l, final double r) {
-        final double[] xForBorder = {l, r};
-        for (int i = 0; i < 2; i++) {
-            final double minY = -10;
-            addPoint(bordersSeries.get(i), xForBorder[i], minY);
-            final double maxY = 10;
-            addPoint(bordersSeries.get(i), xForBorder[i], maxY);
-        }
-    }
 
     private void createDataSeriesFromDrawableOptimizationAlgorithm(final DrawableMethod algorithm, final boolean drawParabolas) {
         clearChart();
-        this.drawParabolas = drawParabolas;
         currentSeries.setName(algorithm.getName());
         currentIteration = 0;
         currentIterationText.setText(Integer.toString(currentIteration));
@@ -305,53 +203,27 @@ public class Controller implements Initializable {
         });
     }
 
-    private void refreshParabola() {
-        lineChart.getData().remove(4);
-        parabola = new XYChart.Series<>();
-        lineChart.getData().add(parabola);
-        parabola.getNode().setStyle("-fx-stroke-dash-array: 10px; -fx-stroke: cornflowerblue");
-    }
 
-    private void drawParabolaByThreePoints(final double x1, final double y1, final double x2, final double y2, final double x3, final double y3) {
-        final double d = (x1 - x2) * (x1 - x3) * (x2 - x3);
-        if (d == 0) {
-            System.err.println("There are some equal or too similar point given");
-            return;
+    private void getFunctionLevels(final BinaryOperator<Double> function) {
+        final double minX = -1, maxX = 1, minY = -1, maxY = 1, step = 0.5;
+        final int xSize = (int) ((maxX - minX) / step), ySize = (int) ((maxY - minY) / step);
+        final double[][] values = new double[xSize][ySize];
+        for (double x = minX; x < maxX; x += step) {
+            for (double y = minY; y < maxY; y += step) {
+                final int xi = (int) ((x - minX) / step);
+                final int yi = (int) ((y - minY) / step);
+                values[xi][yi] = function.apply(x, y);
+            }
         }
-        final double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / d;
-        final double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / d;
-        final double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / d;
-        getFunctionSeries((x) -> A * x * x + B * x + C, parabola);
+        Contour2DMap contour2DMap = new Contour2DMap(xSize, ySize);
+        contour2DMap.setData(values);
+        contour2DMap.setIsoFactor(1.0);
+        contour2DMap.setInterpolationFactor(1);
+        contour2DMap.setMapColorScale("Color");
+        final XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        contour2DMap.draw(lineChart, series);
+        //lineChart.getData().add(series);
+        //series.getNode().setStyle("-fx-stroke:#0000ff;-fx-stroke-width:1");
     }
 
-    private void getFunctionSeries(final Function<Double, Double> function, final XYChart.Series<Number, Number> drawSeries) {
-        final double step = 0.01;
-        for (double x = left; x <= right; x += step) {
-            drawSeries.getData().add(new XYChart.Data<>(x, function.apply(x)));
-        }
-    }
-
-    private void changeFunction(int funcIndex) {
-        funcIndex--;
-        function = functions.get(funcIndex);
-        left = intervals.get(2 * funcIndex);
-        right = intervals.get(2 * funcIndex + 1);
-        ACTUAL_MINIMUM = actualMinimums.get(funcIndex);
-        initializeLineChart();
-    }
-
-    @FXML
-    private void setFunction1() {
-        changeFunction(1);
-    }
-
-    @FXML
-    private void setFunction2() {
-        changeFunction(2);
-    }
-
-    @FXML
-    private void setFunction3() {
-        changeFunction(3);
-    }
 }
