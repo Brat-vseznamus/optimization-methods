@@ -13,6 +13,7 @@ public class QuadraticForm {
     private final DoubleVector values;
     private final double minValue, maxValue;
 
+
     private static final double eps = 1e-6d;
 
     public QuadraticForm(final Matrix a, final DoubleVector b, final double c, final DoubleVector values) {
@@ -80,7 +81,7 @@ public class QuadraticForm {
             return scalarProduct(a.multiply(x), x) / 2d + scalarProduct(x, b) + c;
         }
         return scalarProduct(new DoubleVector(range().mapToDouble(i -> scalarProduct(x, a.get(i))).toArray()), x) / 2d
-            + scalarProduct(x, b) + c;
+                + scalarProduct(x, b) + c;
     }
 
     public DoubleVector gradient(final DoubleVector x) {
@@ -96,6 +97,10 @@ public class QuadraticForm {
 
     public DoubleVector getB() {
         return b;
+    }
+
+    public double getC() {
+        return c;
     }
 
     @Override

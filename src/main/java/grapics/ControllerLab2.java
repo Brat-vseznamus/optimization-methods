@@ -20,8 +20,8 @@ import org.gillius.jfxutils.chart.JFXChartUtil;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
+import java.util.function.Function;
+
 
 public class ControllerLab2 implements Initializable {
 
@@ -47,8 +47,8 @@ public class ControllerLab2 implements Initializable {
     private Text sizeIterationsText;
 
     final QuadraticForm form = new QuadraticForm(
-            new Matrix(new DoubleVector(2d, 128d), true),
-            new DoubleVector(-10d, 30d), 2d);
+            new Matrix(new DoubleVector(60d, 2d), true),
+            new DoubleVector(-10d, 10d), 2d);
 
 
     private XYChart.Series<Number, Number> currentSeries;
@@ -96,15 +96,15 @@ public class ControllerLab2 implements Initializable {
 
     private void initializeLineChart() {
         lineChart.getData().clear();
-        currentSeries = new XYChart.Series<>();
-        lineChart.getData().add(currentSeries);
-        final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
+        final GradientOptimizationMethod steepest = new ConjugateGradientMethod(form);
         steepest.findMin();
+        currentSeries = new XYChart.Series<>();
         currentIterations = steepest.getTable();
         currentIteration = 0;
-        updateCurrentSeries();
-        getFunctionLevels();
         sizeIterationsText.setText(Integer.toString(currentIterations.size()));
+        getFunctionLevels();
+        lineChart.getData().add(currentSeries);
+        updateCurrentSeries();
     }
 
 
@@ -184,29 +184,38 @@ public class ControllerLab2 implements Initializable {
 
 
     private void getFunctionLevels() {
-        for (double radius = 0.01; radius < 0.7; radius += 0.05) {
-            drawfromPoint(radius);
+        final double maxR = 10;
+        for (double radius = 0.1; radius < maxR; radius += 0.3) {
+            drawFromPoint(radius, maxR);
         }
     }
 
-    private void drawfromPoint(final double radius) {
-        final AbstractGradientMethod.State state = currentIterations.get(currentIterations.size() - 1);
-        final DoubleVector center = state.getPoint();
-        DoubleVector curPoint = center.add(new DoubleVector(0d, radius));
-        final double step = radius / 60;//0.005;
-        final double maxCnt = radius / step * 33;
+    private void drawFromPoint(final double radius, final double maxR) {
         final XYChart.Series<Number, Number> series = new XYChart.Series<>();
         lineChart.getData().add(series);
-        series.getNode().setStyle("-fx-opacity: 0.5");
-        double cnt = 0;
-        while (cnt < maxCnt) {
-            final DoubleVector gradi = form.gradient(curPoint);
-            final DoubleVector prGradi = new DoubleVector(gradi.get(1), -gradi.get(0));
-            final double length = prGradi.norm();
-            final DoubleVector next = curPoint.add(prGradi.multiplyBy(1 / length * step));
-            curPoint = next;
-            series.getData().add(new XYChart.Data<>(next.get(0), next.get(1)));
-            cnt++;
+        final DoubleVector rgb = new DoubleVector(0d, 0d, 0d)
+                .add(new DoubleVector(106d, 0d, 255d))
+                .multiplyBy(radius / maxR);
+        final Function<Integer, Integer> getColor = (i) -> (int) ((double) rgb.get(i));
+        series.getNode().setStyle(String.format("-fx-opacity: %s; -fx-stroke: rgb(%d,%d,%d)",
+                Double.toString(1 - Math.sqrt(radius / maxR)).replace(',', '.'),
+                getColor.apply(0),
+                getColor.apply(1),
+                getColor.apply(2)));
+        final AbstractGradientMethod.State state = currentIterations.get(currentIterations.size() - 1);
+        final DoubleVector center = state.getPoint();
+        final double h = form.apply(center.add(new DoubleVector(0d, radius)));
+        final double gradesPerStep = 1;
+        for (double angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 360 * gradesPerStep) {
+            final DoubleVector normal = new DoubleVector(Math.cos(angle), Math.sin(angle));
+            final double a = 1 / 2d * form.getA().multiply(normal).scalar(normal);
+            final double b = form.getB().scalar(normal) + form.getA().multiply(center).scalar(normal);
+            final double c = form.getC() - h
+                    + center.scalar(form.getB())
+                    + 1 / 2d * (center.scalar(form.getA().multiply(center)));
+            final double r = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            final DoubleVector newPoint = normal.multiplyBy(r).add(center);
+            series.getData().add(new XYChart.Data<>(newPoint.get(0), newPoint.get(1)));
         }
     }
 
