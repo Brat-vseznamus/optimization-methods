@@ -30,7 +30,13 @@ public class DoubleVector {
 
     public DoubleVector(final double[] doubles) {
         n = doubles.length;
-        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[n]);
+        // values = doubles;
+        values = new Double[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = doubles[i];
+        }
+        // IntStream.range(0, n).forEach(i -> );
+        // values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[n]);
     }
 
     public DoubleVector(final double[] doubles, final int size) {

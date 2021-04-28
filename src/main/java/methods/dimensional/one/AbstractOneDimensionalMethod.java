@@ -23,7 +23,7 @@ public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
     }
 
     protected AbstractOneDimensionalMethod(final UnaryOperator<Double> function) {
-        this(function, 1e-9d);
+        this(function, 1e-6d);
     }
 
     @Override

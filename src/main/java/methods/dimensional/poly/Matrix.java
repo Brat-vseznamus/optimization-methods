@@ -83,7 +83,9 @@ public class Matrix {
             throw new IllegalArgumentException("Wide and height should be same.");
         }
         if (diagonal) {
-            return new DoubleVector(IntStream.range(0, n).mapToDouble(i -> get(i, i) * vector.get(i)).toArray());
+            DoubleVector v = new DoubleVector(n);
+            IntStream.range(0, n).forEach(i -> v.set(i, get(i, i) * vector.get(i)));
+            return v;
         }
         return new DoubleVector(values.stream().mapToDouble(v -> v.scalar(vector)).toArray());
     }
