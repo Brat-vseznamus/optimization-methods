@@ -8,7 +8,7 @@ public class Main {
     public static void main(final String[] args) {
         int dim = 100;
         int mu = 80;
-        if (args.length != 0 && args.length != 2) {
+        if (args.length == 2) {
             try {
                 dim = Integer.parseInt(args[0]);
                 mu = Integer.parseInt(args[1]);
@@ -27,8 +27,15 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 2;
+        final int mode = 1;
         if (mode == 1) {
+            System.out.println(form.getA());
+            System.out.println(form.getB()); 
+            DoubleVector v = new DoubleVector(1d, 1d, 1d);
+            // System.out.println(form.getA().multiply(v));
+            // System.out.println(v.multiply(form.getA()));
+            // System.out.println(form.gradient(v));
+            // System.out.println(form.apply(v));
             final long start = System.currentTimeMillis();
             final DoubleVector res1 = new DoubleVector(gradient.findMin());
             System.out.println(res1);

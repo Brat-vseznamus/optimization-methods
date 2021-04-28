@@ -27,8 +27,14 @@ public class QuadraticForm {
         this.b = b;
         this.c = c;
         this.values = values;
-        this.minValue = values.stream().min(Comparator.naturalOrder()).orElse(0d);
-        this.maxValue = values.stream().max(Comparator.naturalOrder()).orElse(0d);
+        if (a.isDiagonal()) {
+            DoubleVector vals = a.getValues().get(0);
+            this.minValue = vals.stream().min(Comparator.naturalOrder()).orElse(0d);
+            this.maxValue = vals.stream().max(Comparator.naturalOrder()).orElse(0d);
+        } else {
+            this.minValue = values.stream().min(Comparator.naturalOrder()).orElse(0d);
+            this.maxValue = values.stream().max(Comparator.naturalOrder()).orElse(0d);
+        }
 
     }
 
@@ -71,7 +77,7 @@ public class QuadraticForm {
     public double apply(final DoubleVector x) {
         if (a.isDiagonal()) {
             // System.out.println(a + " : " + ((a.multiply(x)).scalar(x) / 2d + scalarProduct(x, b) + c));
-            return scalarProduct(a.get(0), x) / 2d + scalarProduct(x, b) + c;
+            return scalarProduct(a.multiply(x), x) / 2d + scalarProduct(x, b) + c;
         }
         return scalarProduct(new DoubleVector(range().mapToDouble(i -> scalarProduct(x, a.get(i))).toArray()), x) / 2d
             + scalarProduct(x, b) + c;
@@ -79,7 +85,7 @@ public class QuadraticForm {
 
     public DoubleVector gradient(final DoubleVector x) {
         if (a.isDiagonal()) {
-            return a.multiply(x);
+            return a.multiply(x).add(b);
         }
         return new DoubleVector(range().mapToDouble(i -> (scalarProduct(x, a.get(i)) + b.get(i))).toArray());
     }
