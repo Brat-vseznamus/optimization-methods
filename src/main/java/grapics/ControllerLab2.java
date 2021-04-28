@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import methods.dimensional.one.*;
+import methods.dimensional.poly.*;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 
@@ -46,37 +46,13 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private Text sizeIterationsText;
 
-    private final BinaryOperator<Double> function =
-            (x, y) -> 64 * x * x + 126 * x * y + 64 * y * y - 10 * x + 30 * y + 13;
-    private final BinaryOperator<Double> functionLevelPositive = (x, c) ->
-            ((Math.sqrt(64 * c) - 127 * x * x + 2530 * x - 607) - 63 * x - 15) / 64d;
-    private final BinaryOperator<Double> functionLevelNegative = (x, c) ->
-            ((-Math.sqrt(64 * c) - 127 * x * x + 2530 * x - 607) - 63 * x - 15) / 64d;
-    private final UnaryOperator<Double> lowerBoundX = (c) ->
-            (127 * c * c - 2530 * c + 607) / 64d;
-
-    private final UnaryOperator<Double> function1 = x -> x * x + Math.exp(-0.35d * x);
-    private final UnaryOperator<Double> function2 = x -> 40 * x * x * x * x * x
-            - 12 * x * x * x * x
-            + x * x * x
-            + 6 * x * x
-            - 90 * x;
-    private final UnaryOperator<Double> function3 = x -> x * x * x - x;
-    private final List<UnaryOperator<Double>> functions = List.of(function1, function2, function3);
-
-    private final double lF1 = -2d, rF1 = 3d, lF2 = 0, rF2 = 1.5d, lF3 = 0d, rF3 = 1d;
-    private final List<Double> intervals = List.of(lF1, rF1, lF2, rF2, lF3, rF3);
-
-    private final double actualMinimum1 = 0.1651701916490658914488911,
-            actualMinimum2 = 0.856619, actualMinimum3 = 0.577350269189;
-    private final List<Double> actualMinimums = List.of(actualMinimum1, actualMinimum2, actualMinimum3);
+    final QuadraticForm form = new QuadraticForm(
+            new Matrix(new DoubleVector(2d, 128d), true),
+            new DoubleVector(-10d, 30d), 2d);
 
 
-    private final double left = -10d;
-    private final double right = 10d;
-    double ACTUAL_MINIMUM = 0.1651701916490658914488911;
     private XYChart.Series<Number, Number> currentSeries;
-    private List<AbstractOneDimensionalMethod.Info> currentIterations;
+    private List<AbstractGradientMethod.State> currentIterations;
     private int currentIteration = 0;
 
     @Override
@@ -110,29 +86,33 @@ public class ControllerLab2 implements Initializable {
         lineChart.setAnimated(animations);
         lineChart.getXAxis().setAnimated(animations);
         lineChart.getYAxis().setAnimated(animations);
-
-
         lineChart.getXAxis().autoRangingProperty().setValue(true);
         lineChart.getYAxis().autoRangingProperty().setValue(true);
+
+        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
 
         initializeLineChart();
     }
 
     private void initializeLineChart() {
         lineChart.getData().clear();
-        getFunctionLevels(lowerBoundX, functionLevelPositive);
-        getFunctionLevels(lowerBoundX, functionLevelNegative);
-        int x = 1;
-
+        currentSeries = new XYChart.Series<>();
+        lineChart.getData().add(currentSeries);
+        final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
+        steepest.findMin();
+        currentIterations = steepest.getTable();
+        currentIteration = 0;
+        updateCurrentSeries();
+        getFunctionLevels();
+        sizeIterationsText.setText(Integer.toString(currentIterations.size()));
     }
 
 
     private void updateCurrentSeries() {
-        final AbstractOneDimensionalMethod.Info currentInfo = currentIterations.get(currentIteration);
-        final double x = currentInfo.getValue();
-        final double y = 0;//functionPositive.apply(x, 0d);
-        final double l = currentInfo.getLeft();
-        final double r = currentInfo.getRight();
+        final AbstractGradientMethod.State currentInfo = currentIterations.get(currentIteration);
+        final double x = currentInfo.getPoint().get(0);
+        final double y = currentInfo.getPoint().get(1);
+        currentIterationText.setText(getFormattedDouble(currentIteration));
         addPoint(currentSeries, x, y);
     }
 
@@ -152,27 +132,18 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private void nextIteration() {
         if (currentIterations == null) return;
-        if (currentIteration < currentIterations.size() - 1) {
-            currentIteration++;
-            currentIterationText.setText(Integer.toString(currentIteration));
-            updateCurrentSeries();
+        int i = 10;
+        while (i-- > 0) {
+            if (currentIteration < currentIterations.size() - 1) {
+                currentIteration++;
+                currentIterationText.setText(Integer.toString(currentIteration));
+                updateCurrentSeries();
+            }
         }
     }
 
     private void addPoint(final XYChart.Series<Number, Number> series, final Number x, final Number y) {
         series.getData().add(new XYChart.Data<>(x, y));
-    }
-
-
-    private void createDataSeriesFromDrawableOptimizationAlgorithm(final DrawableMethod algorithm, final boolean drawParabolas) {
-        clearChart();
-        currentSeries.setName(algorithm.getName());
-        currentIteration = 0;
-        currentIterationText.setText(Integer.toString(currentIteration));
-        algorithm.findMin(left, right);
-        currentIterations = algorithm.getTable();
-        sizeIterationsText.setText(Integer.toString(currentIterations.size() - 1));
-        updateCurrentSeries();
     }
 
     private String getFormattedDouble(final double x) {
@@ -212,20 +183,30 @@ public class ControllerLab2 implements Initializable {
     }
 
 
-    private void getFunctionLevels(final UnaryOperator<Double> lowerBoundX,
-                                   final BinaryOperator<Double> functionLevel) {
-        final double minC = 10;
-        final double maxC = 11;
-        final double cStep = 1;
-        for (double C = minC; C < maxC; C += cStep) {
-            final double minX = lowerBoundX.apply(C);
-            final double maxX = 30d;
-            final double xStep = 0.1;
-            final XYChart.Series<Number, Number> series = new XYChart.Series<>();
-            for (double xi = minX; xi < maxX; xi += xStep) {
-                series.getData().add(new XYChart.Data<>(xi, functionLevel.apply(xi, C)));
-            }
-            lineChart.getData().add(series);
+    private void getFunctionLevels() {
+        for (double radius = 0.01; radius < 0.7; radius += 0.05) {
+            drawfromPoint(radius);
+        }
+    }
+
+    private void drawfromPoint(final double radius) {
+        final AbstractGradientMethod.State state = currentIterations.get(currentIterations.size() - 1);
+        final DoubleVector center = state.getPoint();
+        DoubleVector curPoint = center.add(new DoubleVector(0d, radius));
+        final double step = radius / 60;//0.005;
+        final double maxCnt = radius / step * 33;
+        final XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        lineChart.getData().add(series);
+        series.getNode().setStyle("-fx-opacity: 0.5");
+        double cnt = 0;
+        while (cnt < maxCnt) {
+            final DoubleVector gradi = form.gradient(curPoint);
+            final DoubleVector prGradi = new DoubleVector(gradi.get(1), -gradi.get(0));
+            final double length = prGradi.norm();
+            final DoubleVector next = curPoint.add(prGradi.multiplyBy(1 / length * step));
+            curPoint = next;
+            series.getData().add(new XYChart.Data<>(next.get(0), next.get(1)));
+            cnt++;
         }
     }
 

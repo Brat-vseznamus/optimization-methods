@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
     public static void main(final String[] args) {
-        int dim = 100;
+        int dim = 200;
         int mu = 80;
         if (args.length == 2) {
             try {
@@ -21,16 +21,17 @@ public class Main {
             }
         }
 
-        final QuadraticForm form = FormGenerator.generate(dim, mu);
-        // final QuadraticForm form2 = new QuadraticForm(
-        //     new Matrix(new Dou))
+//        final QuadraticForm form = FormGenerator.generate(dim, mu);
+         final QuadraticForm form = new QuadraticForm(
+             new Matrix(new DoubleVector(2d,128d), true),
+                 new DoubleVector(-10d, 30d), 2d);
 
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
         GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 2;
+        final int mode = 1;
         if (mode == 1) {
             // System.out.println(form.getA());
             // System.out.println(form.getB()); 
@@ -46,6 +47,8 @@ public class Main {
             final long end0 = System.currentTimeMillis();
             System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
             System.out.printf("iteration number: %d%n", gradient.getTable().size());
+
+            List<AbstractGradientMethod.State> table = gradient.getTable();
 
             final DoubleVector res3 = new DoubleVector(conjugate.findMin());
             final long end1 = System.currentTimeMillis();

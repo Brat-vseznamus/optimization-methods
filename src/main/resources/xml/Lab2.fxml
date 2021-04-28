@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -155,6 +156,9 @@
          <right>
             <VBox prefHeight="492.0" prefWidth="316.0" BorderPane.alignment="CENTER" />
          </right>
+         <bottom>
+            <Slider fx:id="iterationSlider" prefHeight="51.0" prefWidth="908.0" BorderPane.alignment="CENTER" />
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>
