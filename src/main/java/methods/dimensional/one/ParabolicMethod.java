@@ -4,13 +4,16 @@ import java.util.function.UnaryOperator;
 
 public class ParabolicMethod extends AbstractOneDimensionalMethod {
 
-
     public ParabolicMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
     public ParabolicMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
+    }
+
+    public ParabolicMethod() {
+        super(null);
     }
 
     @Override

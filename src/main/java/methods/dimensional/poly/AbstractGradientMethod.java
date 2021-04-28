@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
+    protected final static double DEFAULT_EPS = 1e-6d;
+
     protected QuadraticForm form;
     protected double eps;
     protected List<State> table;
@@ -17,7 +19,7 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
     }
 
     protected AbstractGradientMethod(final QuadraticForm form) {
-        this(form, 1e-5d);
+        this(form, DEFAULT_EPS);
     }
 
     public List<State> getTable() {
@@ -26,10 +28,10 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
 
     @Override
     public List<Pair<Integer, List<Pair<Integer, Integer>>>> valueAndDimToIterations() {
-        final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100};
-        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 500};
-//        final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100, 200, 500, 1000, 2000};
-//        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
+//        final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100};
+//        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 500};
+        final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100, 200, 500, 1000/*, 2000*/};
+        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000/*, 5000, 10000*/};
 //        final int[] values = new int[]{1, 2, 5};
 //        final int[] dimensions = new int[]{2, 5, 10};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);

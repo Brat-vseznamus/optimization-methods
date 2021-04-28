@@ -27,7 +27,7 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 2;
+        final int mode = 1;
         if (mode == 1) {
             System.out.println(form.getA());
             System.out.println(form.getB()); 
@@ -70,11 +70,10 @@ public class Main {
     private static void outputMethodInfo(final GradientOptimizationMethod method) {
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> methodInfo = method.valueAndDimToIterations();
         for (final Pair<Integer, List<Pair<Integer, Integer>>> row : methodInfo) {
-            System.out.printf("%5d  |  ", row.first);
+            System.out.printf("%d ", row.first);
             for (final Pair<Integer, Integer> cell : row.second) {
-                System.out.printf("%4d ", cell.second);
+                System.out.printf("%d ", cell.second);
             }
-            System.out.println();
             System.out.println();
         }
     }

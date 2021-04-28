@@ -11,6 +11,10 @@ public class BrentsMethod extends AbstractOneDimensionalMethod {
         super(function, eps);
     }
 
+    public BrentsMethod() {
+        super(null);
+    }
+
     public void addInfo(final double l, final double r, final double value, final boolean isParabolic) {
         table.add(new BrentInfo(l, r, value, isParabolic));
     }

@@ -7,13 +7,16 @@ import java.util.function.UnaryOperator;
 public class FibonacciMethod extends AbstractOneDimensionalMethod {
     private List<Long> fs;
 
-
     public FibonacciMethod(final UnaryOperator<Double> function) {
         super(function);
     }
 
     public FibonacciMethod(final UnaryOperator<Double> function, final double eps) {
         super(function, eps);
+    }
+
+    public FibonacciMethod() {
+        super(null);
     }
 
     @Override

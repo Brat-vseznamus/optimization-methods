@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 import methods.Pair;
 
 public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
+    protected final static double DEFAULT_EPS = 1e-6d;
     protected UnaryOperator<Double> function;
     protected List<Info> table;
     protected double eps;
@@ -17,13 +18,25 @@ public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
         table = new ArrayList<>();
     }
 
-    @Override
-    public int getCalculations() {
-        return calcs;
+    protected AbstractOneDimensionalMethod(final double eps) {
+        this(null, eps);
     }
 
     protected AbstractOneDimensionalMethod(final UnaryOperator<Double> function) {
-        this(function, 1e-9d);
+        this(function, DEFAULT_EPS);
+    }
+
+    public UnaryOperator<Double> getFunction() {
+        return function;
+    }
+
+    public void setFunction(final UnaryOperator<Double> function) {
+        this.function = function;
+    }
+
+    @Override
+    public int getCalculations() {
+        return calcs;
     }
 
     @Override

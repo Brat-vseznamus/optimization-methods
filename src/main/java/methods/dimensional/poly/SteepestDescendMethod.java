@@ -6,14 +6,19 @@ import methods.dimensional.one.BrentsMethod;
 import methods.dimensional.one.OneDimensionalOptimizationMethod;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
+    final OneDimensionalOptimizationMethod method;
 
-    public SteepestDescendMethod(final QuadraticForm form, final double eps) {
+    public SteepestDescendMethod(final OneDimensionalOptimizationMethod method,
+                                 final QuadraticForm form, final double eps) {
         super(form, eps);
+        this.method = method;
     }
 
     public SteepestDescendMethod(final QuadraticForm form) {
-        super(form);
+        this(new BrentsMethod(), form, DEFAULT_EPS);
     }
+
+
 
     @Override
     public double[] findMin() {
@@ -39,9 +44,8 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
                 vc = vc.subtract(gradient.multiplyBy(arg));
                 return form.apply(vc);
             };
-            // TODO replace with custom method
-            final OneDimensionalOptimizationMethod brent = new BrentsMethod(function);
-            final double alpha = brent.findMin(a, b);
+            method.setFunction(function);
+            final double alpha = method.findMin(a, b);
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);
             f_x = form.apply(x);
