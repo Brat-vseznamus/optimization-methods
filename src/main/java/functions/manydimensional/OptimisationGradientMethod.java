@@ -1,4 +1,4 @@
-package functions;
+package functions.manydimensional;
 
 import java.util.List;
 

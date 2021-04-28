@@ -1,4 +1,4 @@
-package functions.oneDimensionOptimisation.functions;
+package functions.onedimensional;
 
 import java.util.ArrayList;
 import java.util.List;

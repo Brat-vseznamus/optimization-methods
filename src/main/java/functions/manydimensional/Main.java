@@ -1,6 +1,4 @@
-package functions;
-
-import java.util.stream.Collectors;
+package functions.manydimensional;
 
 public class Main {
     public static void main(final String[] args) {
