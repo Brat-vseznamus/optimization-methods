@@ -1,4 +1,4 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,9 @@ public class Main {
         final double left2 = -1d;
         final double right2 = 1d;
 
-        final OptimizationAlgorithm methodBrent = new BrentsMethod(function);
+        final OneDimensionalOptimizationMethod methodBrent = new BrentsMethod(function);
 
-        final ArrayList<AbstractMethod> methods = new ArrayList<>(List.of(
+        final ArrayList<AbstractOneDimensionalMethod> methods = new ArrayList<>(List.of(
             new DichotomyMethod(function),
             new FibonacciMethod(function),
             new GoldenRatioMethod(function),
@@ -27,7 +27,7 @@ public class Main {
             new ParabolicMethod(function)
         ));
 
-        for (final AbstractMethod method : methods) {
+        for (final AbstractOneDimensionalMethod method : methods) {
             System.out.println(method.getName());
             for (final Pair<Double, Integer> pair : method.lnToCalculations(left, right)) {
                 System.out.println(pair.second);
@@ -35,11 +35,11 @@ public class Main {
         }
 
         methodBrent.findMin(left, right);
-        final List<AbstractMethod.Info> table = methodBrent.getTable();
+        final List<AbstractOneDimensionalMethod.Info> table = methodBrent.getTable();
         System.out.printf("%7s %7s %7s %7s %7s %7s%n", "Iteration", "left", "right", "X", "Y", "leng");
         for (int i = 0, tableSize = table.size(); i < tableSize; i++) {
-            final AbstractMethod.Info info = table.get(i);
-            AbstractMethod.Info prev = null;
+            final AbstractOneDimensionalMethod.Info info = table.get(i);
+            AbstractOneDimensionalMethod.Info prev = null;
             if (i > 0) {
                 prev = table.get(i - 1);
             }

@@ -1,4 +1,4 @@
-package functions.manydimensional;
+package functions.dimensional.poly;
 
 public class GradientDescendMethod extends AbstractGradientMethod {
 

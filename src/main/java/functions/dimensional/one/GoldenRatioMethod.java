@@ -1,8 +1,8 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 
 import java.util.function.UnaryOperator;
 
-public class GoldenRatioMethod extends AbstractMethod {
+public class GoldenRatioMethod extends AbstractOneDimensionalMethod {
     public final static double GOLD = ((Math.sqrt(5d) - 1d) / 2d);
 
     public GoldenRatioMethod(final UnaryOperator<Double> function) {

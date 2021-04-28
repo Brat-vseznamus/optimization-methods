@@ -1,17 +1,17 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.UnaryOperator;
 import functions.Pair;
 
-public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
+public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
     protected UnaryOperator<Double> function;
     protected List<Info> table;
     protected double eps;
     protected int calcs = 0;
 
-    protected AbstractMethod(final UnaryOperator<Double> function, final double eps) {
+    protected AbstractOneDimensionalMethod(final UnaryOperator<Double> function, final double eps) {
         this.function = function;
         this.eps = eps;
         table = new ArrayList<>();
@@ -22,7 +22,7 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
         return calcs;
     }
 
-    protected AbstractMethod(final UnaryOperator<Double> function) {
+    protected AbstractOneDimensionalMethod(final UnaryOperator<Double> function) {
         this(function, 1e-9d);
     }
 

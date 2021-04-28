@@ -1,4 +1,4 @@
-package functions.manydimensional;
+package functions.dimensional.poly;
 
 import java.util.List;
 import java.util.ArrayList;

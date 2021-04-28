@@ -1,8 +1,8 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 
 import java.util.function.UnaryOperator;
 
-public class DichotomyMethod extends AbstractMethod {
+public class DichotomyMethod extends AbstractOneDimensionalMethod {
     private static final double DELTA = 15e-11d;
 
     public DichotomyMethod(final UnaryOperator<Double> function) {

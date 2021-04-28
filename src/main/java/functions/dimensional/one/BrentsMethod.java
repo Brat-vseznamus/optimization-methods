@@ -1,7 +1,7 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 import java.util.function.UnaryOperator;
 
-public class BrentsMethod extends AbstractMethod {
+public class BrentsMethod extends AbstractOneDimensionalMethod {
 
     public BrentsMethod(final UnaryOperator<Double> function) {
         super(function);

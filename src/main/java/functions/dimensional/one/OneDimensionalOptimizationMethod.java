@@ -1,12 +1,12 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 
 import java.util.List;
 import functions.Pair;
 
-public interface OptimizationAlgorithm {
+public interface OneDimensionalOptimizationMethod {
     double findMin(double a, double b);
 
-    List<AbstractMethod.Info> getTable();
+    List<AbstractOneDimensionalMethod.Info> getTable();
 
     List<Pair<Double, Integer>> lnToCalculations(double l, double r);
 

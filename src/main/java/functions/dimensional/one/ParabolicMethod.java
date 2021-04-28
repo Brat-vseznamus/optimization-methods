@@ -1,8 +1,8 @@
-package functions.onedimensional;
+package functions.dimensional.one;
 
 import java.util.function.UnaryOperator;
 
-public class ParabolicMethod extends AbstractMethod {
+public class ParabolicMethod extends AbstractOneDimensionalMethod {
 
 
     public ParabolicMethod(final UnaryOperator<Double> function) {
