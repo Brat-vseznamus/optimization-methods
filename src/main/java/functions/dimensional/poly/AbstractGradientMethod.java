@@ -3,7 +3,7 @@ package functions.dimensional.poly;
 import java.util.List;
 import java.util.ArrayList;
 
-public abstract class AbstractGradientMethod implements OptimisationGradientMethod {
+public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
     protected QuadraticForm form;
     protected double eps;
     protected List<State> table;
@@ -26,7 +26,7 @@ public abstract class AbstractGradientMethod implements OptimisationGradientMeth
         private final DoubleVector point;
         private final double value;
 
-        public State(DoubleVector point, double value) {
+        public State(final DoubleVector point, final double value) {
             this.point = point;
             this.value = value;
         }

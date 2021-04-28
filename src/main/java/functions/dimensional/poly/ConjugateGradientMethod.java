@@ -21,7 +21,7 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
         DoubleVector p = form.gradient(x).multiplyBy(-1);
         DoubleVector xNext = x;
         do {
-            final DoubleVector[] result = iteration(x, xNext, p);
+            final DoubleVector[] result = iteration(xNext, p);
             x = result[0];
             table.add(new State(x, form.apply(x)));
             xNext = result[1];
@@ -31,10 +31,9 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
         return x.stream().mapToDouble(v -> v).toArray();
     }
 
-    private DoubleVector[] iteration(DoubleVector x,
-                            DoubleVector xNext,
-                            DoubleVector p) {
-        x = xNext;
+    private DoubleVector[] iteration(DoubleVector xNext,
+                                     DoubleVector p) {
+        final DoubleVector x = xNext;
         DoubleVector gradient = form.gradient(x);
         final double denominator = (a.multiply(p)).scalar(p);
         // count alpha_k

@@ -1,4 +1,6 @@
-package functions.dimensional.poly;
+package functions;
+
+import functions.dimensional.poly.*;
 
 public class Main {
     public static void main(final String[] args) {
@@ -18,9 +20,9 @@ public class Main {
       
         final QuadraticForm form = FormGenerator.generate(dim, mu);
       
-        final OptimisationGradientMethod method = new GradientDescendMethod(form);
-        final OptimisationGradientMethod method2 = new SteepestDescendMethod(form);
-        final OptimisationGradientMethod method3 = new ConjugateGradientMethod(form);
+        final GradientOptimizationMethod method = new GradientDescendMethod(form);
+        final GradientOptimizationMethod method2 = new SteepestDescendMethod(form);
+        final GradientOptimizationMethod method3 = new ConjugateGradientMethod(form);
       
         final long start = System.currentTimeMillis();
         final DoubleVector res1 = new DoubleVector(method.findMin());
@@ -43,10 +45,5 @@ public class Main {
         System.out.printf("iteration number: %d%n", method3.getTable().size());
 
         System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
-
-        // System.out.printf();
-        // System.out.printf();
     }
-
 }
-
