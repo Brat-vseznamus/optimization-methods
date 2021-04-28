@@ -10,6 +10,9 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
         super(form);
     }
 
+    public ConjugateGradientMethod() {
+        super();
+    }
 
     @Override
     public double[] findMin() {

@@ -12,6 +12,14 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
     protected double eps;
     protected List<State> table;
 
+    public QuadraticForm getForm() {
+        return form;
+    }
+
+    public void setForm(final QuadraticForm form) {
+        this.form = form;
+    }
+
     protected AbstractGradientMethod(final QuadraticForm form, final double eps) {
         this.form = form;
         this.eps = eps;
@@ -20,6 +28,10 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
 
     protected AbstractGradientMethod(final QuadraticForm form) {
         this(form, DEFAULT_EPS);
+    }
+
+    public AbstractGradientMethod() {
+        this(null);
     }
 
     public List<State> getTable() {

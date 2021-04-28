@@ -1,5 +1,6 @@
 package methods;
 
+import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 
 import java.util.List;
@@ -20,18 +21,19 @@ public class Main {
             }
         }
 
-        final QuadraticForm form = FormGenerator.generate(dim, mu);
-
+        //QuadraticForm form = FormGenerator.generate(dim, mu);
+        QuadraticForm form = new QuadraticForm(new Matrix(new DoubleVector(2d, 128d), true),
+                new DoubleVector(-10d, 30d), 2d);
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
-        final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
+        GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 1;
+        final int mode = 3;
         if (mode == 1) {
             System.out.println(form.getA());
-            System.out.println(form.getB()); 
-            DoubleVector v = new DoubleVector(1d, 1d, 1d);
+            System.out.println(form.getB());
+            final DoubleVector v = new DoubleVector(1d, 1d, 1d);
             // System.out.println(form.getA().multiply(v));
             // System.out.println(v.multiply(form.getA()));
             // System.out.println(form.gradient(v));
@@ -64,6 +66,23 @@ public class Main {
             outputMethodInfo(steepest);
             System.out.println("Conjugate:");
             outputMethodInfo(conjugate);
+        } else if (mode == 3) {
+            final DrawableMethod
+                    dich = new DichotomyMethod();
+            final DrawableMethod gold = new GoldenRatioMethod();
+            final DrawableMethod fib = new FibonacciMethod();
+            final DrawableMethod parab = new ParabolicMethod();
+            final DrawableMethod brents = new BrentsMethod();
+            final DrawableMethod[] methods = new DrawableMethod[]{
+                    dich, gold, fib, parab, brents
+            };
+            form = FormGenerator.generate(20, 5);
+            for (final DrawableMethod method : methods) {
+                System.out.println(method.getName());
+                steepest = new SteepestDescendMethod(method, form);
+                steepest.findMin();
+                System.out.println(steepest.getTable().size());
+            }
         }
     }
 

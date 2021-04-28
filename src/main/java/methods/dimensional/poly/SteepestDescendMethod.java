@@ -14,11 +14,22 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         this.method = method;
     }
 
+    public SteepestDescendMethod(final OneDimensionalOptimizationMethod method,
+                                 final QuadraticForm form) {
+        this(method, form, DEFAULT_EPS);
+    }
+
     public SteepestDescendMethod(final QuadraticForm form) {
         this(new BrentsMethod(), form, DEFAULT_EPS);
     }
 
+    public SteepestDescendMethod(final OneDimensionalOptimizationMethod method) {
+        this(method, null);
+    }
 
+    public SteepestDescendMethod() {
+        this(null, null);
+    }
 
     @Override
     public double[] findMin() {
