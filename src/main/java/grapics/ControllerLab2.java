@@ -1,6 +1,5 @@
 package grapics;
 
-import grapics.contour.Contour2DMap;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +46,15 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private Text sizeIterationsText;
 
-    private final BinaryOperator<Double> function = (x, y) -> x * x + 2 * y * y;
+    private final BinaryOperator<Double> function =
+            (x, y) -> 64 * x * x + 126 * x * y + 64 * y * y - 10 * x + 30 * y + 13;
+    private final BinaryOperator<Double> functionLevelPositive = (x, c) ->
+            ((Math.sqrt(64 * c) - 127 * x * x + 2530 * x - 607) - 63 * x - 15) / 64d;
+    private final BinaryOperator<Double> functionLevelNegative = (x, c) ->
+            ((-Math.sqrt(64 * c) - 127 * x * x + 2530 * x - 607) - 63 * x - 15) / 64d;
+    private final UnaryOperator<Double> lowerBoundX = (c) ->
+            (127 * c * c - 2530 * c + 607) / 64d;
+
     private final UnaryOperator<Double> function1 = x -> x * x + Math.exp(-0.35d * x);
     private final UnaryOperator<Double> function2 = x -> 40 * x * x * x * x * x
             - 12 * x * x * x * x
@@ -113,8 +120,9 @@ public class ControllerLab2 implements Initializable {
 
     private void initializeLineChart() {
         lineChart.getData().clear();
-        getFunctionLevels(function);
-
+        getFunctionLevels(lowerBoundX, functionLevelPositive);
+        getFunctionLevels(lowerBoundX, functionLevelNegative);
+        int x = 1;
 
     }
 
@@ -204,26 +212,21 @@ public class ControllerLab2 implements Initializable {
     }
 
 
-    private void getFunctionLevels(final BinaryOperator<Double> function) {
-        final double minX = -1, maxX = 1, minY = -1, maxY = 1, step = 0.5;
-        final int xSize = (int) ((maxX - minX) / step), ySize = (int) ((maxY - minY) / step);
-        final double[][] values = new double[xSize][ySize];
-        for (double x = minX; x < maxX; x += step) {
-            for (double y = minY; y < maxY; y += step) {
-                final int xi = (int) ((x - minX) / step);
-                final int yi = (int) ((y - minY) / step);
-                values[xi][yi] = function.apply(x, y);
+    private void getFunctionLevels(final UnaryOperator<Double> lowerBoundX,
+                                   final BinaryOperator<Double> functionLevel) {
+        final double minC = 10;
+        final double maxC = 11;
+        final double cStep = 1;
+        for (double C = minC; C < maxC; C += cStep) {
+            final double minX = lowerBoundX.apply(C);
+            final double maxX = 30d;
+            final double xStep = 0.1;
+            final XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            for (double xi = minX; xi < maxX; xi += xStep) {
+                series.getData().add(new XYChart.Data<>(xi, functionLevel.apply(xi, C)));
             }
+            lineChart.getData().add(series);
         }
-        Contour2DMap contour2DMap = new Contour2DMap(xSize, ySize);
-        contour2DMap.setData(values);
-        contour2DMap.setIsoFactor(1.0);
-        contour2DMap.setInterpolationFactor(1);
-        contour2DMap.setMapColorScale("Color");
-        final XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        contour2DMap.draw(lineChart, series);
-        //lineChart.getData().add(series);
-        //series.getNode().setStyle("-fx-stroke:#0000ff;-fx-stroke-width:1");
     }
 
 }
