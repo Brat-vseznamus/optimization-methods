@@ -11,8 +11,6 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
     }
 
 
-    Matrix a = form.getA();
-
     @Override
     public double[] findMin() {
         final int n = form.getN();
@@ -26,7 +24,7 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
             table.add(new State(x, form.apply(x)));
             xNext = result[1];
             p = result[2];
-        
+
         } while (xNext.subtract(x).norm() >= eps);
         return x.stream().mapToDouble(v -> v).toArray();
     }
@@ -35,17 +33,17 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
                                      DoubleVector p) {
         final DoubleVector x = xNext;
         DoubleVector gradient = form.gradient(x);
-        final double denominator = (a.multiply(p)).scalar(p);
+        final double denominator = (form.getA().multiply(p)).scalar(p);
         // count alpha_k
         final double alpha = -(gradient.scalar(p)) / denominator;
         // update x_k+1
         xNext = x.add(p.multiplyBy(alpha));
         // count beta_k
         gradient = form.gradient(xNext);
-        final double beta = (a.multiply(gradient)).scalar(p) / denominator;
+        final double beta = (form.getA().multiply(gradient)).scalar(p) / denominator;
         // update p_k+1
         p = (p.multiplyBy(beta)).subtract(gradient);
         return new DoubleVector[]{x, xNext, p};
-    } 
-    
+    }
+
 }

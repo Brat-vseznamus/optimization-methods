@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Main {
     public static void main(final String[] args) {
-        int dim = 4;
-        int mu = 3;
+        int dim = 100;
+        int mu = 80;
         if (args.length != 0 && args.length != 2) {
             try {
                 dim = Integer.parseInt(args[0]);
@@ -19,7 +19,7 @@ public class Main {
                 return;
             }
         }
-      
+
         final QuadraticForm form = FormGenerator.generate(dim, mu);
 
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
@@ -27,34 +27,37 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-//        final long start = System.currentTimeMillis();
-//        final DoubleVector res1 = new DoubleVector(method.findMin());
-//        System.out.println(res1);
-//        final long end0 = System.currentTimeMillis();
-//        final DoubleVector res2 = new DoubleVector(method2.findMin());
-//        final long end1 = System.currentTimeMillis();
-//        final DoubleVector res3 = new DoubleVector(method3.findMin());
-//        final long end2 = System.currentTimeMillis();
-//        System.out.printf("differences: %f, %f%n", res1.subtract(res2).norm(), res1.subtract(res3).norm());
-//        final String timeFormat = "Time for %s: %f sec.%n";
-//
-//        System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
-//        System.out.printf("iteration number: %d%n", method.getTable().size());
-//
-//        System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
-//        System.out.printf("iteration number: %d%n", method2.getTable().size());
-//
-//        System.out.printf(timeFormat, "ConjugateGradientMethod", (end2 - end1) / 1000.0);
-//        System.out.printf("iteration number: %d%n", method3.getTable().size());
-//
-//        System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
+        final int mode = 2;
+        if (mode == 1) {
+            final long start = System.currentTimeMillis();
+            final DoubleVector res1 = new DoubleVector(gradient.findMin());
+            System.out.println(res1);
+            final long end0 = System.currentTimeMillis();
+            final DoubleVector res2 = new DoubleVector(steepest.findMin());
+            final long end1 = System.currentTimeMillis();
+            final DoubleVector res3 = new DoubleVector(conjugate.findMin());
+            final long end2 = System.currentTimeMillis();
+            System.out.printf("differences: %f, %f%n", res1.subtract(res2).norm(), res1.subtract(res3).norm());
+            final String timeFormat = "Time for %s: %f sec.%n";
 
-        System.out.println("Gradient:");
-        outputMethodInfo(gradient);
-        System.out.println("Steepest:");
-        outputMethodInfo(steepest);
-        System.out.println("Conjugate:");
-        outputMethodInfo(conjugate);
+            System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
+            System.out.printf("iteration number: %d%n", gradient.getTable().size());
+
+            System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
+            System.out.printf("iteration number: %d%n", steepest.getTable().size());
+
+            System.out.printf(timeFormat, "ConjugateGradientMethod", (end2 - end1) / 1000.0);
+            System.out.printf("iteration number: %d%n", conjugate.getTable().size());
+
+            System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
+        } else if (mode == 2) {
+            System.out.println("Gradient:");
+            outputMethodInfo(gradient);
+            System.out.println("Steepest:");
+            outputMethodInfo(steepest);
+            System.out.println("Conjugate:");
+            outputMethodInfo(conjugate);
+        }
     }
 
     private static void outputMethodInfo(final GradientOptimizationMethod method) {
