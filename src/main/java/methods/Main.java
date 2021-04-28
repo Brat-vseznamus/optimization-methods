@@ -27,7 +27,7 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 1;
+        final int mode = 2;
         if (mode == 1) {
             System.out.println(form.getA());
             System.out.println(form.getB()); 
