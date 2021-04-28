@@ -1,10 +1,10 @@
-package functions.onedim;
+package methods.dimensional.one;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-public class FibonacciMethod extends AbstractMethod {
+public class FibonacciMethod extends AbstractOneDimensionalMethod {
     private List<Long> fs;
 
 

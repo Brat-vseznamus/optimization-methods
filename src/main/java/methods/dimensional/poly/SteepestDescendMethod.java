@@ -1,8 +1,9 @@
-package functions;
+package methods.dimensional.poly;
 
 import java.util.function.UnaryOperator;
 
-import functions.onedim.*;
+import methods.dimensional.one.BrentsMethod;
+import methods.dimensional.one.OneDimensionalOptimizationMethod;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
 
@@ -19,9 +20,8 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         final int n = form.getN();
         // step 1
         DoubleVector x = new DoubleVector(n);
-        DoubleVector y = new DoubleVector(n); 
         double f_x = form.apply(x);
-        double f_y = 0;
+        table.add(new State(x, f_x));
 
         while (true) {
             // step 2
@@ -39,13 +39,13 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
                 vc = vc.subtract(gradient.multiplyBy(arg));
                 return form.apply(vc);
             };
-            final OptimizationAlgorithm brent = new BrentsMethod(function);
+            // TODO replace with custom method
+            final OneDimensionalOptimizationMethod brent = new BrentsMethod(function);
             final double alpha = brent.findMin(a, b);
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
-            y = x.subtract(alphaX);
-            f_y = form.apply(y);
-            x = y;
-            f_x = f_y;
+            x = x.subtract(alphaX);
+            f_x = form.apply(x);
+            table.add(new State(x, f_x));
         }
         return x.stream().mapToDouble(v -> v).toArray();
     }

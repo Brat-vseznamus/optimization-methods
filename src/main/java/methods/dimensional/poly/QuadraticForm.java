@@ -1,4 +1,4 @@
-package functions;
+package methods.dimensional.poly;
 
 import java.util.Comparator;
 import java.util.Objects;

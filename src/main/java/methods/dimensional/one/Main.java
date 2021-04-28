@@ -1,8 +1,9 @@
-package functions.onedim;
+package methods.dimensional.one;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
+import methods.Pair;
 
 public class Main {
     public static void main(final String[] args) {
@@ -16,19 +17,9 @@ public class Main {
         final double left2 = -1d;
         final double right2 = 1d;
 
-        // System.out.println(new DichotomyMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new FibonacciMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new GoldenRatioMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new BrentsMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new ParabolicMethod(multimodulfunction, 1e-9).findMin(left2, right2));
+        final OneDimensionalOptimizationMethod methodBrent = new BrentsMethod(function);
 
-
-        final OptimizationAlgorithm methodBrent = new BrentsMethod(function);
-        // for (AbstractMethod.Pair<Double, Integer> pair : methodBrent.lnToCalculations(left, right)) {
-        //     System.out.println(pair.b);
-        // }
-
-        final ArrayList<AbstractMethod> methods = new ArrayList<>(List.of(
+        final ArrayList<AbstractOneDimensionalMethod> methods = new ArrayList<>(List.of(
             new DichotomyMethod(function),
             new FibonacciMethod(function),
             new GoldenRatioMethod(function),
@@ -36,19 +27,19 @@ public class Main {
             new ParabolicMethod(function)
         ));
 
-        for (final AbstractMethod method : methods) {
+        for (final AbstractOneDimensionalMethod method : methods) {
             System.out.println(method.getName());
-            for (final AbstractMethod.Pair<Double, Integer> pair : method.lnToCalculations(left, right)) {
-                System.out.println(pair.b);
+            for (final Pair<Double, Integer> pair : method.lnToCalculations(left, right)) {
+                System.out.println(pair.second);
             }
         }
 
         methodBrent.findMin(left, right);
-        final List<AbstractMethod.Info> table = methodBrent.getTable();
+        final List<AbstractOneDimensionalMethod.Info> table = methodBrent.getTable();
         System.out.printf("%7s %7s %7s %7s %7s %7s%n", "Iteration", "left", "right", "X", "Y", "leng");
         for (int i = 0, tableSize = table.size(); i < tableSize; i++) {
-            final AbstractMethod.Info info = table.get(i);
-            AbstractMethod.Info prev = null;
+            final AbstractOneDimensionalMethod.Info info = table.get(i);
+            AbstractOneDimensionalMethod.Info prev = null;
             if (i > 0) {
                 prev = table.get(i - 1);
             }
