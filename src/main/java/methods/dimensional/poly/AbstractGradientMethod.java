@@ -40,24 +40,18 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
 
     @Override
     public List<Pair<Integer, List<Pair<Integer, Integer>>>> valueAndDimToIterations() {
-        // final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100};
-        // final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 500};
-    //    final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100, 200, 500, 1000};
-       final int[] values = new int[]{2000};
-    
-       final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
-//        final int[] values = new int[]{1, 2, 5};
-//        final int[] dimensions = new int[]{2, 5, 10};
+        final int[] values = new int[]{2000};
+        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
         for (final int value : values) {
             System.out.print(value);
             result.add(new Pair<>(value, new ArrayList<>(dimensions.length)));
             for (final int dim : dimensions) {
                 try {
-                form = FormGenerator.generate(dim, value);
-                table.clear();
-                findMin();
-                result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
+                    form = FormGenerator.generate(dim, value);
+                    table.clear();
+                    findMin();
+                    result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
                 } catch (final Exception e) {
                     System.err.println("aaa");
                     return result;
