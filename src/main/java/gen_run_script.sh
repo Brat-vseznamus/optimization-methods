@@ -1,5 +1,5 @@
 #!/bin/bash
 
-javac functions/oneDimensionOptimisation/functions/*.java
+javac functions/onedim/*.java
 javac functions/*.java
-java functions.Main $@
+java -Xmx1g functions.Main $@

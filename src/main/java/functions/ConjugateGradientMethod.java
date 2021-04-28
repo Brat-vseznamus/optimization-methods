@@ -24,7 +24,7 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
             x = result[0];
             xNext = result[1];
             p = result[2];
-        
+            System.out.printf("%s, %s, %s%n", x.toString(), xNext.toString(), p.toString());
         } while (xNext.subtract(x).norm() >= eps);
         return x.stream().mapToDouble(v -> v).toArray();
     }

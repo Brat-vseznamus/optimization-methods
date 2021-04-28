@@ -1,4 +1,5 @@
-package functions.oneDimensionOptimisation.functions;
+package functions.onedim;
+
 import java.util.function.UnaryOperator;
 
 public class BrentsMethod extends AbstractMethod {

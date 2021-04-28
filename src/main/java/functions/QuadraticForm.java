@@ -29,6 +29,7 @@ public class QuadraticForm {
         this.values = values;
         this.minValue = values.stream().min(Comparator.naturalOrder()).orElse(0d);
         this.maxValue = values.stream().max(Comparator.naturalOrder()).orElse(0d);
+
     }
 
     public QuadraticForm(final Matrix a, final DoubleVector b, final Double c) {
@@ -56,6 +57,9 @@ public class QuadraticForm {
     }
 
     private boolean checkMatrix() {
+        if (a.isDiagonal()) {
+            return true;
+        }
         final IntPredicate checkRow = i -> range().allMatch(j -> compare(a.get(i, j), a.get(j, i)));
         return a.stream().allMatch(row -> row.size() == n) && range().allMatch(checkRow);
     }
@@ -65,11 +69,18 @@ public class QuadraticForm {
     }
 
     public double apply(final DoubleVector x) {
+        if (a.isDiagonal()) {
+            // System.out.println(a + " : " + ((a.multiply(x)).scalar(x) / 2d + scalarProduct(x, b) + c));
+            return scalarProduct(a.get(0), x) / 2d + scalarProduct(x, b) + c;
+        }
         return scalarProduct(new DoubleVector(range().mapToDouble(i -> scalarProduct(x, a.get(i))).toArray()), x) / 2d
             + scalarProduct(x, b) + c;
     }
 
     public DoubleVector gradient(final DoubleVector x) {
+        if (a.isDiagonal()) {
+            return a.multiply(x);
+        }
         return new DoubleVector(range().mapToDouble(i -> (scalarProduct(x, a.get(i)) + b.get(i))).toArray());
     }
 

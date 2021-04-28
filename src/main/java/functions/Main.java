@@ -29,6 +29,7 @@ public class Main {
             }
         }
         final QuadraticForm form = FormGenerator.generate(dim, mu);
+        System.out.println(form.getA());
         // System.out.println(form.getA());
         // System.out.println(form.getB());       
         final OptimisationGradientMethod method = new GradientDescendMethod(form);

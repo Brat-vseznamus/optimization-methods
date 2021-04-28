@@ -91,7 +91,7 @@ public class DoubleVector {
 
     public DoubleVector multiply(final Matrix matrix) {
         if (n != matrix.getN()) {
-            throw new IndexOutOfBoundsException("cringe");
+            throw new IllegalArgumentException("cringe");
         }
         return  matrix.transpose().multiply(this);
     }

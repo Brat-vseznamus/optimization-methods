@@ -2,8 +2,7 @@ package functions;
 
 import java.util.function.UnaryOperator;
 
-import functions.oneDimensionOptimisation.functions.BrentsMethod;
-import functions.oneDimensionOptimisation.functions.OptimizationAlgorithm;
+import functions.onedim.*;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
 
