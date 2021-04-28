@@ -1,9 +1,9 @@
-package functions.dimensional.one;
+package methods.dimensional.one;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.UnaryOperator;
-import functions.Pair;
+import methods.Pair;
 
 public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
     protected UnaryOperator<Double> function;

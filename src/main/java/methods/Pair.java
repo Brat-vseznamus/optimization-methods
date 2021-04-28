@@ -1,4 +1,4 @@
-package functions;
+package methods;
 
 public class Pair<F, S> {
     public F first;

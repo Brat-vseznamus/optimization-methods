@@ -1,4 +1,4 @@
-package functions.dimensional.poly;
+package methods.dimensional.poly;
 
 import java.util.Random;
 import java.util.stream.IntStream;

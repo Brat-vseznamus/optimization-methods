@@ -1,9 +1,9 @@
-package functions.dimensional.one;
+package methods.dimensional.one;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
-import functions.Pair;
+import methods.Pair;
 
 public class Main {
     public static void main(final String[] args) {

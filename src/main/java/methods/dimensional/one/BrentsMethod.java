@@ -1,4 +1,4 @@
-package functions.dimensional.one;
+package methods.dimensional.one;
 import java.util.function.UnaryOperator;
 
 public class BrentsMethod extends AbstractOneDimensionalMethod {

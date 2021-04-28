@@ -1,7 +1,7 @@
-package functions.dimensional.one;
+package methods.dimensional.one;
 
 import java.util.List;
-import functions.Pair;
+import methods.Pair;
 
 public interface OneDimensionalOptimizationMethod {
     double findMin(double a, double b);

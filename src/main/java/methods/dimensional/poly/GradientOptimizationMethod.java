@@ -1,6 +1,6 @@
-package functions.dimensional.poly;
+package methods.dimensional.poly;
 
-import functions.Pair;
+import methods.Pair;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package functions.dimensional.poly;
+package methods.dimensional.poly;
 
 import java.util.function.UnaryOperator;
 
-import functions.dimensional.one.BrentsMethod;
-import functions.dimensional.one.OneDimensionalOptimizationMethod;
+import methods.dimensional.one.BrentsMethod;
+import methods.dimensional.one.OneDimensionalOptimizationMethod;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
 

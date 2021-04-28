@@ -1,6 +1,6 @@
 package grapics;
 
-import functions.oneDimensionOptimisation.functions.*;
+import methods.oneDimensionOptimisation.functions.*;
 import javafx.animation.TranslateTransition;
 
 import javafx.event.ActionEvent;

@@ -1,4 +1,4 @@
-package functions.dimensional.poly;
+package methods.dimensional.poly;
 
 public class ConjugateGradientMethod extends AbstractGradientMethod {
 
