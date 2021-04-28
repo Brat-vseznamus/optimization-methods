@@ -1,6 +1,5 @@
 package methods;
 
-import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 
 import java.util.List;
@@ -23,11 +22,11 @@ public class Main {
 
 //        final QuadraticForm form = FormGenerator.generate(dim, mu);
          final QuadraticForm form = new QuadraticForm(
-             new Matrix(new DoubleVector(2d,128d), true),
+             new Matrix(new DoubleVector(2d,128d)),
                  new DoubleVector(-10d, 30d), 2d);
 
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
-        GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
+        final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
@@ -35,7 +34,7 @@ public class Main {
         if (mode == 1) {
             // System.out.println(form.getA());
             // System.out.println(form.getB()); 
-            DoubleVector v = new DoubleVector(1d, 1d, 1d);
+            final DoubleVector v = new DoubleVector(1d, 1d, 1d);
             // System.out.println(form.getA().multiply(v));
             // System.out.println(v.multiply(form.getA()));
             // System.out.println(form.gradient(v));
@@ -48,7 +47,7 @@ public class Main {
             System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
             System.out.printf("iteration number: %d%n", gradient.getTable().size());
 
-            List<AbstractGradientMethod.State> table = gradient.getTable();
+            final List<AbstractGradientMethod.State> table = gradient.getTable();
 
             final DoubleVector res3 = new DoubleVector(conjugate.findMin());
             final long end1 = System.currentTimeMillis();

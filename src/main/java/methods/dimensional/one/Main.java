@@ -12,7 +12,7 @@ public class Main {
         final double left = -2d;
         final double right = 3d;
 
-        final UnaryOperator<Double> multimodulfunction = x -> Math.sin(1 / x);
+        final UnaryOperator<Double> multimodalFunction = x -> Math.sin(1 / x);
 
         final double left2 = -1d;
         final double right2 = 1d;

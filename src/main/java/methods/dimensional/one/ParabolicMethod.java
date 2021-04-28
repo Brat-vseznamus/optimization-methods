@@ -20,7 +20,7 @@ public class ParabolicMethod extends AbstractOneDimensionalMethod {
     public double findMin(final double a, final double b) {
         // step 1:
         final double[] values = initValues(a, (a + b) / 2, b);
-        calcs = 0;
+        calculations = 0;
         double x1 = values[0],
                 x2 = values[1],
                 x3 = values[2],
@@ -40,7 +40,7 @@ public class ParabolicMethod extends AbstractOneDimensionalMethod {
             xi = xi2;
             xi2 = getMin(x1, x2, x3, fx1, fx2, fx3);
             fxi = function.apply(xi2);
-            calcs++;
+            calculations++;
             // step 5:
             if (x1 < xi2 && xi2 < x2) {
                 if (fxi >= fx2) {
@@ -81,7 +81,7 @@ public class ParabolicMethod extends AbstractOneDimensionalMethod {
         double fx1 = function.apply(x1);
         double fx2 = function.apply(x2);
         double fx3 = function.apply(x3);
-        calcs += 3;
+        calculations += 3;
         // step 1:
         while (!(fx1 >= fx2 && fx2 <= fx3)) {
             if (fx1 < fx3) {
@@ -93,7 +93,7 @@ public class ParabolicMethod extends AbstractOneDimensionalMethod {
             }
             x2 = (x1 + x3) / 2d;
             fx2 = function.apply(x2);
-            calcs++;
+            calculations++;
         }
         return new double[]{x1, x2, x3, fx1, fx2, fx3};
     }

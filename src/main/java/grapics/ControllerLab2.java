@@ -18,6 +18,7 @@ import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -46,8 +47,8 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private Text sizeIterationsText;
 
-    final QuadraticForm form = new QuadraticForm(
-            new Matrix(new DoubleVector(60d, 2d), true),
+    QuadraticForm form = new QuadraticForm(
+            new Matrix(new DoubleVector(60d, 2d)),
             new DoubleVector(-10d, 10d), 2d);
 
 
@@ -55,12 +56,22 @@ public class ControllerLab2 implements Initializable {
     private List<AbstractGradientMethod.State> currentIterations;
     private int currentIteration = 0;
 
+
+    private final List<XYChart.Series<Number, Number>> levels = new ArrayList<>();
+    private final List<QuadraticForm> forms = new ArrayList<>(List.of(
+            new QuadraticForm(
+                    new Matrix(new DoubleVector(60d, 2d)),
+                    new DoubleVector(-10d, 10d), 2d),
+            new QuadraticForm(
+                    new Matrix(new DoubleVector(0.5d, 32d)),
+                    new DoubleVector(-5d, 15d), 2d)
+    ));
+
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
 
         Exit.setOnMouseClicked(event -> System.exit(0));
         slider.setTranslateX(-176);
-
         Menu.setOnMouseClicked(this::openMenu);
         MenuClose.setOnMouseClicked(this::closeMenu);
 
@@ -91,19 +102,22 @@ public class ControllerLab2 implements Initializable {
 
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
 
-        initializeLineChart();
+
+        loadGradient();
     }
 
-    private void initializeLineChart() {
+    private void initializeLineChart(final GradientOptimizationMethod method) {
+
         lineChart.getData().clear();
-        final GradientOptimizationMethod steepest = new ConjugateGradientMethod(form);
-        steepest.findMin();
+        levels.clear();
+        method.findMin();
         currentSeries = new XYChart.Series<>();
-        currentIterations = steepest.getTable();
+        currentSeries.setName(method.getName());
+        currentIterations = method.getTable();
         currentIteration = 0;
-        sizeIterationsText.setText(Integer.toString(currentIterations.size()));
         getFunctionLevels();
         lineChart.getData().add(currentSeries);
+        sizeIterationsText.setText(Integer.toString(currentIterations.size()));
         updateCurrentSeries();
     }
 
@@ -120,26 +134,51 @@ public class ControllerLab2 implements Initializable {
         currentSeries.getData().clear();
     }
 
-    @FXML
-    private void prevIteration() {
-        if (currentIterations == null || currentIteration == 0) return;
-        currentIteration--;
-        currentSeries.getData().remove(currentIteration, currentSeries.getData().size());
-        currentIterationText.setText(Integer.toString(currentIteration));
-        updateCurrentSeries();
+
+    private void prevIteration(final int cnt) {
+        int i = cnt;
+        while (i-- > 0) {
+            if (currentIterations == null || currentIteration == 0) return;
+            currentIteration--;
+            currentSeries.getData().remove(currentIteration, currentSeries.getData().size());
+            currentIterationText.setText(Integer.toString(currentIteration));
+            updateCurrentSeries();
+        }
     }
 
-    @FXML
-    private void nextIteration() {
-        if (currentIterations == null) return;
-        int i = 10;
+
+    private void nextIteration(final int cnt) {
+        int i = cnt;
         while (i-- > 0) {
+            if (currentIterations == null) return;
             if (currentIteration < currentIterations.size() - 1) {
                 currentIteration++;
                 currentIterationText.setText(Integer.toString(currentIteration));
                 updateCurrentSeries();
+            } else {
+                return;
             }
         }
+    }
+
+    @FXML
+    private void nextIteration() {
+        nextIteration(1);
+    }
+
+    @FXML
+    private void nextIterationTen() {
+        nextIteration(10);
+    }
+
+    @FXML
+    private void prevIteration() {
+        prevIteration(1);
+    }
+
+    @FXML
+    private void prevIterationTen() {
+        prevIteration(10);
     }
 
     private void addPoint(final XYChart.Series<Number, Number> series, final Number x, final Number y) {
@@ -164,6 +203,7 @@ public class ControllerLab2 implements Initializable {
             Menu.setVisible(false);
             MenuClose.setVisible(true);
         });
+
     }
 
     private void closeMenu(final MouseEvent event) {
@@ -192,7 +232,9 @@ public class ControllerLab2 implements Initializable {
 
     private void drawFromPoint(final double radius, final double maxR) {
         final XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName(null);
         lineChart.getData().add(series);
+        levels.add(series);
         final DoubleVector rgb = new DoubleVector(0d, 0d, 0d)
                 .add(new DoubleVector(106d, 0d, 255d))
                 .multiplyBy(radius / maxR);
@@ -219,4 +261,49 @@ public class ControllerLab2 implements Initializable {
         }
     }
 
+    @FXML
+    private void loadGradient() {
+        initializeLineChart(new GradientDescendMethod(form));
+    }
+
+    @FXML
+    private void loadSteepest() {
+        initializeLineChart(new SteepestDescendMethod(form));
+    }
+
+    @FXML
+    private void loadConjugate() {
+        initializeLineChart(new ConjugateGradientMethod(form));
+    }
+
+    @FXML
+    private void showOrHideLevels() {
+        levels.forEach(s -> {
+            final StringBuilder oldStyle = new StringBuilder(s.getNode().getStyle());
+            final int ind = oldStyle.indexOf("-fx-stroke-width: ");
+            if (ind == -1) {
+                oldStyle.append("; -fx-stroke-width: 0px");
+            } else {
+                if (oldStyle.charAt(ind + 18) == '0') {
+                    oldStyle.setCharAt(ind + 18, '3');
+                } else {
+                    oldStyle.setCharAt(ind + 18, '0');
+                }
+            }
+            s.getNode().setStyle(oldStyle.toString());
+        });
+    }
+
+
+    @FXML
+    private void setFunction1() {
+        form = forms.get(0);
+        loadGradient();
+    }
+
+    @FXML
+    private void setFunction2() {
+        form = forms.get(1);
+        loadGradient();
+    }
 }

@@ -20,7 +20,7 @@ public class GoldenRatioMethod extends AbstractOneDimensionalMethod {
     @Override
     public double findMin(double a, double b) {
         table.clear();
-        calcs = 0;
+        calculations = 0;
         double epsN = (b - a) / 2d;
 
         // step 1
@@ -28,7 +28,7 @@ public class GoldenRatioMethod extends AbstractOneDimensionalMethod {
         double x2 = a + GOLD * (b - a);
         double fx1 = function.apply(x1);
         double fx2 = function.apply(x2);
-        calcs += 2;
+        calculations += 2;
         // step 2
         while (epsN > eps) {
             // step 3
@@ -47,7 +47,7 @@ public class GoldenRatioMethod extends AbstractOneDimensionalMethod {
                 x2 = a + GOLD * (b - a);
                 fx2 = function.apply(x2);
             }
-            calcs++;
+            calculations++;
             addInfo(a, b, (a + b) / 2d);
             epsN = (b - a) / 2d;
         }

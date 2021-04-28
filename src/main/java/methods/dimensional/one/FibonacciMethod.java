@@ -23,7 +23,7 @@ public class FibonacciMethod extends AbstractOneDimensionalMethod {
     public double findMin(final double a, final double b) {
         fs = new ArrayList<>();
         table = new ArrayList<>();
-        calcs = 0;
+        calculations = 0;
         fs.add(0L);
         fs.add(1L);
         final long lastFibonacci = (long) ((b - a) / eps);
@@ -38,7 +38,7 @@ public class FibonacciMethod extends AbstractOneDimensionalMethod {
         int k = 1;
         double fx1 = function.apply(x1);
         double fx2 = function.apply(x2);
-        calcs += 2;
+        calculations += 2;
         double an = a, bn = b;
         while (k < fs.size() - 2) {
             // step 1
@@ -50,7 +50,7 @@ public class FibonacciMethod extends AbstractOneDimensionalMethod {
                 if (k < fs.size() - 3) {
                     fx1 = fx2;
                     fx2 = function.apply(x2);
-                    calcs++;
+                    calculations++;
                 }
             } else {
                 // step 3
@@ -60,7 +60,7 @@ public class FibonacciMethod extends AbstractOneDimensionalMethod {
                 if (k < fs.size() - 3) {
                     fx2 = fx1;
                     fx1 = function.apply(x1);
-                    calcs++;
+                    calculations++;
                 }
             }
             // step 4
@@ -70,7 +70,7 @@ public class FibonacciMethod extends AbstractOneDimensionalMethod {
         // step 5
         x2 = x1 + eps;
         if (function.apply(x1).equals(function.apply(x2))) {
-            calcs++;
+            calculations++;
             an = x1;
         } else {
             bn = x2;

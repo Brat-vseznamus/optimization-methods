@@ -3,6 +3,7 @@ package methods.dimensional.one;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.UnaryOperator;
+
 import methods.Pair;
 
 public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
@@ -10,7 +11,7 @@ public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
     protected UnaryOperator<Double> function;
     protected List<Info> table;
     protected double eps;
-    protected int calcs = 0;
+    protected int calculations = 0;
 
     protected AbstractOneDimensionalMethod(final UnaryOperator<Double> function, final double eps) {
         this.function = function;
@@ -36,7 +37,7 @@ public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
 
     @Override
     public int getCalculations() {
-        return calcs;
+        return calculations;
     }
 
     @Override
@@ -90,7 +91,6 @@ public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
         for (int i = 0; i < 10; i++) {
             eps /= 10d;
             table = new ArrayList<>();
-            // System.out.println("value=" + findMin(l, r));
             findMin(l, r);
             values.add(new Pair<>(-Math.log10(eps), getCalculations()));
         }

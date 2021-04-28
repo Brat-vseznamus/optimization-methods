@@ -9,16 +9,17 @@ import java.util.*;
 public class DoubleVector {
     private final int n;
     private final Double[] values;
+
     public DoubleVector(final int n) {
         if (n < 0) {
             throw new IllegalArgumentException("Size of vector should be > 0!!!");
         }
         this.n = n;
-        values =  new Double[n];
+        values = new Double[n];
         IntStream.range(0, n).forEach(i -> values[i] = 0d);
     }
 
-    public DoubleVector(final Double...doubles) {
+    public DoubleVector(final Double... doubles) {
         n = doubles.length;
         values = doubles.clone();
     }
@@ -35,8 +36,6 @@ public class DoubleVector {
         for (int i = 0; i < n; i++) {
             values[i] = doubles[i];
         }
-        // IntStream.range(0, n).forEach(i -> );
-        // values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[n]);
     }
 
     public DoubleVector(final double[] doubles, final int size) {
@@ -99,7 +98,7 @@ public class DoubleVector {
         if (n != matrix.getN()) {
             throw new IllegalArgumentException("cringe");
         }
-        return  matrix.transpose().multiply(this);
+        return matrix.transpose().multiply(this);
     }
 
     public Stream<Double> stream() {

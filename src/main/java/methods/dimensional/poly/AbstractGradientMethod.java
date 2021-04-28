@@ -2,17 +2,15 @@ package methods.dimensional.poly;
 
 import methods.Pair;
 
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
     protected final static double DEFAULT_EPS = 1e-6d;
 
     protected QuadraticForm form;
-    protected double eps;
-    protected List<State> table;
+    protected final double eps;
+    protected final List<State> table;
 
     public QuadraticForm getForm() {
         return form;
@@ -60,7 +58,7 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
                 table.clear();
                 findMin();
                 result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     System.err.println("aaa");
                     return result;
                 }

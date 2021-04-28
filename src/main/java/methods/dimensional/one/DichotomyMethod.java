@@ -20,7 +20,7 @@ public class DichotomyMethod extends AbstractOneDimensionalMethod {
     @Override
     public double findMin(double a, double b) {
         table.clear();
-        calcs = 0;
+        calculations = 0;
         double epsN = (b - a) / 2d;
 
         while (epsN > eps) {
@@ -29,7 +29,7 @@ public class DichotomyMethod extends AbstractOneDimensionalMethod {
             final double x2 = (a + b + DELTA) / 2d;
             final double fx1 = function.apply(x1);
             final double fx2 = function.apply(x2);
-            calcs += 2;
+            calculations += 2;
             // step 2
             if (fx1 <= fx2) {
                 b = x2;

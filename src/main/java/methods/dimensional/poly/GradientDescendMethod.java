@@ -22,7 +22,6 @@ public class GradientDescendMethod extends AbstractGradientMethod {
         DoubleVector x = new DoubleVector(n);
         DoubleVector y;
         double f_x = form.apply(x);
-        // System.out.println("f_x = " + f_x);
         table.add(new State(x, f_x));
         double f_y;
 
@@ -30,7 +29,6 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             // step 2
             final DoubleVector gradient = form.gradient(x);
             final double norm = gradient.norm();
-            // System.out.println(gradient);
             if (norm < eps) {
                 break;
             }
@@ -38,10 +36,7 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             while (true) {
                 // step 3
                 final DoubleVector alphaX = gradient.multiplyBy(alpha);
-                // System.out.println("alpha * gradient = " + alphaX);
                 y = x.subtract(alphaX);
-                // System.out.println("x = " + x);
-                // System.out.println("y = " + y);
                 f_y = form.apply(y);
 
                 if (f_y < f_x) {
@@ -53,14 +48,14 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                     // step 4
                     alpha /= 2d;
                 }
-                // try {
-                //     Thread.sleep(2000);
-                // } catch (Exception e) {
-                //     //TODO: handle exception
-                // }   
             }
         }
 
         return x.stream().mapToDouble(v -> v).toArray();
+    }
+
+    @Override
+    public String getName() {
+        return "Метод градиентного спуска";
     }
 }

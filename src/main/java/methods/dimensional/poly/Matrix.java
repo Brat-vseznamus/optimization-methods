@@ -67,7 +67,7 @@ public class Matrix {
         }
     }
 
-    public Matrix(DoubleVector diag, boolean flag) {
+    public Matrix(final DoubleVector diag) {
         n = m = diag.size();
         values = new ArrayList<>();
         diagonal = true;
@@ -83,7 +83,7 @@ public class Matrix {
             throw new IllegalArgumentException("Wide and height should be same.");
         }
         if (diagonal) {
-            DoubleVector v = new DoubleVector(n);
+            final DoubleVector v = new DoubleVector(n);
             IntStream.range(0, n).forEach(i -> v.set(i, get(i, i) * vector.get(i)));
             return v;
         }
@@ -105,10 +105,9 @@ public class Matrix {
         return values.get(i).get(j);
     }
 
-    // @Deprecated
     public DoubleVector get(final int i) {
         if (diagonal) {
-            DoubleVector row = new DoubleVector(n);
+            final DoubleVector row = new DoubleVector(n);
             row.set(i, get(i, i));
             return row;
         }
@@ -143,13 +142,9 @@ public class Matrix {
         }
         final Matrix mat = new Matrix(m, n);
         IntStream.range(0, n).forEach(
-            i -> {
-                IntStream.range(0, m).forEach(
-                    j -> {
-                        mat.values.get(j).set(i, get(i, j));
-                    }
-                );
-            }
+            i -> IntStream.range(0, m).forEach(
+                j -> mat.values.get(j).set(i, get(i, j))
+            )
         );
         return mat;
     }
@@ -157,7 +152,7 @@ public class Matrix {
     @Override
     public String toString() {
         if (isDiagonal()) {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             IntStream.range(0, n).forEach(
                 i -> {
                     sb.append("[");
@@ -166,7 +161,7 @@ public class Matrix {
                             if (j == 0) {
                                 sb.append(get(i, j).toString());
                             } else {
-                                sb.append(", " + get(i, j).toString());
+                                sb.append(", ").append(get(i, j).toString());
                             }
                         }
                     );

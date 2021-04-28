@@ -27,7 +27,6 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
             table.add(new State(x, form.apply(x)));
             xNext = result[1];
             p = result[2];
-            // System.out.printf("%s, %s, %s%n", x.toString(), xNext.toString(), p.toString());
         } while (xNext.subtract(x).norm() >= eps);
         return x.stream().mapToDouble(v -> v).toArray();
     }
@@ -47,6 +46,11 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
         // update p_k+1
         p = (p.multiplyBy(beta)).subtract(gradient);
         return new DoubleVector[]{x, xNext, p};
+    }
+
+    @Override
+    public String getName() {
+        return "Метод сопряженных градиентов";
     }
 
 }

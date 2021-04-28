@@ -64,4 +64,9 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         }
         return x.stream().mapToDouble(v -> v).toArray();
     }
+
+    @Override
+    public String getName() {
+        return "Метод наискорейшего спуска";
+    }
 }
