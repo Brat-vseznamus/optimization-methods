@@ -25,6 +25,7 @@ public class GradientDescendMethod extends AbstractGradientMethod {
         DoubleVector x = new DoubleVector(n);
         DoubleVector y = new DoubleVector(n); 
         double f_x = form.apply(x);
+        table.add(new State(x, f_x));
         double f_y = 0;
 
         while (true) {
@@ -36,35 +37,26 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             }
 
             while (true) {
-                // System.out.println(String.format("x = %s\n", toStr(x)));
-                // System.out.println(String.format("f(x) = %f\n", f_x));
-                // System.out.println(String.format("y = %s\n", toStr(y)));
-                // System.out.println(String.format("f(y) = %f\n", f_y));
-                // System.out.println(String.format("grad = %s\n", toStr(gradient)));
-                // System.out.println(String.format("alpha = %f\n", alpha));
-                // System.out.println("###############################");
                 // step 3
                 final DoubleVector alphaX = gradient.multiplyBy(alpha);
                 y = x.subtract(alphaX);
-                // for (int i = 0; i < n; ++i) {
-                //     y[i] = x[i] - alpha * gradient[i];
-                // }
                 f_y = form.apply(y);
 
                 if (f_y < f_x) {
                     x = y;
                     f_x = f_y;
+                    table.add(new State(x, f_x));
                     break;
                 } else {
                     // step 4
                     alpha /= 2d;
                 }
-                try {
-                    Thread.sleep(200);
-                } catch (final InterruptedException e) {
+                // try {
+                    // Thread.sleep(200);
+                // } catch (final InterruptedException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                    // e.printStackTrace();
+                // }
             }
         }
 

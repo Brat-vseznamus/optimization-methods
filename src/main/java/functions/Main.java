@@ -1,5 +1,7 @@
 package functions;
 
+import java.util.stream.Collectors;
+
 public class Main {
     public static void main(final String[] args) {
         // double[][] a = {
@@ -54,10 +56,20 @@ public class Main {
         final long end2 = System.currentTimeMillis();
         System.out.printf("differences: %f, %f%n", res1.subtract(res2).norm(), res1.subtract(res3).norm());
         final String timeFormat = "Time for %s: %f sec.%n";
+        
         System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
+        System.out.printf("iteration number: %d%n", method.getTable().size());
+
         System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
+        System.out.printf("iteration number: %d%n", method2.getTable().size());
+
         System.out.printf(timeFormat, "ConjugateGradientMethod", (end2 - end1) / 1000.0);
+        System.out.printf("iteration number: %d%n", method3.getTable().size());
+
         System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
+
+        // System.out.printf();
+        // System.out.printf();
     }
 
 }

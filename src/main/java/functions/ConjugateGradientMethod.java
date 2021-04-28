@@ -17,11 +17,13 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
     public double[] findMin() {
         final int n = form.getN();
         DoubleVector x = new DoubleVector(n);
+        table.add(new State(x, form.apply(x)));
         DoubleVector p = form.gradient(x).multiplyBy(-1);
         DoubleVector xNext = x;
         do {
             final DoubleVector[] result = iteration(x, xNext, p);
             x = result[0];
+            table.add(new State(x, form.apply(x)));
             xNext = result[1];
             p = result[2];
         

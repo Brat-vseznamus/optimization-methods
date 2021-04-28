@@ -22,6 +22,7 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         DoubleVector x = new DoubleVector(n);
         DoubleVector y = new DoubleVector(n); 
         double f_x = form.apply(x);
+        table.add(new State(x, f_x));
         double f_y = 0;
 
         while (true) {
@@ -40,6 +41,7 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
                 vc = vc.subtract(gradient.multiplyBy(arg));
                 return form.apply(vc);
             };
+            // TODO replace with custom method
             final OptimizationAlgorithm brent = new BrentsMethod(function);
             final double alpha = brent.findMin(a, b);
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
@@ -47,6 +49,7 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             f_y = form.apply(y);
             x = y;
             f_x = f_y;
+            table.add(new State(x, f_x));
         }
         return x.stream().mapToDouble(v -> v).toArray();
     }
