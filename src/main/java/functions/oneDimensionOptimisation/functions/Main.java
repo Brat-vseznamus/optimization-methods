@@ -3,6 +3,7 @@ package functions.oneDimensionOptimisation.functions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
+import functions.Pair;
 
 public class Main {
     public static void main(final String[] args) {
@@ -16,17 +17,7 @@ public class Main {
         final double left2 = -1d;
         final double right2 = 1d;
 
-        // System.out.println(new DichotomyMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new FibonacciMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new GoldenRatioMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new BrentsMethod(multimodulfunction).findMin(left2, right2));
-        // System.out.println(new ParabolicMethod(multimodulfunction, 1e-9).findMin(left2, right2));
-
-
         final OptimizationAlgorithm methodBrent = new BrentsMethod(function);
-        // for (AbstractMethod.Pair<Double, Integer> pair : methodBrent.lnToCalculations(left, right)) {
-        //     System.out.println(pair.b);
-        // }
 
         final ArrayList<AbstractMethod> methods = new ArrayList<>(List.of(
             new DichotomyMethod(function),
@@ -38,8 +29,8 @@ public class Main {
 
         for (final AbstractMethod method : methods) {
             System.out.println(method.getName());
-            for (final AbstractMethod.Pair<Double, Integer> pair : method.lnToCalculations(left, right)) {
-                System.out.println(pair.b);
+            for (final Pair<Double, Integer> pair : method.lnToCalculations(left, right)) {
+                System.out.println(pair.second);
             }
         }
 

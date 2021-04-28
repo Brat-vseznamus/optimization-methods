@@ -3,6 +3,7 @@ package functions.oneDimensionOptimisation.functions;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.UnaryOperator;
+import functions.Pair;
 
 public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
     protected UnaryOperator<Double> function;
@@ -68,16 +69,6 @@ public abstract class AbstractMethod implements DrawableOptimizationAlgorithm {
             return String.format("\n<a: %.10f, b: %.10f, mid: %.10f>", left, right, value);
         }
     }
-
-    public static class Pair<T, E> {
-        public T a;
-        public E b;
-        Pair(final T a, final E b) {
-            this.a = a;
-            this.b = b;
-        }
-    }
-
 
     public List<Pair<Double, Integer>> lnToCalculations(final double l, final double r) {
         final List<Pair<Double, Integer>> values = new ArrayList<>();
