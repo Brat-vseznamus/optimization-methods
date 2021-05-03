@@ -34,7 +34,7 @@ public class DoubleVector {
     }
 
     public DoubleVector(final double[] doubles, final int size) {
-        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[values.length]);
+        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[size]);
     }
 
     private DoubleVector elementOperation(final DoubleVector vector, final BinaryOperator<Double> function) {
