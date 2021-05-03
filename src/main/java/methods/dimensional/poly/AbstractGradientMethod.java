@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
-    protected final static double DEFAULT_EPS = 1e-6d;
+    protected final static double DEFAULT_EPS = 1e-5d;
 
     protected QuadraticForm form;
     protected final double eps;
@@ -40,8 +40,8 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
 
     @Override
     public List<Pair<Integer, List<Pair<Integer, Integer>>>> valueAndDimToIterations() {
-        final int[] values = new int[]{2000};
-        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
+        final int[] values = new int[]{2, 5, 10, 20, 50, 100, 300, 500, 1000};
+        final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
         for (final int value : values) {
             System.out.print(value);

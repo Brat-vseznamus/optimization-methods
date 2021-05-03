@@ -32,7 +32,6 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             if (norm < eps) {
                 break;
             }
-
             while (true) {
                 // step 3
                 final DoubleVector alphaX = gradient.multiplyBy(alpha);

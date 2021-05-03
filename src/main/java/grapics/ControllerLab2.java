@@ -126,7 +126,7 @@ public class ControllerLab2 implements Initializable {
         final AbstractGradientMethod.State currentInfo = currentIterations.get(currentIteration);
         final double x = currentInfo.getPoint().get(0);
         final double y = currentInfo.getPoint().get(1);
-        currentIterationText.setText(getFormattedDouble(currentIteration));
+        currentIterationText.setText(Integer.toString(currentIteration));
         addPoint(currentSeries, x, y);
     }
 
@@ -235,8 +235,16 @@ public class ControllerLab2 implements Initializable {
         series.setName(null);
         lineChart.getData().add(series);
         levels.add(series);
-        final DoubleVector rgb = new DoubleVector(0d, 0d, 0d)
-                .add(new DoubleVector(106d, 0d, 255d))
+        final double startR = 0, startG = 0, startB = 0;
+        final double finishR = 106, finishG = 0, finishB = 255;
+        final DoubleVector rgb = new DoubleVector(
+                finishR - startR,
+                finishG - startG,
+                finishB - startB)
+                .add(new DoubleVector(
+                        finishR,
+                        finishG,
+                        finishB))
                 .multiplyBy(radius / maxR);
         final Function<Integer, Integer> getColor = (i) -> (int) ((double) rgb.get(i));
         series.getNode().setStyle(String.format("-fx-opacity: %s; -fx-stroke: rgb(%d,%d,%d)",
