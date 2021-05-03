@@ -51,7 +51,7 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             }
         }
 
-        return x.stream().mapToDouble(v -> v).toArray();
+        return x.toArray();
     }
 
     @Override

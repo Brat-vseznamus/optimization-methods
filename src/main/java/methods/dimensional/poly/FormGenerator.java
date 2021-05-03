@@ -10,7 +10,7 @@ public class FormGenerator {
         }
         final Random random = new Random();
         if (n == 1) {
-            return new QuadraticForm(new Matrix(new DoubleVector(k)), new DoubleVector(new double[]{k * random.nextDouble()}), 0d);
+            return new QuadraticForm(new Matrix(new DoubleVector(k)), new DoubleVector(k * random.nextDouble()), 0d);
         }
         final double[] a = new double[n];
         final double l = 1;

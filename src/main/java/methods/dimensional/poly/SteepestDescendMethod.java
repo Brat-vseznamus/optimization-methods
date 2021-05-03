@@ -62,7 +62,7 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             f_x = form.apply(x);
             table.add(new State(x, f_x));
         }
-        return x.stream().mapToDouble(v -> v).toArray();
+        return x.toArray();
     }
 
     @Override
