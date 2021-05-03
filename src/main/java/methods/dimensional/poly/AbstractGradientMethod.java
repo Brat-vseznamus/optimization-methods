@@ -43,13 +43,21 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
         final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
         for (final int value : values) {
+            System.out.print(value);
             result.add(new Pair<>(value, new ArrayList<>(dimensions.length)));
             for (final int dim : dimensions) {
-                form = FormGenerator.generate(dim, value);
-                table.clear();
-                findMin();
-                result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
+                try {
+                    form = FormGenerator.generate(dim, value);
+                    table.clear();
+                    findMin();
+                    result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
+                } catch (final Exception e) {
+                    System.err.println("aaa");
+                    return result;
+                }
+                System.out.print(" " + result.get(result.size() - 1).second.get(result.get(result.size() - 1).second.size() - 1).second);
             }
+            System.out.println();
         }
 
         return result;
