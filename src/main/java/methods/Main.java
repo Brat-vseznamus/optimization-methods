@@ -30,7 +30,7 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 1;
+        final int mode = 2;
         if (mode == 1) {
             // System.out.println(form.getA());
             // System.out.println(form.getB()); 
@@ -63,12 +63,12 @@ public class Main {
             
             System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
         } else if (mode == 2) {
-            // System.out.println("Gradient:");
-            // outputMethodInfo(gradient);
+             System.out.println("Gradient:");
+             outputMethodInfo(gradient);
             // System.out.println("Conjugate:");
             // outputMethodInfo(conjugate);
-            System.out.println("Steepest:");
-            outputMethodInfo(steepest);
+//            System.out.println("Steepest:");
+//            outputMethodInfo(steepest);
         }
     }
 
