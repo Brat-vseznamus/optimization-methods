@@ -7,47 +7,41 @@ import java.util.stream.Stream;
 import java.util.*;
 
 public class DoubleVector {
-    private final int n;
-    private final Double[] values;
+    private final Double[] values;  // TODO replace with double[]
 
     public DoubleVector(final int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("Size of vector should be > 0!!!");
+            throw new IllegalArgumentException("Size of vector must be >= 0");
         }
-        this.n = n;
         values = new Double[n];
         IntStream.range(0, n).forEach(i -> values[i] = 0d);
     }
 
     public DoubleVector(final Double... doubles) {
-        n = doubles.length;
         values = doubles.clone();
     }
 
     public DoubleVector(final DoubleVector vector, final int size) {
-        n = size;
         values = Arrays.copyOf(vector.values, size);
     }
 
     public DoubleVector(final double[] doubles) {
-        n = doubles.length;
         // values = doubles;
-        values = new Double[n];
-        for (int i = 0; i < n; i++) {
+        values = new Double[doubles.length];
+        for (int i = 0; i < doubles.length; i++) {
             values[i] = doubles[i];
         }
     }
 
     public DoubleVector(final double[] doubles, final int size) {
-        n = size;
-        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[n]);
+        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new Double[values.length]);
     }
 
     private DoubleVector elementOperation(final DoubleVector vector, final BinaryOperator<Double> function) {
-        if (vector.n != n) {
+        if (values.length != vector.values.length) {
             throw new IllegalArgumentException("DoubleVectors should be same sizes.");
         }
-        return new DoubleVector((IntStream.range(0, n).mapToDouble(i -> function.apply(values[i], vector.values[i])).toArray()));
+        return new DoubleVector((IntStream.range(0, values.length).mapToDouble(i -> function.apply(values[i], vector.values[i])).toArray()));
     }
 
     public DoubleVector add(final DoubleVector vector) {
@@ -71,22 +65,24 @@ public class DoubleVector {
         return Math.sqrt(scalar(this));
     }
 
-    public Double get(final int i) {
-        if (i < 0 || i >= n) {
-            throw new IndexOutOfBoundsException("Index should be in range [0, " + n + ").");
+    private void requireIndexInRange(int i) {
+        if (i < 0 || i >= values.length) {
+            throw new IndexOutOfBoundsException("Index is out of range [0, " + values.length + ").");
         }
+    }
+
+    public Double get(final int i) {
+        requireIndexInRange(i);
         return values[i];
     }
 
     public void set(final int i, final Double v) {
-        if (i < 0 || i >= n) {
-            throw new IndexOutOfBoundsException("Index should be in range [0, " + n + ").");
-        }
+        requireIndexInRange(i);
         values[i] = v;
     }
 
     public int size() {
-        return n;
+        return values.length;
     }
 
     @Override
@@ -95,7 +91,7 @@ public class DoubleVector {
     }
 
     public DoubleVector multiply(final Matrix matrix) {
-        if (n != matrix.getN()) {
+        if (values.length != matrix.getN()) {
             throw new IllegalArgumentException("cringe");
         }
         return matrix.transpose().multiply(this);
