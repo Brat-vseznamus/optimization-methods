@@ -7,7 +7,7 @@ import java.util.function.UnaryOperator;
 import methods.Pair;
 
 public abstract class AbstractOneDimensionalMethod implements DrawableMethod {
-    protected final static double DEFAULT_EPS = 1e-6d;
+    protected final static double DEFAULT_EPS = 1e-5d;
     protected UnaryOperator<Double> function;
     protected List<Info> table;
     protected double eps;

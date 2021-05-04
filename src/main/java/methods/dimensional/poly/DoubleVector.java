@@ -8,14 +8,13 @@ import java.util.stream.Stream;
 import java.util.*;
 
 public class DoubleVector {
-    private final double[] values;  // TODO replace with double[]
+    private final double[] values;
 
     public DoubleVector(final int n) {
         if (n < 0) {
             throw new IllegalArgumentException("Size of vector must be >= 0");
         }
         values = new double[n];
-//        IntStream.range(0, n).forEach(i -> values[i] = 0d);
     }
 
     public DoubleVector(final DoubleVector vector, final int size) {
@@ -23,13 +22,11 @@ public class DoubleVector {
     }
 
     public DoubleVector(final double... doubles) {
-        // values = doubles;
         values = new double[doubles.length];
         System.arraycopy(doubles, 0, values, 0, doubles.length);
     }
 
     public DoubleVector(final double[] doubles, final int size) {
-//        values = Arrays.stream(doubles).boxed().collect(Collectors.toList()).toArray(new double[size]);
         values = Arrays.copyOf(doubles, size);
     }
 
