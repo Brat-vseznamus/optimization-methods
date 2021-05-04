@@ -29,7 +29,10 @@ public class GradientDescendMethod extends AbstractGradientMethod {
             // step 2
             final DoubleVector gradient = form.gradient(x);
             final double norm = gradient.norm();
-            if (norm < eps) {
+            if (norm <= eps) {
+                break;
+            }
+            if (alpha < eps / 10) {
                 break;
             }
             while (true) {
@@ -38,7 +41,7 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                 y = x.subtract(alphaX);
                 f_y = form.apply(y);
 
-                if (f_y < f_x) {
+                if (f_y <= f_x) {
                     x = y;
                     f_x = f_y;
                     table.add(new State(x, f_x));

@@ -47,12 +47,12 @@ public class Main {
             System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
             System.out.printf("iteration number: %d%n", gradient.getTable().size());
 
-            final List<AbstractGradientMethod.State> table = gradient.getTable();
+            // final List<AbstractGradientMethod.State> table = gradient.getTable();
 
-            final DoubleVector res3 = new DoubleVector(conjugate.findMin());
-            final long end1 = System.currentTimeMillis();
-            System.out.printf(timeFormat, "ConjugateGradientMethod", (end1 - end0) / 1000.0);
-            System.out.printf("iteration number: %d%n", conjugate.getTable().size());
+            // final DoubleVector res3 = new DoubleVector(conjugate.findMin());
+            // final long end1 = System.currentTimeMillis();
+            // System.out.printf(timeFormat, "ConjugateGradientMethod", (end1 - end0) / 1000.0);
+            // System.out.printf("iteration number: %d%n", conjugate.getTable().size());
 
             // final DoubleVector res2 = new DoubleVector(steepest.findMin());
             // final long end2 = System.currentTimeMillis();
@@ -63,12 +63,12 @@ public class Main {
             
             // System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
         } else if (mode == 2) {
-            System.out.println("Gradient:");
-            outputMethodInfo(gradient);
+            // System.out.println("Gradient:");
+            // outputMethodInfo(gradient);
             // System.out.println("Conjugate:");
             // outputMethodInfo(conjugate);
-            // System.out.println("Steepest:");
-            // outputMethodInfo(steepest);
+            System.out.println("Steepest:");
+            outputMethodInfo(steepest);
         }
     }
 

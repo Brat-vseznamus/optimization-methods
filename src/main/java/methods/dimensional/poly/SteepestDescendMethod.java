@@ -43,7 +43,7 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             // step 2
             final DoubleVector gradient = form.gradient(x);
             final double norm = gradient.norm();
-            if (norm < eps) {
+            if (norm <= eps) {
                 break;
             }
             // step 3
@@ -57,6 +57,9 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             };
             method.setFunction(function);
             final double alpha = method.findMin(a, b);
+            if (alpha <= eps / 10) {
+                break;
+            }
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);
             f_x = form.apply(x);
