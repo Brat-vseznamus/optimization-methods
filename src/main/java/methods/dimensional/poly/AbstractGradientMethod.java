@@ -7,18 +7,9 @@ import java.util.List;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
     protected final static double DEFAULT_EPS = 1e-5d;
-
-    protected QuadraticForm form;
     protected final double eps;
     protected final List<State> table;
-
-    public QuadraticForm getForm() {
-        return form;
-    }
-
-    public void setForm(final QuadraticForm form) {
-        this.form = form;
-    }
+    protected QuadraticForm form;
 
     protected AbstractGradientMethod(final QuadraticForm form, final double eps) {
         this.form = form;
@@ -34,6 +25,14 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
         this(null);
     }
 
+    public QuadraticForm getForm() {
+        return form;
+    }
+
+    public void setForm(final QuadraticForm form) {
+        this.form = form;
+    }
+
     public List<State> getTable() {
         return table;
     }
@@ -44,21 +43,13 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
         final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
         for (final int value : values) {
-            System.out.print(value);
             result.add(new Pair<>(value, new ArrayList<>(dimensions.length)));
             for (final int dim : dimensions) {
-                try {
-                    form = FormGenerator.generate(dim, value);
-                    table.clear();
-                    findMin();
-                    result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
-                } catch (final Exception e) {
-                    System.err.println("aaa");
-                    return result;
-                }
-                System.out.print(" " + result.get(result.size() - 1).second.get(result.get(result.size() - 1).second.size() - 1).second);
+                form = FormGenerator.generate(dim, value);
+                table.clear();
+                findMin();
+                result.get(result.size() - 1).second.add(new Pair<>(dim, table.size()));
             }
-            System.out.println();
         }
 
         return result;
