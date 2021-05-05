@@ -20,41 +20,46 @@ public class Main {
             }
         }
 
-        final QuadraticForm form = FormGenerator.generate(dim, mu);
-//        final QuadraticForm form = new QuadraticForm(
-//                new Matrix(new DoubleVector(2d, 128d)),
-//                new DoubleVector(-10d, 30d),
-//                2d);
+//        final QuadraticForm form = FormGenerator.generate(dim, mu);
+        final QuadraticForm form = new QuadraticForm(
+                new DiagonalMatrix(new DoubleVector(1d, 250d)),
+                new DoubleVector(1d, 0d),
+                1d);
 
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
         final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 2;
+        final int mode = 1;
         if (mode == 1) {
             final String timeFormat = "Time for %s: %f sec.%n";
 
             final long start = System.currentTimeMillis();
 
-            final DoubleVector res1 = new DoubleVector(gradient.findMin());
+            final DoubleVector gradRes = new DoubleVector(gradient.findMin());
             final long end0 = System.currentTimeMillis();
             System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
             System.out.printf("iteration number: %d%n", gradient.getTable().size());
+            System.out.println("gradRes = " + gradRes);
+            System.out.println();
 
-            final DoubleVector res3 = new DoubleVector(conjugate.findMin());
-            final long end1 = System.currentTimeMillis();
-            System.out.printf(timeFormat, "ConjugateGradientMethod", (end1 - end0) / 1000.0);
+             final DoubleVector steepRes = new DoubleVector(steepest.findMin());
+             final long end1 = System.currentTimeMillis();
+             System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
+             System.out.printf("iteration number: %d%n", steepest.getTable().size());
+            System.out.println("steepRes = " + steepRes);
+            System.out.println();
+
+            final DoubleVector conjRes = new DoubleVector(conjugate.findMin());
+            final long end2 = System.currentTimeMillis();
+            System.out.printf(timeFormat, "ConjugateGradientMethod", (end2 - end1) / 1000.0);
             System.out.printf("iteration number: %d%n", conjugate.getTable().size());
+            System.out.println("conjRes = " + conjRes);
 
-            // final DoubleVector res2 = new DoubleVector(steepest.findMin());
-            // final long end2 = System.currentTimeMillis();
-            // System.out.printf(timeFormat, "SteepestDescendMethod", (end2 - end1) / 1000.0);
-            // System.out.printf("iteration number: %d%n", steepest.getTable().size());
-
-            // System.out.printf("differences: %f, %f%n", res1.subtract(res2).norm(), res1.subtract(res3).norm());
+             System.out.printf("differences: %f, %f%n", steepRes.subtract(gradRes).norm(), conjRes.subtract(steepRes).norm());
             
-            // System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
+             System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
         } else if (mode == 2) {
             System.out.println("Gradient:");
             outputMethodInfo(gradient);
