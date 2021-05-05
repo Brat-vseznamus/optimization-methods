@@ -63,12 +63,12 @@ public class Main {
             
             // System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
         } else if (mode == 2) {
-            // System.out.println("Gradient:");
-            // outputMethodInfo(gradient);
+            System.out.println("Gradient:");
+            outputMethodInfo(gradient);
             // System.out.println("Conjugate:");
             // outputMethodInfo(conjugate);
-            System.out.println("Steepest:");
-            outputMethodInfo(steepest);
+            // System.out.println("Steepest:");
+            // outputMethodInfo(steepest);
         }
     }
 

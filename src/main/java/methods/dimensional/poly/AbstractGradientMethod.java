@@ -43,8 +43,13 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
         final int[] values = new int[]{2, 5, 10, 20, 50, 100, 300, 500, 1000};
         final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
+        System.out.printf("%-5s", "m\\n");
+        for (int dim : dimensions) {
+            System.out.printf(" %-5s", dim);
+        }
+        System.out.println();
         for (final int value : values) {
-            System.out.print(value);
+            System.out.printf("%-5s", value);
             result.add(new Pair<>(value, new ArrayList<>(dimensions.length)));
             for (final int dim : dimensions) {
                 try {
@@ -56,7 +61,7 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
                     System.err.println("aaa");
                     return result;
                 }
-                System.out.print(" " + result.get(result.size() - 1).second.get(result.get(result.size() - 1).second.size() - 1).second);
+                System.out.printf(" %-5s", result.get(result.size() - 1).second.get(result.get(result.size() - 1).second.size() - 1).second);
             }
             System.out.println();
         }
