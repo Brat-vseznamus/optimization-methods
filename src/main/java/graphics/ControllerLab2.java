@@ -1,4 +1,4 @@
-package grapics;
+package graphics;
 
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -56,7 +56,6 @@ public class ControllerLab2 implements Initializable {
     private List<AbstractGradientMethod.State> currentIterations;
     private int currentIteration = 0;
 
-
     private final List<XYChart.Series<Number, Number>> levels = new ArrayList<>();
     private final List<QuadraticForm> forms = new ArrayList<>(List.of(
             new QuadraticForm(
@@ -97,12 +96,11 @@ public class ControllerLab2 implements Initializable {
         lineChart.setAnimated(animations);
         lineChart.getXAxis().setAnimated(animations);
         lineChart.getYAxis().setAnimated(animations);
-        lineChart.getXAxis().autoRangingProperty().setValue(true);
-        lineChart.getYAxis().autoRangingProperty().setValue(true);
+        lineChart.getXAxis().autoRangingProperty().setValue(false);
+        lineChart.getYAxis().autoRangingProperty().setValue(false);
 
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
-
-
+        lineChart.setLegendVisible(false);
         loadGradient();
     }
 
@@ -117,8 +115,9 @@ public class ControllerLab2 implements Initializable {
         currentIteration = 0;
         getFunctionLevels();
         lineChart.getData().add(currentSeries);
-        sizeIterationsText.setText(Integer.toString(currentIterations.size()));
+        sizeIterationsText.setText(Integer.toString(currentIterations.size() - 1));
         updateCurrentSeries();
+        nextIteration(1);
     }
 
 
@@ -138,10 +137,9 @@ public class ControllerLab2 implements Initializable {
     private void prevIteration(final int cnt) {
         int i = cnt;
         while (i-- > 0) {
-            if (currentIterations == null || currentIteration == 0) return;
+            if (currentIterations == null || currentIteration == 1) return;
             currentIteration--;
             currentSeries.getData().remove(currentIteration, currentSeries.getData().size());
-            currentIterationText.setText(Integer.toString(currentIteration));
             updateCurrentSeries();
         }
     }
@@ -153,7 +151,6 @@ public class ControllerLab2 implements Initializable {
             if (currentIterations == null) return;
             if (currentIteration < currentIterations.size() - 1) {
                 currentIteration++;
-                currentIterationText.setText(Integer.toString(currentIteration));
                 updateCurrentSeries();
             } else {
                 return;

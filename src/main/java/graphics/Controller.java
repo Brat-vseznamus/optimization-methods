@@ -1,4 +1,4 @@
-package grapics;
+package graphics;
 
 import methods.dimensional.one.*;
 import javafx.animation.TranslateTransition;
