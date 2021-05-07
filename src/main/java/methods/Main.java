@@ -31,7 +31,7 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 1;
+        final int mode = 2;
         if (mode == 1) {
             final String timeFormat = "Time for %s: %f sec.%n";
 
@@ -44,10 +44,10 @@ public class Main {
             System.out.println("gradRes = " + gradRes);
             System.out.println();
 
-             final DoubleVector steepRes = new DoubleVector(steepest.findMin());
-             final long end1 = System.currentTimeMillis();
-             System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
-             System.out.printf("iteration number: %d%n", steepest.getTable().size());
+            final DoubleVector steepRes = new DoubleVector(steepest.findMin());
+            final long end1 = System.currentTimeMillis();
+            System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
+            System.out.printf("iteration number: %d%n", steepest.getTable().size());
             System.out.println("steepRes = " + steepRes);
             System.out.println();
 
@@ -57,27 +57,40 @@ public class Main {
             System.out.printf("iteration number: %d%n", conjugate.getTable().size());
             System.out.println("conjRes = " + conjRes);
 
-             System.out.printf("differences: %f, %f%n", steepRes.subtract(gradRes).norm(), conjRes.subtract(steepRes).norm());
-            
-             System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
+            System.out.printf("differences: %f, %f%n", steepRes.subtract(gradRes).norm(), conjRes.subtract(steepRes).norm());
+
+            System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
         } else if (mode == 2) {
+            final String timeFormat = "Time for %s: %f sec.%n";
+            final long start = System.currentTimeMillis();
+
             System.out.println("Gradient:");
             outputMethodInfo(gradient);
-            // System.out.println("Conjugate:");
-            // outputMethodInfo(conjugate);
-            // System.out.println("Steepest:");
-            // outputMethodInfo(steepest);
+            final long end0 = System.currentTimeMillis();
+            System.out.printf(timeFormat, "GradientDescendMethod", (end0 - start) / 1000.0);
+
+            System.out.println("Steepest:");
+            outputMethodInfo(steepest);
+            final long end1 = System.currentTimeMillis();
+            System.out.printf(timeFormat, "SteepestDescendMethod", (end1 - end0) / 1000.0);
+
+            System.out.println("Conjugate:");
+            outputMethodInfo(conjugate);
+            final long end2 = System.currentTimeMillis();
+            System.out.printf(timeFormat, "ConjugateGradientMethod", (end2 - end1) / 1000.0);
+
+            System.out.printf("Time duration: %f sec.%n", (System.currentTimeMillis() - start) / 1000.0);
         }
     }
 
     private static void outputMethodInfo(final GradientOptimizationMethod method) {
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> methodInfo = method.valueAndDimToIterations();
-         for (final Pair<Integer, List<Pair<Integer, Integer>>> row : methodInfo) {
-             System.out.printf("%d ", row.first);
-             for (final Pair<Integer, Integer> cell : row.second) {
-                 System.out.printf("%d ", cell.second);
-             }
-             System.out.println();
-         }
+        for (final Pair<Integer, List<Pair<Integer, Integer>>> row : methodInfo) {
+            System.out.printf("%d ", row.first);
+            for (final Pair<Integer, Integer> cell : row.second) {
+                System.out.printf("%d ", cell.second);
+            }
+            System.out.println();
+        }
     }
 }
