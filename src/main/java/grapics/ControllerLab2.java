@@ -48,7 +48,7 @@ public class ControllerLab2 implements Initializable {
     private Text sizeIterationsText;
 
     QuadraticForm form = new QuadraticForm(
-            new Matrix(new DoubleVector(60d, 2d)),
+            new DiagonalMatrix(new DoubleVector(60d, 2d)),
             new DoubleVector(-10d, 10d), 2d);
 
 
@@ -60,10 +60,10 @@ public class ControllerLab2 implements Initializable {
     private final List<XYChart.Series<Number, Number>> levels = new ArrayList<>();
     private final List<QuadraticForm> forms = new ArrayList<>(List.of(
             new QuadraticForm(
-                    new Matrix(new DoubleVector(60d, 2d)),
+                    new DiagonalMatrix(new DoubleVector(60d, 2d)),
                     new DoubleVector(-10d, 10d), 2d),
             new QuadraticForm(
-                    new Matrix(new DoubleVector(0.5d, 32d)),
+                    new DiagonalMatrix(new DoubleVector(0.5d, 32d)),
                     new DoubleVector(-5d, 15d), 2d)
     ));
 
