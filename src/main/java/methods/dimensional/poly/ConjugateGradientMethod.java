@@ -24,9 +24,9 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
             do {
                 final DoubleVector[] result = iteration(xNext, p);
                 x = result[0];
-                table.add(new State(x, form.apply(x)));
                 xNext = result[1];
                 p = result[2];
+                table.add(new State(x, form.apply(x)));
             } while (xNext.subtract(x).norm() >= eps);
             return x.stream().mapToDouble(v -> v).toArray();
         }

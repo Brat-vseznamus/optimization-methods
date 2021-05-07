@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator;
 public class BrentsMethod extends AbstractOneDimensionalMethod {
 
     public BrentsMethod(final UnaryOperator<Double> function) {
-        super(function);
+        super(function, 1e-4d);
     }
 
     public BrentsMethod(final UnaryOperator<Double> function, final double eps) {
