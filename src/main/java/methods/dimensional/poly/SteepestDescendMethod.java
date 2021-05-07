@@ -1,5 +1,6 @@
 package methods.dimensional.poly;
 
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.UnaryOperator;
 
 import methods.Main;
@@ -48,11 +49,10 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             final DoubleVector gradient = form.gradient(x);
             final double norm = gradient.norm();
             if (norm <= eps) {
+                // System.out.println();
                 break;
             }
             // step 3
-            final double a = 0d;
-            final double b = 2d / form.getMaxValue();
             final DoubleVector xc = x;
             final UnaryOperator<Double> function = (arg) -> {
                 DoubleVector vc = xc;
@@ -60,28 +60,39 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
                 return form.apply(vc);
             };
             method.setFunction(function);
+
+            final double a = 0d;
+            final double b = rightBound(function);
             final double alpha = method.findMin(a, b);
-            if (alpha <= eps / 10) {
-                break;
-            }
+            // if (alpha <= eps / 10) {
+            //     break;
+            // }
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);
             f_x = form.apply(x);
             table.add(new State(x, f_x));
-            long endIt = System.currentTimeMillis();
-            String nextLine = "";
-            System.out.print("\b".repeat(70));
-            if ((endIt - startIt) / 1000d >= 0.5d) { 
-                nextLine = "%n";
-            }
-            System.out.printf("|ans - x| = %.9f, time[%d] = %fs, norm() = %.8f" + nextLine, 
-                Main.answer.subtract(x).norm(), 
-                table.size(), 
-                (endIt - startIt) / 1000d,
-                norm);
+            // long endIt = System.currentTimeMillis();
+            // String nextLine = "";
+            // System.out.print("\b".repeat(70));
+            // if ((endIt - startIt) / 1000d >= 0.5d) { 
+            //     nextLine = "%n";
+            // }
+            // System.out.printf("|ans - x| = %.9f, time[%d] = %fs, norm() = %.8f" + nextLine, 
+            //     Main.answer.subtract(x).norm(), 
+            //     table.size(), 
+            //     (endIt - startIt) / 1000d,
+            //     norm);
         }
-        System.out.print("\b".repeat(70));
-        return x.stream().mapToDouble(v -> v).toArray();
+        return x.toArray();
+    }
+
+    private double rightBound(final UnaryOperator<Double> function) {
+        final double zeroRes = function.apply(0d);
+        double res = Math.max(eps, 1e-5d);
+        while (function.apply(res) <= zeroRes) {
+            res *= 2;
+        }
+        return res;
     }
 
     // private double iteration(DoubleVector x, DoubleVector f_x, DoubleVector gradient) {

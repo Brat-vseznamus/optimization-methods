@@ -88,7 +88,7 @@ public class Matrix {
         final Matrix mat = new Matrix(m, n);
         IntStream.range(0, n).forEach(
             i -> IntStream.range(0, m).forEach(
-                j -> mat.values.get(j).set(i, get(i, j))
+                j -> mat.set(j, i, get(i, j))
             )
         );
         return mat;

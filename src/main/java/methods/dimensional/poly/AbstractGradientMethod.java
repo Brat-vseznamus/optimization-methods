@@ -6,19 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
-    protected final static double DEFAULT_EPS = 1e-5d;
-
-    protected QuadraticForm form;
+    protected final static double DEFAULT_EPS = 1e-6d;
     protected final double eps;
     protected final List<State> table;
-
-    public QuadraticForm getForm() {
-        return form;
-    }
-
-    public void setForm(final QuadraticForm form) {
-        this.form = form;
-    }
+    protected QuadraticForm form;
 
     protected AbstractGradientMethod(final QuadraticForm form, final double eps) {
         this.form = form;
@@ -34,6 +25,14 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
         this(null);
     }
 
+    public QuadraticForm getForm() {
+        return form;
+    }
+
+    public void setForm(final QuadraticForm form) {
+        this.form = form;
+    }
+
     public List<State> getTable() {
         return table;
     }
@@ -44,7 +43,7 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
         final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
         System.out.printf("%-5s", "m\\n");
-        for (int dim : dimensions) {
+        for (final int dim : dimensions) {
             System.out.printf(" %-5s", dim);
         }
         System.out.println();
