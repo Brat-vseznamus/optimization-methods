@@ -85,12 +85,12 @@ public class Main {
 
     private static void outputMethodInfo(final GradientOptimizationMethod method) {
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> methodInfo = method.valueAndDimToIterations();
-        for (final Pair<Integer, List<Pair<Integer, Integer>>> row : methodInfo) {
-            System.out.printf("%d ", row.first);
-            for (final Pair<Integer, Integer> cell : row.second) {
-                System.out.printf("%d ", cell.second);
-            }
-            System.out.println();
-        }
+//        for (final Pair<Integer, List<Pair<Integer, Integer>>> row : methodInfo) {
+//            System.out.printf("%d ", row.first);
+//            for (final Pair<Integer, Integer> cell : row.second) {
+//                System.out.printf("%d ", cell.second);
+//            }
+//            System.out.println();
+//        }
     }
 }

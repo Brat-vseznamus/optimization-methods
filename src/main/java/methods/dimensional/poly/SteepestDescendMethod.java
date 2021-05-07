@@ -1,5 +1,6 @@
 package methods.dimensional.poly;
 
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.UnaryOperator;
 
 import methods.dimensional.one.BrentsMethod;
@@ -43,12 +44,10 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             // step 2
             final DoubleVector gradient = form.gradient(x);
             final double norm = gradient.norm();
-            if (norm < eps) {
+            if (norm <= eps) {
                 break;
             }
             // step 3
-            final double a = 0d;
-            final double b = 2d / form.getMaxValue();
             final DoubleVector xc = x;
             final UnaryOperator<Double> function = (arg) -> {
                 DoubleVector vc = xc;
@@ -56,13 +55,28 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
                 return form.apply(vc);
             };
             method.setFunction(function);
+
+            final double a = 0d;
+            final double b = rightBound(function);
             final double alpha = method.findMin(a, b);
+            if (alpha <= eps / 10) {
+                break;
+            }
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);
             f_x = form.apply(x);
             table.add(new State(x, f_x));
         }
         return x.toArray();
+    }
+
+    private double rightBound(final UnaryOperator<Double> function) {
+        final double zeroRes = function.apply(0d);
+        double res = Math.max(eps, 1);
+        while (function.apply(res) <= zeroRes) {
+            res *= 2;
+        }
+        return res;
     }
 
     @Override
