@@ -1,4 +1,4 @@
-package grapics;
+package graphics;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
-public class App extends Application {
+public class AppLab2 extends Application {
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        final Parent root = FXMLLoader.load(getClass().getResource("/xml/sample.fxml"));
+        final Parent root = FXMLLoader.load(getClass().getResource("/xml/Lab2.fxml"));
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setScene(new Scene(root));
         primaryStage.setFullScreen(true);

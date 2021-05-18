@@ -4,6 +4,6 @@ module grapics {
     requires jfxutils;
     requires com.jfoenix;
 
-    opens grapics to javafx.fxml;
-    exports grapics;
+    opens graphics to javafx.fxml;
+    exports graphics;
 }
