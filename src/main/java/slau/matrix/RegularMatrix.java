@@ -12,6 +12,7 @@ public class RegularMatrix implements Matrix {
     public RegularMatrix(int n, int m) {
         this.n = n;
         this.m = m;
+        data = new double[n][m];
     }
 
     public RegularMatrix(double[][] data) {
