@@ -60,11 +60,8 @@ public class RegularMatrix implements Matrix {
 
     @Override
     public String toString() {
-        return "RegularMatrix{" +
-                "data=" + Arrays.toString(data) +
-                ", n=" + n +
-                ", m=" + m +
-                '}';
+        return Arrays.deepToString(data)
+                .replace("],", "],\n");
     }
 
 

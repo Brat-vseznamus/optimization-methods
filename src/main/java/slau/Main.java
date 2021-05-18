@@ -1,27 +1,19 @@
 package slau;
 
-import slau.utils.Test;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import slau.matrix.LU;
+import slau.matrix.LUMatrix;
 
 public class Main {
     public static void main(final String[] args){
-        startTests();
-    }
-
-    public static void startTests() {
-        for (final Method m : Main.class.getDeclaredMethods()) {
-            if (m.isAnnotationPresent(Test.class)) {
-                final Test annotation = m.getDeclaredAnnotation(Test.class);
-                System.out.printf("Test[%s]%n", annotation.src());
-                try {
-                    m.invoke(null);
-                } catch (final InvocationTargetException | IllegalAccessException e) {
-                    e.printStackTrace();
+        LU lu = new LUMatrix(
+                new double[][]{
+                        {3, 4, -9, 5},
+                        {-15, -12, 50, -16},
+                        {-27, -36, 73, 8},
+                        {9, 12, -10, -16}
                 }
-            }
-        }
+        ).getLU();
+        System.out.println(lu.getL());
+        System.out.println(lu.getU());
     }
-
 }
