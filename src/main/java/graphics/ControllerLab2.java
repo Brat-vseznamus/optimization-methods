@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -14,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import methods.dimensional.poly.*;
 import org.gillius.jfxutils.chart.ChartPanManager;
@@ -52,6 +54,8 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private VBox methodsButtons;
 
+    @FXML
+    private ImageView FullScreenButton;
 
     private XYChart.Series<Number, Number> currentSeries;
     private List<AbstractGradientMethod.State> currentIterations;
@@ -75,6 +79,9 @@ public class ControllerLab2 implements Initializable {
     public void initialize(final URL location, final ResourceBundle resources) {
 
         Exit.setOnMouseClicked(event -> System.exit(0));
+
+        FullScreenButton.setOnMouseClicked(event -> ((Stage)(((ImageView)event.getSource()).getScene().getWindow())).setFullScreen(true));
+
         slider.setTranslateX(-176);
         Menu.setOnMouseClicked(this::openMenu);
         MenuClose.setOnMouseClicked(this::closeMenu);

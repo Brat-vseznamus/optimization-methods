@@ -22,7 +22,7 @@
             <top>
                 <AnchorPane prefHeight="65.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                     <children>
-                        <StackPane alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" style="-fx-background-color: #0a4969;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <StackPane alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" style="-fx-background-color: #0a4969;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
                                 <ImageView fx:id="Exit" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -32,6 +32,17 @@
                                         <Rectangle2D />
                                     </viewport>
                                 </ImageView>
+                        <ImageView fx:id="FullScreenButton" fitHeight="17.0" fitWidth="18.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true" x="100.0">
+                           <image>
+                              <Image url="@../img/fullscreen.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                           <StackPane.margin>
+                              <Insets right="25.0" />
+                           </StackPane.margin>
+                        </ImageView>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" right="2.0" top="2.0" />
