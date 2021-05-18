@@ -1,5 +1,6 @@
 package graphics;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import methods.dimensional.poly.*;
@@ -47,6 +49,8 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private Text sizeIterationsText;
 
+    @FXML
+    private VBox methodsButtons;
 
 
     private XYChart.Series<Number, Number> currentSeries;
@@ -65,7 +69,7 @@ public class ControllerLab2 implements Initializable {
                     new DiagonalMatrix(new DoubleVector(51.3d, 27.9d)),
                     new DoubleVector(-23.78d, -0.9d), -0.78d)
     ));
-    QuadraticForm form = forms.get(2);
+    QuadraticForm form = forms.get(0);
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -102,7 +106,7 @@ public class ControllerLab2 implements Initializable {
 
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.setLegendVisible(false);
-        loadConjugate();
+        loadConjugate(null);
     }
 
     private void initializeLineChart(final GradientOptimizationMethod method) {
@@ -249,7 +253,7 @@ public class ControllerLab2 implements Initializable {
                 .multiplyBy(radius / maxR);
         final Function<Integer, Integer> getColor = (i) -> (int) ((double) rgb.get(i));
         series.getNode().setStyle(String.format("-fx-opacity: %s; -fx-stroke: rgb(%d,%d,%d)",
-                String.format("%.4f",1 - Math.sqrt(radius / maxR)).replace(',', '.'),
+                String.format("%.4f", 1 - Math.sqrt(radius / maxR)).replace(',', '.'),
                 getColor.apply(0),
                 getColor.apply(1),
                 getColor.apply(2)));
@@ -271,18 +275,32 @@ public class ControllerLab2 implements Initializable {
     }
 
     @FXML
-    private void loadGradient() {
-        initializeLineChart(new GradientDescendMethod(form));
+    private void loadGradient(final ActionEvent e) {
+        loadMethod(new GradientDescendMethod(form), e);
     }
 
     @FXML
-    private void loadSteepest() {
-        initializeLineChart(new SteepestDescendMethod(form));
+    private void loadSteepest(final ActionEvent e) {
+        loadMethod(new SteepestDescendMethod(form), e);
     }
 
     @FXML
-    private void loadConjugate() {
-        initializeLineChart(new ConjugateGradientMethod(form));
+    private void loadConjugate(final ActionEvent e) {
+        loadMethod(new ConjugateGradientMethod(form), e);
+    }
+
+    private void loadMethod(final GradientOptimizationMethod method, final ActionEvent e) {
+        clearMethodsButtons();
+        if (e != null) {
+            colorButton((JFXButton) e.getSource());
+        } else {
+            colorButton((JFXButton) methodsButtons.getChildren().get(2));
+        }
+        initializeLineChart(method);
+    }
+
+    private void colorButton(final JFXButton button) {
+        button.setStyle("-fx-background-color: rgba(255,196,52, 0.7)");
     }
 
     @FXML
@@ -307,12 +325,22 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private void setFunction1() {
         form = forms.get(0);
-        loadConjugate();
+        clearMethodsButtons();
+        loadConjugate(null);
     }
 
     @FXML
     private void setFunction2() {
         form = forms.get(1);
-        loadConjugate();
+        clearMethodsButtons();
+        loadConjugate(null);
+    }
+
+    private void clearMethodsButtons() {
+        methodsButtons.getChildren().forEach(
+                button -> {
+                    button.setStyle("");
+                }
+        );
     }
 }

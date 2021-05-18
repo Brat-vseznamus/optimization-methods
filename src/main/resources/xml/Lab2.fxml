@@ -98,7 +98,7 @@
             <left>
                 <AnchorPane fx:id="slider" prefHeight="362.0" prefWidth="176.0" style="-fx-background-color: #0a4969;" BorderPane.alignment="CENTER">
                     <children>
-                        <VBox layoutX="14.0" layoutY="35.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
+                        <VBox fx:id="methodsButtons" layoutX="14.0" layoutY="35.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
                             <children>
                                 <JFXButton alignment="BASELINE_LEFT" onAction="#loadGradient" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Градиентный спуск" textFill="WHITE">
                                     <font>
