@@ -66,4 +66,6 @@ public class RegularMatrix implements Matrix {
                 ", m=" + m +
                 '}';
     }
+
+
 }
