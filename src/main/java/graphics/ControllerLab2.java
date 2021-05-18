@@ -47,9 +47,6 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private Text sizeIterationsText;
 
-    QuadraticForm form = new QuadraticForm(
-            new DiagonalMatrix(new DoubleVector(60d, 2d)),
-            new DoubleVector(-10d, 10d), 2d);
 
 
     private XYChart.Series<Number, Number> currentSeries;
@@ -65,6 +62,7 @@ public class ControllerLab2 implements Initializable {
                     new DiagonalMatrix(new DoubleVector(0.5d, 32d)),
                     new DoubleVector(-5d, 15d), 2d)
     ));
+    QuadraticForm form = forms.get(1);
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -101,7 +99,7 @@ public class ControllerLab2 implements Initializable {
 
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.setLegendVisible(false);
-        loadGradient();
+        loadConjugate();
     }
 
     private void initializeLineChart(final GradientOptimizationMethod method) {
@@ -221,8 +219,11 @@ public class ControllerLab2 implements Initializable {
 
 
     private void getFunctionLevels() {
-        final double maxR = 10;
-        for (double radius = 0.1; radius < maxR; radius += 0.3) {
+        final double maxR = 2;
+        final double minR = 0.1;
+        final int count = 20;
+        final double step = (maxR - minR) / count;
+        for (double radius = minR; radius < maxR; radius += step) {
             drawFromPoint(radius, maxR);
         }
     }
@@ -303,12 +304,12 @@ public class ControllerLab2 implements Initializable {
     @FXML
     private void setFunction1() {
         form = forms.get(0);
-        loadGradient();
+        loadConjugate();
     }
 
     @FXML
     private void setFunction2() {
         form = forms.get(1);
-        loadGradient();
+        loadConjugate();
     }
 }

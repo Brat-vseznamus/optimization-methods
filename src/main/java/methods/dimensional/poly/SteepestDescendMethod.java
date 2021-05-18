@@ -7,6 +7,7 @@ import methods.Main;
 import methods.dimensional.one.BrentsMethod;
 import methods.dimensional.one.OneDimensionalOptimizationMethod;
 import methods.dimensional.one.GoldenRatioMethod;
+import methods.dimensional.one.ParabolicMethod;
 
 public class SteepestDescendMethod extends AbstractGradientMethod {
     final OneDimensionalOptimizationMethod method;
@@ -23,8 +24,8 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
     }
 
     public SteepestDescendMethod(final QuadraticForm form) {
-        // this(new BrentsMethod(), form, DEFAULT_EPS);
-        this(new GoldenRatioMethod(), form, DEFAULT_EPS);
+        this(new ParabolicMethod(), form, DEFAULT_EPS);
+        //this(new GoldenRatioMethod(), form, DEFAULT_EPS);
     }
 
     public SteepestDescendMethod(final OneDimensionalOptimizationMethod method) {
@@ -39,13 +40,13 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
     public double[] findMin() {
         final int n = form.getN();
         // step 1
-        DoubleVector x = new DoubleVector(n);
+        DoubleVector x = new DoubleVector(-5d,1d);
         double f_x = form.apply(x);
         table.add(new State(x, f_x));
 
         while (true) {
             // step 2
-            long startIt = System.currentTimeMillis();
+            final long startIt = System.currentTimeMillis();
             final DoubleVector gradient = form.gradient(x);
             final double norm = gradient.norm();
             if (norm <= eps) {
@@ -62,11 +63,8 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             method.setFunction(function);
 
             final double a = 0d;
-            final double b = rightBound(function);
+            final double b = 100d;
             final double alpha = method.findMin(a, b);
-//            if (alpha <= eps / 10) {
-//                break;
-//            }
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);
             f_x = form.apply(x);
@@ -85,32 +83,6 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
         }
         return x.toArray();
     }
-
-    private double rightBound(final UnaryOperator<Double> function) {
-        final double zeroRes = function.apply(0d);
-        double res = Math.max(eps, 1e-5d);
-        while (function.apply(res) <= zeroRes) {
-            res *= 2;
-        }
-        return res;
-    }
-
-    // private double iteration(DoubleVector x, DoubleVector f_x, DoubleVector gradient) {
-    //     final double a = 0d;
-    //     final double b = 2d / form.getMaxValue();
-    //     final DoubleVector xc = x;
-    //     final UnaryOperator<Double> function = (arg) -> {
-    //         DoubleVector vc = xc;
-    //         vc = vc.subtract(gradient.multiplyBy(arg));
-    //         return form.apply(vc);
-    //     };
-    //     method.setFunction(function);
-    //     final double alpha = method.findMin(a, b);
-    //     if (alpha <= eps / 10) {
-    //         break;
-    //     }
-    //     return alpha;
-    // }
 
     @Override
     public String getName() {

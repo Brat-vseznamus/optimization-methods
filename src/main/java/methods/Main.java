@@ -8,8 +8,8 @@ import java.util.List;
 public class Main {
     public static DoubleVector answer;
     public static void main(final String[] args) {
-        int dim = 10000;
-        int mu = 2000;
+        int dim = 10;
+        int mu = 2;
         if (args.length == 2) {
             try {
                 dim = Integer.parseInt(args[0]);
@@ -33,10 +33,16 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 2;
+        final int mode = 0;
         if (mode == 0) {
-            conjugate.findMin();
-            System.out.println(conjugate.getTable().size());
+            steepest.setForm(new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(60d, 2d)),
+                    new DoubleVector(-10d, 10d), 2d));
+            steepest.findMin();
+            System.out.println(steepest.getTable().size());
+
+            // conjugate.findMin();
+            // System.out.println(conjugate.getTable().size());
         } if (mode == 1) {
 
             answer = measureMethod(conjugate);
