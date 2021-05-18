@@ -1,5 +1,6 @@
 package methods;
 
+import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 
 import java.util.List;
@@ -33,7 +34,10 @@ public class Main {
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
         final int mode = 2;
-        if (mode == 1) {
+        if (mode == 0) {
+            conjugate.findMin();
+            System.out.println(conjugate.getTable().size());
+        } if (mode == 1) {
 
             answer = measureMethod(conjugate);
             measureMethod(steepest);
@@ -75,10 +79,29 @@ public class Main {
         } else if (mode == 2) {
             // System.out.println("Gradient:");
             // outputMethodInfo(gradient);
-            // System.out.println("Conjugate:");
-            // outputMethodInfo(conjugate);
-            System.out.println("Steepest:");
-            outputMethodInfo(steepest);
+             System.out.println("Conjugate:");
+             outputMethodInfo(conjugate);
+//            System.out.println("Steepest:");
+//            outputMethodInfo(steepest);
+        } else if (mode == 3) {
+            final DrawableMethod[] methods = new DrawableMethod[]{
+                    new DichotomyMethod(),
+                    new GoldenRatioMethod(),
+                    new FibonacciMethod(),
+//                    new ParabolicMethod(),
+//                    new BrentsMethod()
+            };
+            GradientOptimizationMethod step;
+            final QuadraticForm testing = new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(1d, 64d)),
+                    new DoubleVector(-10, 30),
+                    2d);
+            for (final DrawableMethod method : methods) {
+                step = new SteepestDescendMethod(method);
+                step.setForm(testing);
+                step.findMin();
+                System.out.printf("%s - %d%n", method.getName(), step.getTable().size());
+            }
         }
     }
 
