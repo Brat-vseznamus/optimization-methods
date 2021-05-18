@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGradientMethod implements GradientOptimizationMethod {
-    protected final static double DEFAULT_EPS = 1e-6d;
+    protected final static double DEFAULT_EPS = 1e-5d;
     protected final double eps;
     protected final List<State> table;
     protected QuadraticForm form;
