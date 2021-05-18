@@ -30,7 +30,7 @@ public class Main {
         }
     }
 
-    @Test(src = "gauss1")
+    @Test(src = "gaussD3")
     public static void test_01() {
         Matrix m = new RegularMatrix(
                 new double[][]{
@@ -39,6 +39,20 @@ public class Main {
                         {3, 5, 6}
                 });
         double[] numbers = new double[]{4, 5, 6};
+        System.out.println(Arrays.toString(
+                new GaussMethod().solve(m, numbers)));
+    }
+
+    @Test(src = "gaussD4_many_solutions")
+    public static void test_02() {
+        Matrix m = new RegularMatrix(
+                new double[][]{
+                        {2, -1, 3, -5},
+                        {7, -5, -9, -10},
+                        {1, -1, -5, 0},
+                        {3, -2, -2, -5}
+                });
+        double[] numbers = new double[]{1, 8, 2, 3};
         System.out.println(Arrays.toString(
                 new GaussMethod().solve(m, numbers)));
     }

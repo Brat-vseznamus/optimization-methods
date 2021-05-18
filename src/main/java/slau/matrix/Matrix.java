@@ -1,5 +1,7 @@
 package slau.matrix;
 
+import methods.Pair;
+
 public interface Matrix {
     double get(int row, int col);
     int getN();

@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 import slau.matrix.Matrix;
 
 public class RegularMatrix implements Matrix {
-    private double[][] data;
-    private final int n, m;
+    protected double[][] data;
+    protected final int n, m;
 
     public RegularMatrix(int n, int m) {
         this.n = n;
@@ -57,5 +57,12 @@ public class RegularMatrix implements Matrix {
             && 0 <= col && col < m;
     }
 
-    
+    @Override
+    public String toString() {
+        return "RegularMatrix{" +
+                "data=" + Arrays.toString(data) +
+                ", n=" + n +
+                ", m=" + m +
+                '}';
+    }
 }
