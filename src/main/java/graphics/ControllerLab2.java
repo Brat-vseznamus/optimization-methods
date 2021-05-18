@@ -60,9 +60,12 @@ public class ControllerLab2 implements Initializable {
                     new DoubleVector(-10d, 10d), 2d),
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(0.5d, 32d)),
-                    new DoubleVector(-5d, 15d), 2d)
+                    new DoubleVector(-5d, 15d), 2d),
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(51.3d, 27.9d)),
+                    new DoubleVector(-23.78d, -0.9d), -0.78d)
     ));
-    QuadraticForm form = forms.get(1);
+    QuadraticForm form = forms.get(2);
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -246,7 +249,7 @@ public class ControllerLab2 implements Initializable {
                 .multiplyBy(radius / maxR);
         final Function<Integer, Integer> getColor = (i) -> (int) ((double) rgb.get(i));
         series.getNode().setStyle(String.format("-fx-opacity: %s; -fx-stroke: rgb(%d,%d,%d)",
-                Double.toString(1 - Math.sqrt(radius / maxR)).replace(',', '.'),
+                String.format("%.4f",1 - Math.sqrt(radius / maxR)).replace(',', '.'),
                 getColor.apply(0),
                 getColor.apply(1),
                 getColor.apply(2)));

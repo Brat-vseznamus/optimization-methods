@@ -47,9 +47,9 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                     x = y;
                     f_x = f_y;
                     if (iterationsWithoutTable) {
-                        table.add(new State(x, f_x));
-                    } else {
                         iterations++;
+                    } else {
+                        table.add(new State(x, f_x));
                     }
                     break;
                 } else {

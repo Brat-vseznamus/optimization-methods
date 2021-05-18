@@ -3,6 +3,7 @@ package methods;
 import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -16,7 +17,11 @@ public class Main {
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(1d, 64d)),
                     new DoubleVector(-10, 30),
-                    2d)
+                    2d),
+
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(0.5d, 0.5d)),
+                    new DoubleVector(40d, -2d), 13d)
     );
 
     public static void main(final String[] args) {
@@ -41,11 +46,11 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 2;
+        final int mode = 0;
         if (mode == 0) {
-            steepest.setForm(forms.get(0));
-            steepest.findMin();
-            System.out.println(steepest.getTable().size());
+            gradient.setForm(forms.get(2));
+            System.out.println(Arrays.toString(gradient.findMin()));
+            System.out.println(gradient.getTable().size());
 
             // conjugate.findMin();
             // System.out.println(conjugate.getTable().size());
