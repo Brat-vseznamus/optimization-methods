@@ -1,4 +1,4 @@
-module grapics {
+module graphics {
     requires javafx.controls;
     requires javafx.fxml;
     requires jfxutils;
@@ -6,4 +6,6 @@ module grapics {
 
     opens graphics to javafx.fxml;
     exports graphics;
+    exports slau.matrix;
+    exports slau.methods;
 }
