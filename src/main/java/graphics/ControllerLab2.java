@@ -80,7 +80,7 @@ public class ControllerLab2 implements Initializable {
 
         Exit.setOnMouseClicked(event -> System.exit(0));
 
-        FullScreenButton.setOnMouseClicked(event -> ((Stage)(((ImageView)event.getSource()).getScene().getWindow())).setFullScreen(true));
+        FullScreenButton.setOnMouseClicked(event -> ((Stage) (((ImageView) event.getSource()).getScene().getWindow())).setFullScreen(true));
 
         slider.setTranslateX(-176);
         Menu.setOnMouseClicked(this::openMenu);
@@ -127,6 +127,7 @@ public class ControllerLab2 implements Initializable {
         currentIteration = 0;
         getFunctionLevels();
         lineChart.getData().add(currentSeries);
+        currentSeries.getNode().setStyle("-fx-stroke: orange");
         sizeIterationsText.setText(Integer.toString(currentIterations.size() - 1));
         updateCurrentSeries();
         nextIteration(1);
