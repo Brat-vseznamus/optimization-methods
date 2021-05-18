@@ -7,9 +7,21 @@ import java.util.List;
 
 public class Main {
     public static DoubleVector answer;
+
+    private static final List<QuadraticForm> forms = List.of(
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(60d, 2d)),
+                    new DoubleVector(-10d, 10d), 2d),
+
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(1d, 64d)),
+                    new DoubleVector(-10, 30),
+                    2d)
+    );
+
     public static void main(final String[] args) {
-        int dim = 10;
-        int mu = 2;
+        int dim = 2_000;
+        int mu = 200;
         if (args.length == 2) {
             try {
                 dim = Integer.parseInt(args[0]);
@@ -22,28 +34,23 @@ public class Main {
             }
         }
 
-       final QuadraticForm form = FormGenerator.generate(dim, mu);
-        // final QuadraticForm form = new QuadraticForm(
-        //         new DiagonalMatrix(new DoubleVector(1d, 250d)),
-        //         new DoubleVector(1d, 0d),
-        //         1d);
+        final QuadraticForm form = FormGenerator.generate(dim, mu);
 
         final GradientOptimizationMethod gradient = new GradientDescendMethod(form);
         final GradientOptimizationMethod steepest = new SteepestDescendMethod(form);
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 0;
+        final int mode = 2;
         if (mode == 0) {
-            steepest.setForm(new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(60d, 2d)),
-                    new DoubleVector(-10d, 10d), 2d));
+            steepest.setForm(forms.get(0));
             steepest.findMin();
             System.out.println(steepest.getTable().size());
 
             // conjugate.findMin();
             // System.out.println(conjugate.getTable().size());
-        } if (mode == 1) {
+        }
+        if (mode == 1) {
 
             answer = measureMethod(conjugate);
             measureMethod(steepest);
@@ -85,28 +92,26 @@ public class Main {
         } else if (mode == 2) {
             // System.out.println("Gradient:");
             // outputMethodInfo(gradient);
-             System.out.println("Conjugate:");
-             outputMethodInfo(conjugate);
-//            System.out.println("Steepest:");
-//            outputMethodInfo(steepest);
+//            System.out.println("Conjugate:");
+//            outputMethodInfo(conjugate);
+            System.out.println("Steepest:");
+            outputMethodInfo(steepest);
         } else if (mode == 3) {
             final DrawableMethod[] methods = new DrawableMethod[]{
                     new DichotomyMethod(),
                     new GoldenRatioMethod(),
                     new FibonacciMethod(),
-//                    new ParabolicMethod(),
-//                    new BrentsMethod()
+                    new ParabolicMethod(),
+                    new BrentsMethod()
             };
             GradientOptimizationMethod step;
-            final QuadraticForm testing = new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(1d, 64d)),
-                    new DoubleVector(-10, 30),
-                    2d);
+            final QuadraticForm testing = forms.get(1);//FormGenerator.generate(dim, mu);
             for (final DrawableMethod method : methods) {
                 step = new SteepestDescendMethod(method);
+                step.setIterationsWithoutTable(true);
                 step.setForm(testing);
                 step.findMin();
-                System.out.printf("%s - %d%n", method.getName(), step.getTable().size());
+                System.out.printf("%s - %d%n", method.getName(), step.getIterations());
             }
         }
     }

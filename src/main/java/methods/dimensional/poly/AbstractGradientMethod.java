@@ -10,6 +10,20 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
     protected final double eps;
     protected final List<State> table;
     protected QuadraticForm form;
+    protected int iterations = 0;
+
+
+    @Override
+    public int getIterations() {
+        return this.iterations;
+    }
+
+    @Override
+    public void setIterationsWithoutTable(final boolean iterationsWithoutTable) {
+        this.iterationsWithoutTable = iterationsWithoutTable;
+    }
+
+    protected boolean iterationsWithoutTable = false;
 
     protected AbstractGradientMethod(final QuadraticForm form, final double eps) {
         this.form = form;
@@ -40,9 +54,7 @@ public abstract class AbstractGradientMethod implements GradientOptimizationMeth
     @Override
     public List<Pair<Integer, List<Pair<Integer, Integer>>>> valueAndDimToIterations() {
 //        final int[] values = new int[]{2, 5, 10, 20, 50, 100, 300, 500, 1000, 2000};
-        final int[] values = new int[]{
-                1, 2, 5, 10, 20, 30, 50, 100, 200, 500, 1000, 2000
-        };
+        final int[] values = new int[]{1, 2, 5, 10, 20, 30, 50, 100, 200, 500, 1000, 2000};
         final int[] dimensions = new int[]{2, 5, 10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
         final List<Pair<Integer, List<Pair<Integer, Integer>>>> result = new ArrayList<>(values.length);
         System.out.printf("%-5s", "m\\n");

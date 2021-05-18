@@ -22,7 +22,11 @@ public class GradientDescendMethod extends AbstractGradientMethod {
         DoubleVector x = new DoubleVector(n);
         DoubleVector y;
         double f_x = form.apply(x);
-        table.add(new State(x, f_x));
+        if (iterationsWithoutTable) {
+            iterations++;
+        } else {
+            table.add(new State(x, f_x));
+        }
         double f_y;
 
         while (true) {
@@ -42,7 +46,11 @@ public class GradientDescendMethod extends AbstractGradientMethod {
                 if (f_y <= f_x) {
                     x = y;
                     f_x = f_y;
-                    table.add(new State(x, f_x));
+                    if (iterationsWithoutTable) {
+                        table.add(new State(x, f_x));
+                    } else {
+                        iterations++;
+                    }
                     break;
                 } else {
                     // step 4

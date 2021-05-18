@@ -20,11 +20,11 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
 
     public SteepestDescendMethod(final OneDimensionalOptimizationMethod method,
                                  final QuadraticForm form) {
-        this(method, form, DEFAULT_EPS);
+        this(method, form, DEFAULT_EPS * 10);
     }
 
     public SteepestDescendMethod(final QuadraticForm form) {
-        this(new ParabolicMethod(), form, DEFAULT_EPS);
+        this(new ParabolicMethod(), form, DEFAULT_EPS * 10);
         //this(new GoldenRatioMethod(), form, DEFAULT_EPS);
     }
 
@@ -40,9 +40,14 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
     public double[] findMin() {
         final int n = form.getN();
         // step 1
-        DoubleVector x = new DoubleVector(-5d,1d);
+        DoubleVector x = new DoubleVector(n);
         double f_x = form.apply(x);
-        table.add(new State(x, f_x));
+
+        if (iterationsWithoutTable) {
+            iterations++;
+        } else {
+            table.add(new State(x, f_x));
+        }
 
         while (true) {
             // step 2
@@ -68,7 +73,11 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);
             f_x = form.apply(x);
-            table.add(new State(x, f_x));
+            if (iterationsWithoutTable) {
+                iterations++;
+            } else {
+                table.add(new State(x, f_x));
+            }
             // long endIt = System.currentTimeMillis();
             // String nextLine = "";
             // System.out.print("\b".repeat(70));

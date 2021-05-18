@@ -14,4 +14,8 @@ public interface GradientOptimizationMethod {
     List<Pair<Integer, List<Pair<Integer, Integer>>>> valueAndDimToIterations();
 
     String getName();
+
+    void setIterationsWithoutTable(final boolean iterationsWithoutTable);
+
+    int getIterations();
 }
