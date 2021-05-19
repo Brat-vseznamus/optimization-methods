@@ -39,11 +39,11 @@ public interface Matrix {
         return true;
     }
 
-    default Matrix multiply(Matrix matrix) {
+    default Matrix multiply(final Matrix matrix) {
         if (this.getM() != matrix.getN()) {
             throw new IllegalArgumentException("illegal sizes of matrices");
         }
-        double[][] res = new double[this.getN()][matrix.getM()];
+        final double[][] res = new double[this.getN()][matrix.getM()];
         for (int row = 0; row < this.getN(); row++) {
             for (int col = 0; col < matrix.getM(); col++) {
                 for (int cell = 0; cell < this.getM(); cell++) {
@@ -54,8 +54,6 @@ public interface Matrix {
         return new RegularMatrix(res);
     }
 
-    String toString();
-
     default String output() {
         return IntStream.range(0, getN())
                 .mapToObj(i -> IntStream.range(0, getM())
@@ -64,12 +62,12 @@ public interface Matrix {
                 .collect(Collectors.joining(String.format(",%n"), "[", "]"));
     }
 
-    default double[] multiplyBy(double[] vector) {
+    default double[] multiplyBy(final double[] vector) {
         if (vector.length != this.getM()) {
             throw new IllegalArgumentException("illegal vector size");
         }
 
-        double[] answer = new double[vector.length];
+        final double[] answer = new double[vector.length];
         for (int row = 0; row < getN(); row++) {
             for (int col = 0; col < getM(); col++) {
                 answer[row] += vector[col] * get(row, col);
