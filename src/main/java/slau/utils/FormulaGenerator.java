@@ -8,20 +8,20 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class FormulaGenerator {
-    public static Pair<Matrix, double[]> generateFormula(int n, int k) {
-        Matrix m = generateMatrix(n, k);
-        double[] x = new double[n];
+    public static Pair<Matrix, double[]> generateFormula(final int n, final int k) {
+        final Matrix m = generateMatrix(n, k);
+        final double[] x = new double[n];
         IntStream.range(0, n).forEach(i -> x[i] = i + 1);
         return new Pair<>(m, m.multiplyBy(x));
     }
 
-    public static Matrix generateMatrix(int n, int k) {
+    public static Matrix generateMatrix(final int n, final int k) {
         if (n <= 0) {
             throw  new IllegalArgumentException("n > 0");
         }
         final double eps = Math.exp(Math.log(10) * (-k));
-        double[][] data = new double[n][n];
-        Random rnd = new Random();
+        final double[][] data = new double[n][n];
+        final Random rnd = new Random();
         IntStream.range(0, n).forEach(
                 row -> {
                     IntStream.range(0, n - 1).forEach(

@@ -17,15 +17,15 @@ public class TableGenerator {
         int maxExp;
         int maxK;
 
-        public Setting(int base, int maxExp, int maxK) {
+        public Setting(final int base, final int maxExp, final int maxK) {
             this.base = base;
             this.maxExp = maxExp;
             this.maxK = maxK;
         }
     }
 
-    public static void generateTable(String filename, Method method, Setting setting) {
-        String format = "%4s  %2s  %8.6e  %8.6e%n";
+    public static void generateTable(final String filename, final Method method, final Setting setting) {
+        final String format = "%4s  %2s  %8.6e  %8.6e%n";
         Path path = null;
         try {
             path = Path.of("src/main/java/slau"+
@@ -37,7 +37,7 @@ public class TableGenerator {
             if (!Files.exists(path)) {
                 path = Files.createFile(path);
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         int n = 1;
@@ -45,15 +45,15 @@ public class TableGenerator {
         final int inc = setting.base;
         final int maxExp = setting.maxExp;
 
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+        try (final BufferedWriter writer = Files.newBufferedWriter(path)) {
             for (int exp = 1; exp <= maxExp; exp++) {
                 n *= inc;
-                double[] answer = new double[n];
+                final double[] answer = new double[n];
                 IntStream.range(0, n).forEach(i -> answer[i] = i + 1);
 
                 for (int k = 0; k <= maxK; k++) {
-                    Pair<Matrix, double[]> formula = FormulaGenerator.generateFormula(n, k);
-                    double[] result = method.solve(
+                    final Pair<Matrix, double[]> formula = FormulaGenerator.generateFormula(n, k);
+                    final double[] result = method.solve(
                             formula.first,
                             formula.second
                     );
@@ -69,13 +69,13 @@ public class TableGenerator {
                             VectorUtils.euclideanNorm(answer)));
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public static void generateTable(String filename, Method method) {
+    public static void generateTable(final String filename, final Method method) {
         generateTable(filename, method, new Setting(3, 3, 5));
     }
 
