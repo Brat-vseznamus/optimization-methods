@@ -115,4 +115,8 @@ public class RegularMatrix implements PresentableMatrix {
             e.printStackTrace();
         }
     }
+
+    public double[][] getData() {
+        return data;
+    }
 }

@@ -3,6 +3,9 @@ import org.junit.jupiter.api.Test;
 import slau.matrix.Matrix;
 import slau.matrix.ProfileMatrix;
 import slau.matrix.RegularMatrix;
+import slau.utils.FormulaGenerator;
+
+import java.nio.file.Path;
 
 public class ProfileMatrixTest {
 
@@ -43,5 +46,17 @@ public class ProfileMatrixTest {
         );
         System.out.println(profileMatrix.get(0, 3));
         Assertions.assertTrue(profileMatrix.equals(matrix1));
+    }
+
+    @Test
+    public void profileMatrixToAndFromFile() {
+        final int n = 100;
+        final int k = 4;
+        final RegularMatrix regularMatrix = (RegularMatrix) FormulaGenerator.generateMatrix(n, k);
+        final Path fileToSave = Path.of("./matrices/profile/matrix.txt");
+        final ProfileMatrix matrix = new ProfileMatrix(regularMatrix.getData());
+        matrix.saveToFile(fileToSave);
+        final ProfileMatrix matrixFromFile = new ProfileMatrix(fileToSave);
+        Assertions.assertTrue(matrix.equals(matrixFromFile));
     }
 }

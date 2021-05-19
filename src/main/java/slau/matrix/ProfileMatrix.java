@@ -1,10 +1,19 @@
 package slau.matrix;
 
+import slau.utils.PresentationUtils;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class ProfileMatrix implements LUDecomposible {
+public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
     private final int n;
     private final double[] diagonal;
     private final double[] rowProfile;
@@ -56,6 +65,38 @@ public class ProfileMatrix implements LUDecomposible {
         }
         colBeginInProfile[n] = colElementsList.size();
         colProfile = colElementsList.stream().mapToDouble((el) -> el).toArray();
+    }
+
+    /*
+    n
+    double[] diagonal;
+    rowProfileSize
+    double[] rowProfile;
+    colProfileSize
+    double[] colProfile;
+    int[] rowBeginInProfile;
+    int[] colBeginInProfile;
+     */
+    public ProfileMatrix(final Path filePath) {
+        try (final BufferedReader reader = Files.newBufferedReader(filePath)) {
+            final Scanner scanner = new Scanner(reader);
+            n = scanner.nextInt();
+            diagonal = new double[n];
+            PresentationUtils.readDoubleArrayFromScanner(diagonal, scanner);
+            final int rowProfileSize = scanner.nextInt();
+            rowProfile = new double[rowProfileSize];
+            PresentationUtils.readDoubleArrayFromScanner(rowProfile, scanner);
+            final int colProfileSize = scanner.nextInt();
+            colProfile = new double[colProfileSize];
+            PresentationUtils.readDoubleArrayFromScanner(colProfile, scanner);
+            rowBeginInProfile = new int[n + 1];
+            PresentationUtils.readIntArrayFromScanner(rowBeginInProfile, scanner);
+            colBeginInProfile = new int[n + 1];
+            PresentationUtils.readIntArrayFromScanner(colBeginInProfile, scanner);
+        } catch (final IOException e) {
+            System.err.println("Exception while reading: " + e.getMessage());
+            throw new UncheckedIOException(e);
+        }
     }
 
     @Override
@@ -159,6 +200,46 @@ public class ProfileMatrix implements LUDecomposible {
         }
 
         return new LU(L, U);
+    }
+
+    /*
+    n
+    double[] diagonal;
+    rowProfileSize
+    double[] rowProfile;
+    colProfileSize
+    double[] colProfile;
+    int[] rowBeginInProfile;
+    int[] colBeginInProfile;
+     */
+    @Override
+    public void saveToFile(final Path file) {
+        PresentationUtils.createDir(file);
+        try (final BufferedWriter writer = Files.newBufferedWriter(file)) {
+            writer.write(Integer.toString(n));
+            writer.write(System.lineSeparator());
+
+            PresentationUtils.writeDoubleArray(diagonal, writer);
+            writer.write(System.lineSeparator());
+
+            writer.write(Integer.toString(rowProfile.length));
+            writer.write(System.lineSeparator());
+            PresentationUtils.writeDoubleArray(rowProfile, writer);
+            writer.write(System.lineSeparator());
+
+            writer.write(Integer.toString(colProfile.length));
+            writer.write(System.lineSeparator());
+            PresentationUtils.writeDoubleArray(colProfile, writer);
+            writer.write(System.lineSeparator());
+
+            PresentationUtils.writeIntArray(rowBeginInProfile, writer);
+            writer.write(System.lineSeparator());
+
+            PresentationUtils.writeIntArray(colBeginInProfile, writer);
+            writer.write(System.lineSeparator());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private class AbstractComponent implements Matrix {
