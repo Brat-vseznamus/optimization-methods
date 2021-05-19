@@ -3,6 +3,7 @@ package slau.utils;
 import methods.Pair;
 import slau.matrix.LUMatrix;
 import slau.matrix.Matrix;
+import slau.matrix.ProfileMatrix;
 import slau.matrix.RegularMatrix;
 
 import java.util.Random;
@@ -49,5 +50,26 @@ public class FormulaGenerator {
         );
         return new LUMatrix(data);
     }
+
+    public static Matrix generateHilbert(int n) {
+        if (n <= 0) {
+            throw  new IllegalArgumentException("n > 0");
+        }
+        final double[][] data = new double[n][n];
+        IntStream.range(0, n).forEach(
+                i -> IntStream.range(0, n).forEach(
+                        j -> data[i][j] = 1d/(i + j + 1)
+                )
+        );
+        return new ProfileMatrix(data);
+    }
+
+    public static Pair<Matrix, double[]> generateHilbertFormula(final int n) {
+        final Matrix m = generateHilbert(n);
+        final double[] x = new double[n];
+        IntStream.range(0, n).forEach(i -> x[i] = i + 1);
+        return new Pair<>(m, m.multiplyBy(x));
+    }
+
 
 }

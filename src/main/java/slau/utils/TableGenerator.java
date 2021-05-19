@@ -24,7 +24,10 @@ public class TableGenerator {
         }
     }
 
-    public static void generateTable(final String filename, final Method method, final Setting setting) {
+
+    public static void generateTable(final String filename,
+                                     final Method method,
+                                     final Setting setting) {
         final String format = "%4s  %2s  %8.6e  %8.6e%n";
         Path path = null;
         try {
@@ -77,6 +80,49 @@ public class TableGenerator {
 
     public static void generateTable(final String filename, final Method method) {
         generateTable(filename, method, new Setting(3, 3, 5));
+    }
+
+    public static void generateTableHilbert(final String filename, final Method method) {
+        final String format = "%4s  %8.6e  %8.6e%n";
+        Path path = null;
+        try {
+            path = Path.of("src/main/java/slau"+
+                    File.separator
+                    + "resources"
+                    + File.separator
+                    + filename
+                    + ".txt");
+            if (!Files.exists(path)) {
+                path = Files.createFile(path);
+            }
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+
+        try (final BufferedWriter writer = Files.newBufferedWriter(path)) {
+            for (int n = 1; n <= 10; n++) {
+                final double[] answer = new double[n];
+                IntStream.range(0, n).forEach(i -> answer[i] = i + 1);
+                final Pair<Matrix, double[]> formula = FormulaGenerator.generateHilbertFormula(n);
+                final double[] result = method.solve(
+                        formula.first,
+                        formula.second
+                );
+                writer.write(String.format(format,
+                        n,
+                        VectorUtils.euclideanNorm(
+                                VectorUtils.subtract(result, answer)
+                        ),
+                        VectorUtils.euclideanNorm(
+                                VectorUtils.subtract(result, answer)
+                        ) /
+                                VectorUtils.euclideanNorm(answer)));
+
+            }
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

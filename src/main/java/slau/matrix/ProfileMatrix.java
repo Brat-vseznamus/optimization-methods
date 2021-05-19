@@ -279,9 +279,9 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
         @Override
         public void set(final int row, final int col, final double value) {
             if (row < col) {
-                throw new UnsupportedOperationException("cannot set in left down triangle");
+//                throw new UnsupportedOperationException("cannot set in left down triangle");
+                return;
             }
-
             super.set(row, col, value);
         }
     }
@@ -303,9 +303,9 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
         @Override
         public void set(final int row, final int col, final double value) {
             if (col < row || row == col) {
-                throw new UnsupportedOperationException("cannot set in right upper triangle or diagonal");
+//                throw new UnsupportedOperationException("cannot set in right upper triangle or diagonal");
+                return;
             }
-
             super.set(row, col, value);
         }
     }
