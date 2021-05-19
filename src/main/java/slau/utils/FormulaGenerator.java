@@ -1,6 +1,7 @@
 package slau.utils;
 
 import methods.Pair;
+import slau.matrix.LUMatrix;
 import slau.matrix.Matrix;
 import slau.matrix.RegularMatrix;
 
@@ -8,6 +9,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class FormulaGenerator {
+
     public static Pair<Matrix, double[]> generateFormula(final int n, final int k) {
         final Matrix m = generateMatrix(n, k);
         final double[] x = new double[n];
@@ -45,7 +47,7 @@ public class FormulaGenerator {
                     }
                 }
         );
-        return new RegularMatrix(data);
+        return new LUMatrix(data);
     }
 
 }
