@@ -136,27 +136,26 @@ public class ProfileMatrix implements LUDecomposible {
         L.set(0, 0, this.get(0, 0));
         for (int i = 0; i < n; ++i) {
             for (int j = rowToBeginCol(i); j < i; ++j) {
-                double sum1 = 0d;
-                for (int k = /*rowToBeginCol(i)*/0; k < j; ++k) {
-                    sum1 += L.get(i, k) * U.get(k, j);
+                double sum = 0d;
+                for (int k = rowToBeginCol(i); k < j; ++k) {
+                    sum += L.get(i, k) * U.get(k, j);
                 }
-                L.set(i, j, this.get(i, j) - sum1);
+                L.set(i, j, this.get(i, j) - sum);
             }
 
             for (int j = colToBeginRow(i); j < i; ++j) {
-                double sum2 = 0d;
-                for (int k = /*colToBeginRow(i)*/0; k < j; ++k) {
-                    sum2 += L.get(j, k) * U.get(k, i);
+                double sum = 0d;
+                for (int k = colToBeginRow(i); k < j; ++k) {
+                    sum += L.get(j, k) * U.get(k, i);
                 }
-                U.set(j, i, (this.get(j, i) - sum2) / L.get(j, j));
+                U.set(j, i, (this.get(j, i) - sum) / L.get(j, j));
             }
 
-            double sum3 = 0d;
+            double sum = 0d;
             for (int k = 0; k < i; ++k) {
-                sum3 += L.get(i, k) * U.get(k, i);
+                sum += L.get(i, k) * U.get(k, i);
             }
-            System.out.printf("%d, %d%n", i, i);
-            L.set(i, i, this.get(i, i) - sum3);
+            L.set(i, i, this.get(i, i) - sum);
         }
 
         return new LU(L, U);
