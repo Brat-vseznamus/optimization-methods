@@ -2,8 +2,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import slau.matrix.LU;
 import slau.matrix.LUMatrix;
-import slau.matrix.Matrix;
-import slau.matrix.RegularMatrix;
 
 public class LUTest {
     @Test

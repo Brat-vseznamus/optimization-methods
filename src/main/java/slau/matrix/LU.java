@@ -15,4 +15,5 @@ public class LU {
     public Matrix getU() {
         return u;
     }
+
 }

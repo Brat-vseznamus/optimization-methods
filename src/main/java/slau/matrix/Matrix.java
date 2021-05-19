@@ -52,4 +52,18 @@ public interface Matrix {
         }
         return new RegularMatrix(res);
     }
+
+    default double[] multiplyBy(double[] vector) {
+        if (vector.length != this.getM()) {
+            throw new IllegalArgumentException("illegal vector size");
+        }
+
+        double[] answer = new double[vector.length];
+        for (int row = 0; row < getN(); row++) {
+            for (int col = 0; col < getM(); col++) {
+                answer[row] += vector[col] * get(row, col);
+            }
+        }
+        return answer;
+    }
 }
