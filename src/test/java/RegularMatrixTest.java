@@ -1,18 +1,11 @@
-package matrixGeneration;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import slau.matrix.Matrix;
 import slau.matrix.RegularMatrix;
 import slau.utils.FormulaGenerator;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.IntStream;
 
-public class DifferentVariantsOfMatrix {
+public class RegularMatrixTest {
 
     @Test
     public void regularMatrixToAndFromFile() {
@@ -24,6 +17,4 @@ public class DifferentVariantsOfMatrix {
         final RegularMatrix matrixFromFile = new RegularMatrix(fileToSave);
         Assertions.assertTrue(matrix.equals(matrixFromFile));
     }
-
-
 }
