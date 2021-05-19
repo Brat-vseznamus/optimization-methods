@@ -1,5 +1,6 @@
 package slau.matrix;
 
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public interface Matrix {
@@ -51,6 +52,16 @@ public interface Matrix {
             }
         }
         return new RegularMatrix(res);
+    }
+
+    String toString();
+
+    default String output() {
+        return IntStream.range(0, getN())
+                .mapToObj(i -> IntStream.range(0, getM())
+                        .mapToObj(j -> String.format("%.5f", get(i, j)))
+                        .collect(Collectors.joining(", ", "[", "]")))
+                .collect(Collectors.joining(String.format(",%n"), "[", "]"));
     }
 
     default double[] multiplyBy(double[] vector) {

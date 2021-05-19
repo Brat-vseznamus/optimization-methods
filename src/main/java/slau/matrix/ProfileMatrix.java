@@ -106,8 +106,7 @@ public class ProfileMatrix implements LUDecomposible {
 
         if (row == col) {
             return diagonal[row];
-        }
-        if (row < col) {
+        } else if (row < col) {
             return colProfile[getColProfileIndex(row, col)];
         } else {
             return rowProfile[getRowProfileIndex(row, col)];
@@ -122,8 +121,7 @@ public class ProfileMatrix implements LUDecomposible {
 
         if (row == col) {
             diagonal[row] = value;
-        }
-        if (row < col) {
+        } else if (row < col) {
             colProfile[getColProfileIndex(row, col)] = value;
         } else {
             rowProfile[getRowProfileIndex(row, col)] = value;
@@ -135,22 +133,30 @@ public class ProfileMatrix implements LUDecomposible {
         final LComponent L = new LComponent();
         final UComponent U = new UComponent();
 
-        L.set(1, 1, this.get(1, 1));
+        L.set(0, 0, this.get(0, 0));
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < i; ++j) {
-                double sum1 = 0d, sum2 = 0d, sum3 = 0d;
-                // TODO set only in profile
-                for (int k = 0; k < j; ++k) {
+            for (int j = rowToBeginCol(i); j < i; ++j) {
+                double sum1 = 0d;
+                for (int k = /*rowToBeginCol(i)*/0; k < j; ++k) {
                     sum1 += L.get(i, k) * U.get(k, j);
-                    sum2 += L.get(j, k) * U.get(k, i);
-                    sum3 += L.get(i, k) * U.get(k, i);
                 }
-
                 L.set(i, j, this.get(i, j) - sum1);
-                U.set(j, i, (this.get(j, i) - sum2) / L.get(j, j));
-                L.set(i, i, this.get(i, i) - sum3);
-                U.set(i, i, 1);
             }
+
+            for (int j = colToBeginRow(i); j < i; ++j) {
+                double sum2 = 0d;
+                for (int k = /*colToBeginRow(i)*/0; k < j; ++k) {
+                    sum2 += L.get(j, k) * U.get(k, i);
+                }
+                U.set(j, i, (this.get(j, i) - sum2) / L.get(j, j));
+            }
+
+            double sum3 = 0d;
+            for (int k = 0; k < i; ++k) {
+                sum3 += L.get(i, k) * U.get(k, i);
+            }
+            System.out.printf("%d, %d%n", i, i);
+            L.set(i, i, this.get(i, i) - sum3);
         }
 
         return new LU(L, U);
@@ -216,8 +222,8 @@ public class ProfileMatrix implements LUDecomposible {
 
         @Override
         public void set(final int row, final int col, final double value) {
-            if (col < row) {
-                throw new UnsupportedOperationException("cannot set in left down triangle");
+            if (col < row || row == col) {
+                throw new UnsupportedOperationException("cannot set in right upper triangle or diagonal");
             }
 
             super.set(row, col, value);
