@@ -1,9 +1,9 @@
 package slau.matrix;
 
 public class GilbertMatrix implements Matrix {
-    private int n;
+    private final int n;
 
-    public GilbertMatrix(int n) {
+    public GilbertMatrix(final int n) {
         this.n = n;
     }
 
@@ -18,12 +18,12 @@ public class GilbertMatrix implements Matrix {
     }
 
     @Override
-    public double get(int row, int col) {
+    public double get(final int row, final int col) {
         return 1d / (row + col + 1);
     }
 
     @Override
-    public void set(int row, int col, double value) {
+    public void set(final int row, final int col, final double value) {
         throw new UnsupportedOperationException("no");
     }
 }
