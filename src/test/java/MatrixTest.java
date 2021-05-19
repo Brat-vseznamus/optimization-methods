@@ -34,6 +34,5 @@ public class MatrixTest {
                         {3, 5, 6}});
         matrix.swapRows(0, 1);
         Assertions.assertTrue(matrix.equals(answer));
-
     }
 }

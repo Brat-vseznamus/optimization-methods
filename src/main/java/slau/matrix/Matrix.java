@@ -37,4 +37,19 @@ public interface Matrix {
         }
         return true;
     }
+
+    default Matrix multiply(Matrix matrix) {
+        if (this.getM() != matrix.getN()) {
+            throw new IllegalArgumentException("illegal sizes of matrices");
+        }
+        double[][] res = new double[this.getN()][matrix.getM()];
+        for (int row = 0; row < this.getN(); row++) {
+            for (int col = 0; col < matrix.getM(); col++) {
+                for (int cell = 0; cell < this.getM(); cell++) {
+                    res[row][col] += this.get(row, cell) * matrix.get(cell, col);
+                }
+            }
+        }
+        return new RegularMatrix(res);
+    }
 }
