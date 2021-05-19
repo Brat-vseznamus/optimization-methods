@@ -36,6 +36,7 @@ public class ProfileMatrix implements Matrix {
                 }
             }
         }
+        rowBeginIndices[n] = rowElementsList.size();
         rowElements = rowElementsList.stream().mapToDouble((el) -> el).toArray();
 
         final List<Double> colElementsList = new ArrayList<>();
@@ -53,9 +54,8 @@ public class ProfileMatrix implements Matrix {
                 }
             }
         }
+        colBeginIndices[n] = colElementsList.size();
         colElements = colElementsList.stream().mapToDouble((el) -> el).toArray();
-
-        System.out.println("cringe");
     }
 
     @Override
@@ -86,8 +86,8 @@ public class ProfileMatrix implements Matrix {
 
     private boolean outOfProfile(final int row, final int col) {
         return row != col
-                && (row >= col || colCount(col) < col - row)
-                && rowCount(row) < row - col;
+                && (row < col && colCount(col) < col - row
+                || rowCount(row) < row - col);
     }
 
     private int getColProfileIndex(final int row, final int col) {
