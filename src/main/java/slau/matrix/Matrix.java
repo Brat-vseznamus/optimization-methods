@@ -3,14 +3,13 @@ package slau.matrix;
 import java.util.stream.IntStream;
 
 public interface Matrix {
-
     double DOUBLE_EQUALS_EPS = 0.0001;
-
-    double get(int row, int col);
 
     int getN();
 
     int getM();
+
+    double get(int row, int col);
 
     void set(int row, int col, double value);
 
