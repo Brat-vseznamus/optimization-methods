@@ -3,8 +3,6 @@ import org.junit.jupiter.api.Test;
 import slau.matrix.Matrix;
 import slau.matrix.RegularMatrix;
 
-import java.util.stream.IntStream;
-
 public class MatrixTest {
 
     @Test

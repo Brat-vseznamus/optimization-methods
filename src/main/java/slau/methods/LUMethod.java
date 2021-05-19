@@ -6,12 +6,12 @@ import slau.matrix.Matrix;
 
 public class LUMethod implements Method{
     @Override
-    public double[] solve(Matrix matrix, double[] numbers) {
+    public double[] solve(final Matrix matrix, final double[] numbers) {
         if (!(matrix instanceof LUMatrix)) {
             throw new IllegalArgumentException("Matrix must have LU decomposition.");
         }
-        LU lu = ((LUMatrix) matrix).getLU();
-        Method gauss = new GaussMethod();
+        final LU lu = ((LUMatrix) matrix).getLU();
+        final Method gauss = new GaussMethod();
         return gauss.solve(lu.getU(),
                 gauss.solve(lu.getL(), numbers));
     }

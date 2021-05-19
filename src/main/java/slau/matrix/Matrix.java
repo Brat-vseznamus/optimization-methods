@@ -16,7 +16,6 @@ public interface Matrix {
 
     default void swapRows(final int row1, final int row2) {
         final int m = getM();
-        final int n = getN();
         IntStream.range(0, m)
                 .forEach(col -> {
                     final double oldRow1Value = get(row1, col);

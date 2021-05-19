@@ -9,24 +9,24 @@ public class RegularMatrix implements Matrix {
     protected double[][] data;
     protected final int n, m;
 
-    public RegularMatrix(int n, int m) {
+    public RegularMatrix(final int n, final int m) {
         this.n = n;
         this.m = m;
         data = new double[n][m];
     }
 
-    public RegularMatrix(double[][] data) {
+    public RegularMatrix(final double[][] data) {
         this(data.length, data[0].length);
         this.data = data;
-        int n = data.length;
-        int m = data[0].length;
+        final int n = data.length;
+        final int m = data[0].length;
         if (!IntStream.range(1, n).allMatch(i -> data[i].length == m)) {
             throw new IllegalArgumentException("all rows should have same size");
         }
     }
 
     @Override
-    public double get(int row, int col) {
+    public double get(final int row, final int col) {
         if (!validIndexes(row, col)) {
             throw new IllegalArgumentException(
                 "illegal row or column:[" + row + ", " + col + "]");
@@ -45,7 +45,7 @@ public class RegularMatrix implements Matrix {
     }
 
     @Override
-    public void set(int row, int col, double value) {
+    public void set(final int row, final int col, final double value) {
         if (!validIndexes(row, col)) {
             throw new IllegalArgumentException(
                 "illegal row or column:[" + row + ", " + col + "]");
@@ -53,7 +53,7 @@ public class RegularMatrix implements Matrix {
         data[row][col] = value;
     }
 
-    protected boolean validIndexes(int row, int col) {
+    protected boolean validIndexes(final int row, final int col) {
         return 0 <= row && row < n 
             && 0 <= col && col < m;
     }

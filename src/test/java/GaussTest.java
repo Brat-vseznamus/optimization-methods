@@ -1,9 +1,9 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import slau.matrix.Matrix;
+import slau.matrix.MatrixWithE;
 import slau.matrix.RegularMatrix;
 import slau.methods.GaussMethod;
-
-import java.util.Arrays;
 
 import static java.lang.Double.NaN;
 
@@ -67,5 +67,44 @@ public class GaussTest {
                 -1.22826,
                 2.84239};
         TestUtils.assertEqualsDoubleArrays(answer, new GaussMethod().solve(m, numbers));
+    }
+
+    @Test
+    public void gaussReversedTest() {
+        final Matrix m = new RegularMatrix(
+                new double[][]{
+                        {1, 2, 3},
+                        {2, 3, 4},
+                        {3, 5, 6}
+                });
+        final Matrix answer = new RegularMatrix(
+                new double[][]{
+                        {-2, 3, -1},
+                        {0, -3, 2},
+                        {1, 1, -1}
+                });
+        final MatrixWithE preReversed = new MatrixWithE(m);
+        new GaussMethod().solve(preReversed, new double[m.getN()]);
+        Assertions.assertTrue(preReversed.getReversed().equals(answer));
+    }
+
+
+    @Test
+    public void gaussReversedWithSwapTest() {
+        final Matrix m = new RegularMatrix(
+                new double[][]{
+                        {3, 2, 2},
+                        {0, 2, 4},
+                        {1, 2, 2}
+                });
+        final Matrix answer = new RegularMatrix(
+                new double[][]{
+                        {0.5, 0, -0.5},
+                        {-0.5, -0.5, 1.5},
+                        {0.25, 0.5, -0.75}
+                });
+        final MatrixWithE preReversed = new MatrixWithE(m);
+        new GaussMethod().solve(preReversed, new double[m.getN()]);
+        Assertions.assertTrue(preReversed.getReversed().equals(answer));
     }
 }
