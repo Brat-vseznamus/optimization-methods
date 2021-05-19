@@ -38,7 +38,7 @@ public class FormulaGenerator {
                         last = -rnd.nextInt(5);
                     }
                     sum += last;
-                    data[row][n] = last;
+                    data[row][n - 1] = last;
                     data[row][row] = -sum;
                     if (row == 0) {
                         data[row][row] += eps;

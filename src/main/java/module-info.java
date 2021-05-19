@@ -8,4 +8,5 @@ module graphics {
     exports graphics;
     exports slau.matrix;
     exports slau.methods;
+    exports slau.utils;
 }
