@@ -16,8 +16,8 @@ public class FormulaGenerator {
     }
 
     public static Matrix generateMatrix(int n, int k) {
-        if (n < 0) {
-            throw  new IllegalArgumentException("n >= 0");
+        if (n <= 0) {
+            throw  new IllegalArgumentException("n > 0");
         }
         final double eps = Math.exp(Math.log(10) * (-k));
         double[][] data = new double[n][n];
