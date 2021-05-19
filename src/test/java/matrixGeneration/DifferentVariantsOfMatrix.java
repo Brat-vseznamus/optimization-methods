@@ -20,8 +20,8 @@ public class DifferentVariantsOfMatrix {
         final Path fileToSave = Path.of("./matrices/regular/matrix.txt");
         createDir(fileToSave);
         try (final BufferedWriter writer = Files.newBufferedWriter(fileToSave)) {
-            IntStream.range(0, n - 1).forEach(row -> {
-                IntStream.range(0, n - 1).forEach(col -> {
+            IntStream.range(0, n).forEach(row -> {
+                IntStream.range(0, n).forEach(col -> {
                     try {
                         writer.write(getFormattedDouble(matrix.get(row, col)));
                         writer.write(" ");
