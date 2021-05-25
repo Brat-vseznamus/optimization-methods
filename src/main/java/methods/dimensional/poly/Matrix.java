@@ -22,7 +22,6 @@ public class Matrix {
         }
     }
 
-
     public Matrix(final DoubleVector... rows) {
         n = rows.length;
         if (Arrays.stream(rows).anyMatch(Objects::isNull)) {

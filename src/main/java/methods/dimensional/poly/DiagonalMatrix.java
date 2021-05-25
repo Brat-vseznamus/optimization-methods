@@ -3,26 +3,22 @@ package methods.dimensional.poly;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class DiagonalMatrix extends Matrix {
 
-    public DiagonalMatrix(DoubleVector diag) {
+    public DiagonalMatrix(final DoubleVector diag) {
         n = m = diag.size();
         values = new ArrayList<>();
         values.add(diag);
     }
 
     @Override
-    public Double get(int i, int j) {
+    public Double get(final int i, final int j) {
         return i == j ? values.get(0).get(i) : 0d;
     }
 
     @Override
-    public DoubleVector get(int i) {
+    public DoubleVector get(final int i) {
         final DoubleVector row = new DoubleVector(n);
         row.set(i, get(i, i));
         return row;
@@ -55,7 +51,7 @@ public class DiagonalMatrix extends Matrix {
     }
 
     @Override
-    public DoubleVector multiply(DoubleVector vector) {
+    public DoubleVector multiply(final DoubleVector vector) {
         if (m != vector.size()) {
             throw new IllegalArgumentException("Wide and height should be same.");
         }
@@ -65,7 +61,7 @@ public class DiagonalMatrix extends Matrix {
     }
 
     @Override
-    public void set(int i, int j, double val) {
+    public void set(final int i, final int j, final double val) {
         if (i == j) {
             values.get(0).set(i, val);
         } else {
@@ -74,7 +70,7 @@ public class DiagonalMatrix extends Matrix {
     }
 
     @Override
-    public void set(int i, DoubleVector val) {
+    public void set(final int i, final DoubleVector val) {
         values.get(0).set(i, val.get(i));
     }
 

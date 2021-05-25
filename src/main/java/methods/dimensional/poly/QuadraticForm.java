@@ -29,11 +29,11 @@ public class QuadraticForm {
         this.values = values;
         if (a.isDiagonal()) {
             final DoubleVector tmpValues = a.getValues().get(0);
-            this.minValue = tmpValues.stream().min().orElse(0d);
-            this.maxValue = tmpValues.stream().max().orElse(0d);
+            this.minValue = tmpValues.stream().min().orElse(1d);
+            this.maxValue = tmpValues.stream().max().orElse(1d);
         } else {
-            this.minValue = values.stream().min().orElse(0d);
-            this.maxValue = values.stream().max().orElse(0d);
+            this.minValue = values.stream().min().orElse(1d);
+            this.maxValue = values.stream().max().orElse(1d);
         }
     }
 

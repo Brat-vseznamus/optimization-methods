@@ -25,7 +25,17 @@ public class Main {
 
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(40d, 2d)),
-                    new DoubleVector(-100d, 345d), -5d)
+                    new DoubleVector(-100d, 345d), -5d),
+
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(254 * 2d, 254 * 2d)),
+                    new DoubleVector(50d, 130d), -111d),
+
+            new QuadraticForm(
+                    new Matrix(new DoubleVector(254 * 2d, 506 / 2d),
+                            new DoubleVector(506 / 2d, 254 * 2d)),
+                    new DoubleVector(50d, 130d), -111d,
+                    new DoubleVector(508, 508))
     );
 
     public static void main(final String[] args) {
@@ -52,26 +62,10 @@ public class Main {
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
         final int mode = 0;
         if (mode == 0) {
-            gradient.setForm(form);
-
-            gradient.findMin();
-//            System.out.println(Arrays.toString(gradient.findMin()));
-            System.out.println(gradient.getTable().size());
-
-/*
-            steepest.setForm(forms.get(3));
+            steepest.setForm(forms.get(5));
 
             System.out.println(Arrays.toString(steepest.findMin()));
             System.out.println(steepest.getTable().size());
-
-            conjugate.setForm(forms.get(3));
-
-            System.out.println(Arrays.toString(conjugate.findMin()));
-            System.out.println(conjugate.getTable().size());
-*/
-
-            // conjugate.findMin();
-            // System.out.println(conjugate.getTable().size());
         }
         if (mode == 1) {
 
