@@ -119,7 +119,7 @@
                                     <graphic>
                                         <ImageView fitHeight="31.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                                             <image>
-                                                <Image url="@../img/Dichotomi.png" />
+                                                <Image url="@../img/Gradient.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -133,9 +133,9 @@
                                         <Font name="System Bold" size="15.0" />
                                     </font>
                                     <graphic>
-                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fitHeight="32.0" fitWidth="499.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../img/Golden_ratio.png" />
+                                                <Image url="@../img/Steepest.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -151,7 +151,7 @@
                                     <graphic>
                                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../img/Fibbonaci_circle.png" />
+                                                <Image url="@../img/Conjugate.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
