@@ -1,11 +1,12 @@
 package methods.dimensional.poly;
 
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
 public class QuadraticForm {
+    private static final double EPS = 1e-6d;
+
     private final int n;
     private final Matrix a;
     private final DoubleVector b;
@@ -13,8 +14,6 @@ public class QuadraticForm {
     private final DoubleVector values;
     private final double minValue, maxValue;
 
-
-    private static final double eps = 1e-6d;
 
     public QuadraticForm(final Matrix a, final DoubleVector b, final double c, final DoubleVector values) {
         this.n = a.getN();
@@ -107,6 +106,6 @@ public class QuadraticForm {
     }
 
     private static boolean compare(final double a, final double b) {
-        return Math.abs(a - b) <= eps;
+        return Math.abs(a - b) <= EPS;
     }
 }

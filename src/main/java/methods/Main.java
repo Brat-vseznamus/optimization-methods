@@ -21,12 +21,16 @@ public class Main {
 
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(0.5d, 0.5d)),
-                    new DoubleVector(40d, -2d), 13d)
+                    new DoubleVector(40d, -2d), 13d),
+
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(40d, 2d)),
+                    new DoubleVector(-100d, 345d), -5d)
     );
 
     public static void main(final String[] args) {
-        int dim = 2_000;
-        int mu = 200;
+        int dim = 500;
+        int mu = 80;
         if (args.length == 2) {
             try {
                 dim = Integer.parseInt(args[0]);
@@ -48,9 +52,23 @@ public class Main {
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
         final int mode = 0;
         if (mode == 0) {
-            gradient.setForm(forms.get(2));
-            System.out.println(Arrays.toString(gradient.findMin()));
+            gradient.setForm(form);
+
+            gradient.findMin();
+//            System.out.println(Arrays.toString(gradient.findMin()));
             System.out.println(gradient.getTable().size());
+
+/*
+            steepest.setForm(forms.get(3));
+
+            System.out.println(Arrays.toString(steepest.findMin()));
+            System.out.println(steepest.getTable().size());
+
+            conjugate.setForm(forms.get(3));
+
+            System.out.println(Arrays.toString(conjugate.findMin()));
+            System.out.println(conjugate.getTable().size());
+*/
 
             // conjugate.findMin();
             // System.out.println(conjugate.getTable().size());
