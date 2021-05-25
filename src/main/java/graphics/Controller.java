@@ -11,7 +11,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -88,16 +87,13 @@ public class Controller implements Initializable {
     private int currentIteration = 0;
     private boolean drawParabolas = false;
 
-    @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
-
+    static void initScene(final ImageView Exit, final AnchorPane slider, final Label Menu, final Label MenuClose, final LineChart<?, ?> lineChart) {
         Exit.setOnMouseClicked(event -> System.exit(0));
         slider.setTranslateX(-176);
+        Menu.setOnMouseClicked(e -> Controller.openMenu(slider, Menu, MenuClose));
+        MenuClose.setOnMouseClicked(e -> Controller.closeMenu(slider, Menu, MenuClose));
 
-        Menu.setOnMouseClicked(this::openMenu);
-        MenuClose.setOnMouseClicked(this::closeMenu);
-
-        openMenu(null);
+        Controller.openMenu(slider, Menu, MenuClose);
 
         final ChartPanManager panner = new ChartPanManager(lineChart);
         //while pressing the left mouse button, you can drag to navigate
@@ -113,7 +109,11 @@ public class Controller implements Initializable {
             if (mouseEvent.getButton() != MouseButton.SECONDARY)
                 mouseEvent.consume();
         });
+    }
 
+    @Override
+    public void initialize(final URL location, final ResourceBundle resources) {
+        initScene(Exit, slider, Menu, MenuClose, lineChart);
         final boolean animations = false;
 
         lineChart.setAnimated(animations);
@@ -273,38 +273,6 @@ public class Controller implements Initializable {
         return String.format("%.9f", x);
     }
 
-    private void openMenu(final MouseEvent event) {
-        final TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(slider);
-
-        slide.setToX(0);
-        slide.play();
-
-        slider.setTranslateX(-176);
-
-        slide.setOnFinished((ActionEvent e) -> {
-            Menu.setVisible(false);
-            MenuClose.setVisible(true);
-        });
-    }
-
-    private void closeMenu(final MouseEvent event) {
-        final TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(slider);
-
-        slide.setToX(-176);
-        slide.play();
-
-        slider.setTranslateX(0);
-
-        slide.setOnFinished((ActionEvent e) -> {
-            Menu.setVisible(true);
-            MenuClose.setVisible(false);
-        });
-    }
-
     private void refreshParabola() {
         lineChart.getData().remove(4);
         parabola = new XYChart.Series<>();
@@ -353,5 +321,38 @@ public class Controller implements Initializable {
     @FXML
     private void setFunction3() {
         changeFunction(3);
+    }
+
+    static void openMenu(final AnchorPane slider, final Label Menu, final Label MenuClose) {
+        final TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(slider);
+
+        slide.setToX(0);
+        slide.play();
+
+        slider.setTranslateX(-176);
+
+        slide.setOnFinished((ActionEvent e) -> {
+            Menu.setVisible(false);
+            MenuClose.setVisible(true);
+        });
+
+    }
+
+    static void closeMenu(final AnchorPane slider, final Label Menu, final Label MenuClose) {
+        final TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(slider);
+
+        slide.setToX(-176);
+        slide.play();
+
+        slider.setTranslateX(0);
+
+        slide.setOnFinished((ActionEvent e) -> {
+            Menu.setVisible(true);
+            MenuClose.setVisible(false);
+        });
     }
 }

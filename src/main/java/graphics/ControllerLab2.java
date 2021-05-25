@@ -1,25 +1,20 @@
 package graphics;
 
-import com.jfoenix.controls.JFXButton;
-import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import methods.dimensional.poly.*;
-import org.gillius.jfxutils.chart.ChartPanManager;
-import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,7 +50,13 @@ public class ControllerLab2 implements Initializable {
     private VBox methodsButtons;
 
     @FXML
+    private VBox functionsButtons;
+
+    @FXML
     private ImageView FullScreenButton;
+
+    PseudoClass nowSelected = PseudoClass.getPseudoClass("now-selected");
+    PseudoClass hiddenLevelLine = PseudoClass.getPseudoClass("hidden-level-line");
 
     private XYChart.Series<Number, Number> currentSeries;
     private List<AbstractGradientMethod.State> currentIterations;
@@ -71,37 +72,23 @@ public class ControllerLab2 implements Initializable {
                     new DoubleVector(-5d, 15d), 2d),
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(51.3d, 27.9d)),
-                    new DoubleVector(-23.78d, -0.9d), -0.78d)
+                    new DoubleVector(-23.78d, -0.9d), -0.78d),
+            new QuadraticForm(
+                    new Matrix(new DoubleVector(254 * 2d, 506 / 2d),
+                            new DoubleVector(506 / 2d, 254 * 2d)),
+                    new DoubleVector(50d, 130d), -111d,
+                    new DoubleVector(508, 508)),
+            new QuadraticForm(
+                    new DiagonalMatrix(new DoubleVector(254 * 2d, 254 * 2d)),
+                    new DoubleVector(50d, 130d), -111d)
     ));
-    QuadraticForm form = forms.get(0);
+    QuadraticForm form;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
 
-        Exit.setOnMouseClicked(event -> System.exit(0));
-
         FullScreenButton.setOnMouseClicked(event -> ((Stage) (((ImageView) event.getSource()).getScene().getWindow())).setFullScreen(true));
-
-        slider.setTranslateX(-176);
-        Menu.setOnMouseClicked(this::openMenu);
-        MenuClose.setOnMouseClicked(this::closeMenu);
-
-        openMenu(null);
-
-        final ChartPanManager panner = new ChartPanManager(lineChart);
-        //while pressing the left mouse button, you can drag to navigate
-        panner.setMouseFilter(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY) {
-                mouseEvent.consume();
-            }
-        });
-        panner.start();
-
-        //holding the right mouse button will draw a rectangle to zoom to desired location
-        JFXChartUtil.setupZooming(lineChart, mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.SECONDARY)
-                mouseEvent.consume();
-        });
+        Controller.initScene(Exit, slider, Menu, MenuClose, lineChart);
 
         final boolean animations = false;
 
@@ -113,7 +100,7 @@ public class ControllerLab2 implements Initializable {
 
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.setLegendVisible(false);
-        loadConjugate(null);
+        setFunctionN(0);
     }
 
     private void initializeLineChart(final GradientOptimizationMethod method) {
@@ -140,10 +127,6 @@ public class ControllerLab2 implements Initializable {
         final double y = currentInfo.getPoint().get(1);
         currentIterationText.setText(Integer.toString(currentIteration));
         addPoint(currentSeries, x, y);
-    }
-
-    private void clearChart() {
-        currentSeries.getData().clear();
     }
 
 
@@ -195,43 +178,6 @@ public class ControllerLab2 implements Initializable {
         series.getData().add(new XYChart.Data<>(x, y));
     }
 
-    private String getFormattedDouble(final double x) {
-        return String.format("%.9f", x);
-    }
-
-    private void openMenu(final MouseEvent event) {
-        final TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(slider);
-
-        slide.setToX(0);
-        slide.play();
-
-        slider.setTranslateX(-176);
-
-        slide.setOnFinished((ActionEvent e) -> {
-            Menu.setVisible(false);
-            MenuClose.setVisible(true);
-        });
-
-    }
-
-    private void closeMenu(final MouseEvent event) {
-        final TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(slider);
-
-        slide.setToX(-176);
-        slide.play();
-
-        slider.setTranslateX(0);
-
-        slide.setOnFinished((ActionEvent e) -> {
-            Menu.setVisible(true);
-            MenuClose.setVisible(false);
-        });
-    }
-
 
     private void getFunctionLevels() {
         final double maxR = 2;
@@ -241,8 +187,12 @@ public class ControllerLab2 implements Initializable {
         for (double radius = minR; radius < maxR; radius += step) {
             drawFromPoint(radius, maxR);
         }
+        for (final XYChart.Series<Number, Number> x : levels) {
+            Platform.runLater(() -> x.getNode().getStyleClass().add("level-line"));
+        }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void drawFromPoint(final double radius, final double maxR) {
         final XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(null);
@@ -280,75 +230,83 @@ public class ControllerLab2 implements Initializable {
             final DoubleVector newPoint = normal.multiplyBy(r).add(center);
             series.getData().add(new XYChart.Data<>(newPoint.get(0), newPoint.get(1)));
         }
+        //series.getNode().getStyleClass().add("level-line");
     }
 
     @FXML
     private void loadGradient(final ActionEvent e) {
-        loadMethod(new GradientDescendMethod(form), e);
+        loadMethod(new GradientDescendMethod(form), e, 0);
     }
 
     @FXML
     private void loadSteepest(final ActionEvent e) {
-        loadMethod(new SteepestDescendMethod(form), e);
+        loadMethod(new SteepestDescendMethod(form), e, 1);
     }
 
     @FXML
     private void loadConjugate(final ActionEvent e) {
-        loadMethod(new ConjugateGradientMethod(form), e);
+        loadMethod(new ConjugateGradientMethod(form), e, 2);
     }
 
-    private void loadMethod(final GradientOptimizationMethod method, final ActionEvent e) {
-        clearMethodsButtons();
+    private void loadMethod(final GradientOptimizationMethod method, final ActionEvent e, final int n) {
+        clearNowSelected(methodsButtons);
         if (e != null) {
-            colorButton((JFXButton) e.getSource());
+            setNowSelectedToNth(methodsButtons, n);
         } else {
-            colorButton((JFXButton) methodsButtons.getChildren().get(2));
+            setNowSelectedToNth(methodsButtons, 2);
         }
         initializeLineChart(method);
     }
 
-    private void colorButton(final JFXButton button) {
-        button.setStyle("-fx-background-color: rgba(255,196,52, 0.7)");
-    }
-
     @FXML
     private void showOrHideLevels() {
-        levels.forEach(s -> {
-            final StringBuilder oldStyle = new StringBuilder(s.getNode().getStyle());
-            final int ind = oldStyle.indexOf("-fx-stroke-width: ");
-            if (ind == -1) {
-                oldStyle.append("; -fx-stroke-width: 0px");
-            } else {
-                if (oldStyle.charAt(ind + 18) == '0') {
-                    oldStyle.setCharAt(ind + 18, '3');
-                } else {
-                    oldStyle.setCharAt(ind + 18, '0');
-                }
-            }
-            s.getNode().setStyle(oldStyle.toString());
-        });
+        levels.forEach(s -> s.getNode().pseudoClassStateChanged(hiddenLevelLine, !s.getNode().getPseudoClassStates().contains(hiddenLevelLine)));
     }
-
 
     @FXML
     private void setFunction1() {
-        form = forms.get(0);
-        clearMethodsButtons();
-        loadConjugate(null);
+        setFunctionN(0);
     }
 
     @FXML
     private void setFunction2() {
-        form = forms.get(1);
-        clearMethodsButtons();
+        setFunctionN(1);
+    }
+
+    @FXML
+    private void setFunction3() {
+        setFunctionN(2);
+    }
+
+    @FXML
+    private void setFunction4() {
+        setFunctionN(3);
+    }
+
+    @FXML
+    private void setFunction5() {
+        setFunctionN(4);
+    }
+
+    private void setFunctionN(final int n) {
+        form = forms.get(n);
+        clearPaneStyle(methodsButtons);
+        clearNowSelected(functionsButtons);
+        setNowSelectedToNth(functionsButtons, n);
         loadConjugate(null);
     }
 
-    private void clearMethodsButtons() {
-        methodsButtons.getChildren().forEach(
-                button -> {
-                    button.setStyle("");
-                }
+    private void setNowSelectedToNth(final Pane pane, final int n) {
+        pane.getChildren().get(n).pseudoClassStateChanged(nowSelected, true);
+    }
+
+    private void clearNowSelected(final Pane pane) {
+        pane.getChildren().forEach(child -> child.pseudoClassStateChanged(nowSelected, false));
+    }
+
+    private void clearPaneStyle(final Pane pane) {
+        pane.getChildren().forEach(
+                button -> button.setStyle("")
         );
     }
 }

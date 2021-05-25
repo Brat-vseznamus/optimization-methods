@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.chart.LineChart?>
@@ -111,7 +112,7 @@
                     <children>
                         <VBox fx:id="methodsButtons" layoutX="14.0" layoutY="35.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
                             <children>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#loadGradient" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Градиентный спуск" textFill="WHITE">
+                                <JFXButton alignment="BASELINE_LEFT" onAction="#loadGradient" prefHeight="38.0" prefWidth="176.0" text="Градиентный спуск" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
                                     </font>
@@ -122,8 +123,12 @@
                                             </image>
                                         </ImageView>
                                     </graphic>
+                           <styleClass>
+                              <String fx:value="sidebarItem" />
+                              <String fx:value="method-button" />
+                           </styleClass>
                                 </JFXButton>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#loadSteepest" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Наискорейший спуск" textFill="WHITE">
+                                <JFXButton alignment="BASELINE_LEFT" onAction="#loadSteepest" prefHeight="38.0" prefWidth="176.0" text="Наискорейший спуск" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
                                     </font>
@@ -134,8 +139,12 @@
                                             </image>
                                         </ImageView>
                                     </graphic>
+                           <styleClass>
+                              <String fx:value="sidebarItem" />
+                              <String fx:value="method-button" />
+                           </styleClass>
                                 </JFXButton>
-                                <JFXButton alignment="BASELINE_LEFT" onAction="#loadConjugate" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Сопряженные градиенты" textFill="WHITE">
+                                <JFXButton alignment="BASELINE_LEFT" onAction="#loadConjugate" prefHeight="38.0" prefWidth="176.0" text="Сопряженные градиенты" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
                                     </font>
@@ -146,6 +155,10 @@
                                             </image>
                                         </ImageView>
                                     </graphic>
+                           <styleClass>
+                              <String fx:value="sidebarItem" />
+                              <String fx:value="method-button" />
+                           </styleClass>
                                 </JFXButton>
                             </children>
                         </VBox>
@@ -166,10 +179,13 @@
                 </LineChart>
             </center>
             <right>
-                <VBox alignment="CENTER" prefHeight="492.0" prefWidth="316.0" spacing="30.0" BorderPane.alignment="CENTER">
+                <VBox fx:id="functionsButtons" alignment="CENTER" prefHeight="492.0" prefWidth="316.0" spacing="30.0" BorderPane.alignment="CENTER">
                 <children>
-                    <JFXButton buttonType="RAISED" onAction="#setFunction1" ripplerFill="#0a4969" style="-fx-border-color: #0a4969; -fx-border-radius: 4;" text="30x^2 + y^2  - 10x + 10 y + 2" />
-                    <JFXButton buttonType="RAISED" layoutX="1.0" layoutY="281.0" onAction="#setFunction2" ripplerFill="#0a4969" style="-fx-border-color: #000000; -fx-border-radius: 4;" text="x^2+64y^2-10x + 30y + 2" />
+                    <JFXButton buttonType="RAISED" onAction="#setFunction1" ripplerFill="#0a4969" styleClass="function-button" text="30x^2 + y^2  - 10x + 10 y + 2" />
+                    <JFXButton buttonType="RAISED" layoutX="1.0" layoutY="281.0" onAction="#setFunction2" ripplerFill="#0a4969" styleClass="function-button" text="x^2+64y^2-10x + 30y + 2" />
+                  <JFXButton buttonType="RAISED" layoutX="89.0" layoutY="243.0" onAction="#setFunction3" ripplerFill="#0a4969" styleClass="function-button" text="51.3x^2+27.9y^2-23.78x-0.9y-0.78" />
+                  <JFXButton buttonType="RAISED" layoutX="89.0" layoutY="328.0" onAction="#setFunction4" ripplerFill="#0a4969" styleClass="function-button" text="254𝑥^2 + 506𝑥y + 254y^2 + 50x + 130y − 111" />
+                  <JFXButton buttonType="RAISED" layoutX="35.0" layoutY="300.0" onAction="#setFunction5" ripplerFill="#0a4969" styleClass="function-button" text="254𝑥^2 + 254y^2 + 50x + 130y − 111" />
                   <JFXButton buttonType="RAISED" onAction="#showOrHideLevels" ripplerFill="#0a4969" style="-fx-border-color: #000000; -fx-border-radius: 4;" text="Скрыть/Показать уровни" />
                 </children>
                 <VBox.margin>

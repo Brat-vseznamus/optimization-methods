@@ -1,9 +1,9 @@
-.menuItem:hover{
+.menuItem:hover {
     -fx-border-color: #660099;
     -fx-border-width: 0px 0px 3px 0px;
 }
 
-.sidebarItem:hover{
+.sidebarItem:hover {
     -fx-background-color: #146886;
     -fx-border-color: WHITE;
     -fx-border-width: 0px 0px 0px 3px;
@@ -14,3 +14,23 @@
     -fx-padding: 0;
     -fx-background-size: 0;
 }
+
+.function-button {
+    -fx-border-color: #000000;
+    -fx-border-radius: 4;
+    -fx-background-color: #FFFFFF;
+}
+
+.function-button:now-selected {
+    -fx-border-color: #8de521;
+    -fx-background-color: rgba(255,196,52, 0.7);
+}
+
+.method-button:now-selected{
+    -fx-background-color: rgba(255,196,52, 0.7)
+}
+
+.level-line:hidden-level-line {
+    -fx-stroke-width: 0px;
+}
+
