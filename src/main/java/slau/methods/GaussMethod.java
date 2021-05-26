@@ -13,19 +13,20 @@ public class GaussMethod implements Method {
         }
         for (int i = 1; i < len; i++) {
             double aii = matrix.get(i - 1, i - 1);
-            if (aii == 0) {
-                final int curLine = i - 1;
-                for (int j = curLine + 1; j < len; j++) {
-                    if (matrix.get(j, i - 1) != 0) {
-                        matrix.swapRows(j, curLine);
-                        final double old = numbers[curLine];
-                        numbers[curLine] = numbers[j];
-                        numbers[j] = old;
-                        aii = matrix.get(i - 1, i - 1);
-                        break;
-                    }
-                }
-            }
+            //swap
+//            if (aii == 0) {
+//                final int curLine = i - 1;
+//                for (int j = curLine + 1; j < len; j++) {
+//                    if (matrix.get(j, i - 1) != 0) {
+//                        matrix.swapRows(j, curLine);
+//                        final double old = numbers[curLine];
+//                        numbers[curLine] = numbers[j];
+//                        numbers[j] = old;
+//                        aii = matrix.get(i - 1, i - 1);
+//                        break;
+//                    }
+//                }
+//            }
 
             for (int ri = i; ri < len; ri++) {
                 final double aji = matrix.get(ri, i - 1);

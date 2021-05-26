@@ -15,8 +15,10 @@ public class FormGenerator {
             return new QuadraticForm(new DiagonalMatrix(new DoubleVector(k)), new DoubleVector(k * random.nextDouble()), 0d);
         }
         final double[] a = new double[n];
-        final double l = 1;
-        final double ll = k * l;
+//        final double l = 1;
+//        final double ll = k * l;
+        final double l = 2 * 1;
+        final double ll = 2 * k * l;
         IntStream.range(0, n).forEach(
                 i -> a[i] = l + (ll - l) * random.nextDouble()
         );

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class TableGenerator {
@@ -24,6 +25,15 @@ public class TableGenerator {
         }
     }
 
+    public static void generateTable(final Method method,
+                                     final Setting setting) {
+        generateTable(String.format("%s[%d, %d, %d]",
+                        method.getClass().getSimpleName(),
+                        setting.base,
+                        setting.maxExp,
+                        setting.maxK
+               ),method, setting);
+    }
 
     public static void generateTable(final String filename,
                                      final Method method,
@@ -56,10 +66,14 @@ public class TableGenerator {
 
                 for (int k = 0; k <= maxK; k++) {
                     final Pair<Matrix, double[]> formula = FormulaGenerator.generateFormula(n, k);
-                    final double[] result = method.solve(
-                            formula.first,
-                            formula.second
-                    );
+                    double[] result;
+                    do {
+                        result = method.solve(
+                                formula.first,
+                                formula.second
+                        );
+                    } while (Arrays.stream(result).anyMatch(Double::isNaN));
+                    System.out.printf("row for [%d, %d] done%n", n, k);
                     writer.write(String.format(format,
                             n,
                             k,
