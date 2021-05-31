@@ -4,6 +4,7 @@ import slau.matrix.Matrix;
 import slau.matrix.MatrixWithE;
 import slau.matrix.RegularMatrix;
 import slau.methods.GaussMethod;
+import slau.methods.GaussWithMainElementMethod;
 
 import static java.lang.Double.NaN;
 
@@ -106,5 +107,51 @@ public class GaussTest {
         final MatrixWithE preReversed = new MatrixWithE(m);
         new GaussMethod().solve(preReversed, new double[m.getN()]);
         Assertions.assertTrue(preReversed.getReversed().equals(answer));
+    }
+
+    @Test
+    public void mainGaussD3Test() {
+        final Matrix m = new RegularMatrix(
+                new double[][]{
+                        {1, 2, 3},
+                        {2, 3, 4},
+                        {3, 5, 6}
+                });
+        final double[] numbers = new double[]{4, 5, 6};
+        final double[] answer = {1d, -3d, 3d};
+        TestUtils.assertEqualsDoubleArrays(answer, new GaussWithMainElementMethod().solve(m, numbers));
+    }
+
+    @Test
+    public void mainGaussD3SwapLinesTest() {
+        final Matrix m = new RegularMatrix(
+                new double[][]{
+                        {1, 2, 3},
+                        {1, 2, 4},
+                        {0, 5, 6}
+                });
+        final double[] numbers = new double[]{4, 5, 6};
+        final double[] answer = {1d, 0d, 1d};
+        TestUtils.assertEqualsDoubleArrays(answer, new GaussWithMainElementMethod().solve(m, numbers));
+    }
+
+    @Test
+    public void MainGaussD5DoubleSwapLinesTest() {
+        final Matrix m = new RegularMatrix(
+                new double[][]{
+                        {0, 2, 3, 4, 2},
+                        {1, 2, 4, 5, 0},
+                        {0, 0, 0, 6, 4},
+                        {5, 7, 4, 2, 1},
+                        {0, 3, 7, 4, 1}
+                });
+        final double[] numbers = new double[]{12, 0, 4, 4, 17};
+        final double[] answer = {
+                -5.97826,
+                4.27717,
+                0.891304,
+                -1.22826,
+                2.84239};
+        TestUtils.assertEqualsDoubleArrays(answer, new GaussWithMainElementMethod().solve(m, numbers));
     }
 }
