@@ -68,16 +68,16 @@ public class ControllerLab2 implements Initializable {
                     new DiagonalMatrix(new DoubleVector(60d, 2d)),
                     new DoubleVector(-10d, 10d), 2d),
             new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(0.5d, 32d)),
+                    new DiagonalMatrix(new DoubleVector(1 * 2d, 64 * 2d)),
                     new DoubleVector(-5d, 15d), 2d),
             new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(51.3d, 27.9d)),
+                    new DiagonalMatrix(new DoubleVector(51.3d * 2, 27.9d * 2)),
                     new DoubleVector(-23.78d, -0.9d), -0.78d),
             new QuadraticForm(
                     new Matrix(new DoubleVector(254 * 2d, 506 / 2d),
                             new DoubleVector(506 / 2d, 254 * 2d)),
                     new DoubleVector(50d, 130d), -111d,
-                    new DoubleVector(508, 508)),
+                    new DoubleVector(1, 507)),
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(254 * 2d, 254 * 2d)),
                     new DoubleVector(50d, 130d), -111d)
@@ -100,7 +100,7 @@ public class ControllerLab2 implements Initializable {
 
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.setLegendVisible(false);
-        setFunctionN(0);
+        setFunctionN(1);
     }
 
     private void initializeLineChart(final GradientOptimizationMethod method) {
