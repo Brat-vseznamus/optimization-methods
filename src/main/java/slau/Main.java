@@ -4,6 +4,7 @@ import slau.matrix.LU;
 import slau.matrix.LUMatrix;
 import slau.matrix.Matrix;
 import slau.methods.GaussMethod;
+import slau.methods.GaussWithMainElementMethod;
 import slau.methods.LUMethod;
 import slau.utils.FormulaGenerator;
 import slau.utils.TableGenerator;
@@ -11,9 +12,9 @@ import slau.utils.TableGenerator;
 public class Main {
     public static void main(final String[] args){
 //        experimentWithZeroPercent();
-//        gaussTests();
+        gaussMainTests();
 //        luTests();
-        hilbert();
+//        hilbert();
     }
 
     public static void experimentWithZeroPercent() {
@@ -33,6 +34,16 @@ public class Main {
             TableGenerator.generateTable(
                     "gauss/test[dim = "+ dim +"]",
                     new GaussMethod(),
+                    new TableGenerator.Setting(dim, 3, 20));
+            System.out.printf("dim = %d done%n", dim);
+        }
+    }
+
+    public static void gaussMainTests() {
+        for (int dim : new int[]{3, 5, 10}) {
+            TableGenerator.generateTable(
+                    "gauss/testMain[dim = "+ dim +"]",
+                    new GaussWithMainElementMethod(),
                     new TableGenerator.Setting(dim, 3, 20));
             System.out.printf("dim = %d done%n", dim);
         }
