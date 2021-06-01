@@ -27,11 +27,14 @@ public class GaussWithMainElementMethod implements Method {
                 columnOrder[index] = index;
             }
         });
+        // Прямой ход
         for (int mainRowIndex = 0; mainRowIndex < rows - 1; mainRowIndex++) {
+            // Выбор главного элемента, свап строчек и столбцов
             findAndSwapElement(mainRowIndex, matrix);
             final int mainRow = linesOrder[mainRowIndex];
             final int mainColumn = columnOrder[mainRowIndex];
             final double mainElement = matrix.get(mainRow, mainColumn);
+            // Вычитание текущей строки из последующих
             for (int nextRowIndex = mainRowIndex + 1; nextRowIndex < rows; nextRowIndex++) {
                 final int nextRow = linesOrder[nextRowIndex];
                 final double aji = matrix.get(nextRow, mainColumn);
@@ -45,11 +48,12 @@ public class GaussWithMainElementMethod implements Method {
             }
         }
 
-
+        // Обратный ход
         for (int mainRowIndex = rows - 1; mainRowIndex >= 0; mainRowIndex--) {
             final int mainRow = linesOrder[mainRowIndex];
             final int mainColumn = columnOrder[mainRowIndex];
             final double mainElement = matrix.get(mainRow, mainColumn);
+            // Вычитание текущей строки из последующих
             for (int nextRowIndex = mainRowIndex - 1; nextRowIndex >= 0 && mainRowIndex > 0; nextRowIndex--) {
                 final int nextRow = linesOrder[nextRowIndex];
                 final double coefficient = matrix.get(nextRow, mainColumn) / mainElement;
@@ -62,6 +66,7 @@ public class GaussWithMainElementMethod implements Method {
                 }
                 numbers[nextRow] -= numbers[mainRow] * coefficient;
             }
+            // Нормирование до единичной
             for (int currentElementColumnIndex = mainRowIndex; currentElementColumnIndex < columns; currentElementColumnIndex++) {
                 final int currentElementColumn = columnOrder[currentElementColumnIndex];
                 matrix.set(mainRow, currentElementColumn, matrix.get(mainRow, currentElementColumn) / mainElement);
@@ -83,6 +88,7 @@ public class GaussWithMainElementMethod implements Method {
         int newMainRowIndex = mainRowIndex;
         int newMainColumnIndex = mainRowIndex;
 
+        // Поиск главного элемента
         double maxElement = matrix.get(oldMainRow, oldMainColumn);
         for (int curRowIndex = mainRowIndex; curRowIndex < rows; curRowIndex++) {
             for (int curColumnIndex = mainRowIndex; curColumnIndex < columns; curColumnIndex++) {
