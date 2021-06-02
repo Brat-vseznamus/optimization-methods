@@ -6,7 +6,7 @@ module graphics {
 
     opens graphics to javafx.fxml;
     exports graphics;
-    exports slau.matrix;
+    exports matrix;
     exports slau.methods;
     exports slau.utils;
 }

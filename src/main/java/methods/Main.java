@@ -1,5 +1,8 @@
 package methods;
 
+import matrix.DiagonalMatrix;
+import matrix.DoubleMatrix;
+import matrix.DoubleVector;
 import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 
@@ -21,7 +24,7 @@ public class Main {
                     new DiagonalMatrix(new DoubleVector(51.3d * 2, 27.9d * 2)),
                     new DoubleVector(-23.78d, -0.9d), -0.78d),
             new QuadraticForm(
-                    new Matrix(new DoubleVector(254 * 2d, 506 / 2d),
+                    new DoubleMatrix(new DoubleVector(254 * 2d, 506 / 2d),
                             new DoubleVector(506 / 2d, 254 * 2d)),
                     new DoubleVector(50d, 130d), -111d,
                     new DoubleVector(508, 508)),
@@ -52,9 +55,9 @@ public class Main {
         final GradientOptimizationMethod conjugate = new ConjugateGradientMethod(form);
 
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
-        final int mode = 0;
+        final int mode = 2;
         if (mode == 0) {
-            steepest.setForm(forms.get(5));
+            steepest.setForm(forms.get(4));
 
             System.out.println(Arrays.toString(steepest.findMin()));
             System.out.println(steepest.getTable().size());

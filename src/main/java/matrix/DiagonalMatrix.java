@@ -1,10 +1,10 @@
-package methods.dimensional.poly;
+package matrix;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.ArrayList;
 
-public class DiagonalMatrix extends Matrix {
+public class DiagonalMatrix extends DoubleMatrix {
 
     public DiagonalMatrix(final DoubleVector diag) {
         n = m = diag.size();
@@ -80,7 +80,7 @@ public class DiagonalMatrix extends Matrix {
     }
 
     @Override
-    public Matrix transpose() {    
+    public DoubleMatrix transpose() {
         return this;
     }
     

@@ -1,7 +1,7 @@
 package slau.utils;
 
 import methods.Pair;
-import slau.matrix.Matrix;
+import matrix.Matrix;
 import slau.methods.Method;
 
 import java.io.BufferedWriter;

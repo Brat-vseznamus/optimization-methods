@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import slau.matrix.Matrix;
-import slau.matrix.ProfileMatrix;
-import slau.matrix.RegularMatrix;
+import matrix.Matrix;
+import matrix.ProfileMatrix;
+import matrix.RegularMatrix;
 import slau.utils.FormulaGenerator;
 
 import java.nio.file.Path;

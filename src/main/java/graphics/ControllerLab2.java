@@ -14,6 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import matrix.DiagonalMatrix;
+import matrix.DoubleMatrix;
+import matrix.DoubleVector;
 import methods.dimensional.poly.*;
 
 import java.net.URL;
@@ -74,7 +77,7 @@ public class ControllerLab2 implements Initializable {
                     new DiagonalMatrix(new DoubleVector(51.3d * 2, 27.9d * 2)),
                     new DoubleVector(-23.78d, -0.9d), -0.78d),
             new QuadraticForm(
-                    new Matrix(new DoubleVector(254 * 2d, 506 / 2d),
+                    new DoubleMatrix(new DoubleVector(254 * 2d, 506 / 2d),
                             new DoubleVector(506 / 2d, 254 * 2d)),
                     new DoubleVector(50d, 130d), -111d,
                     new DoubleVector(1, 507)),

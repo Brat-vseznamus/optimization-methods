@@ -1,4 +1,4 @@
-package methods.dimensional.poly;
+package matrix;
 
 import java.util.function.BinaryOperator;
 import java.util.stream.DoubleStream;
@@ -76,7 +76,7 @@ public class DoubleVector {
         return values.length;
     }
 
-    public DoubleVector multiply(final Matrix matrix) {
+    public DoubleVector multiply(final DoubleMatrix matrix) {
         if (values.length != matrix.getN()) {
             throw new IllegalArgumentException("cringe");
         }

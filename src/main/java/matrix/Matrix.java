@@ -1,4 +1,4 @@
-package slau.matrix;
+package matrix;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

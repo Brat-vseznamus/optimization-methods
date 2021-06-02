@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import slau.matrix.Matrix;
-import slau.matrix.SymmetricSparseMatrix;
+import matrix.Matrix;
+import matrix.SymmetricSparseMatrix;
 
 import java.util.stream.IntStream;
 

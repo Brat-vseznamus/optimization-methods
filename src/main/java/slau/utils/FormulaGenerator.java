@@ -1,15 +1,13 @@
 package slau.utils;
 
 import methods.Pair;
-import slau.matrix.LUMatrix;
-import slau.matrix.Matrix;
-import slau.matrix.ProfileMatrix;
-import slau.matrix.RegularMatrix;
+import matrix.LUMatrix;
+import matrix.Matrix;
+import matrix.ProfileMatrix;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 

@@ -1,8 +1,5 @@
 package slau;
 
-import slau.matrix.LU;
-import slau.matrix.LUMatrix;
-import slau.matrix.Matrix;
 import slau.methods.GaussMethod;
 import slau.methods.GaussWithMainElementMethod;
 import slau.methods.LUMethod;

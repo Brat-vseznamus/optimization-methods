@@ -1,4 +1,4 @@
-package slau.matrix;
+package matrix;
 
 public class LU {
     Matrix l, u;

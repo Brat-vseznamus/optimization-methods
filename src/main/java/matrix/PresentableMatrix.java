@@ -1,4 +1,4 @@
-package slau.matrix;
+package matrix;
 
 import java.nio.file.Path;
 

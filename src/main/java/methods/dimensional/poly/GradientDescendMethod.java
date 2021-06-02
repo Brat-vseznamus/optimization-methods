@@ -1,5 +1,7 @@
 package methods.dimensional.poly;
 
+import matrix.DoubleVector;
+
 public class GradientDescendMethod extends AbstractGradientMethod {
 
     public GradientDescendMethod(final QuadraticForm form, final double eps) {

@@ -1,4 +1,4 @@
-package slau.matrix;
+package matrix;
 
 public class LUMatrix extends RegularMatrix implements LUDecomposible {
 

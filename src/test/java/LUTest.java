@@ -1,6 +1,6 @@
+import matrix.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import slau.matrix.*;
 
 import java.util.stream.IntStream;
 

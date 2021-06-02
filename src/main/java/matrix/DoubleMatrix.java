@@ -1,4 +1,4 @@
-package methods.dimensional.poly;
+package matrix;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,11 +9,11 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Matrix {
+public class DoubleMatrix {
     protected List<DoubleVector> values;
     protected int n, m;
     
-    public Matrix(final int n, final int m) {
+    public DoubleMatrix(final int n, final int m) {
         this.n = n;
         this.m = m;
         values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(m)));
@@ -22,7 +22,7 @@ public class Matrix {
         }
     }
 
-    public Matrix(final DoubleVector... rows) {
+    public DoubleMatrix(final DoubleVector... rows) {
         n = rows.length;
         if (Arrays.stream(rows).anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("Rows have null vectors.");
@@ -35,7 +35,7 @@ public class Matrix {
         );
     }
 
-    public Matrix(final double[][] matrix) {
+    public DoubleMatrix(final double[][] matrix) {
         n = matrix.length;
         if (Arrays.stream(matrix).anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("Rows have null vectors.");
@@ -83,8 +83,8 @@ public class Matrix {
         return values;
     }
 
-    public Matrix transpose() {
-        final Matrix mat = new Matrix(m, n);
+    public DoubleMatrix transpose() {
+        final DoubleMatrix mat = new DoubleMatrix(m, n);
         IntStream.range(0, n).forEach(
             i -> IntStream.range(0, m).forEach(
                 j -> mat.set(j, i, get(i, j))

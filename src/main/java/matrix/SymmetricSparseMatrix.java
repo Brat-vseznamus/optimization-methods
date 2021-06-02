@@ -1,6 +1,5 @@
-package slau.matrix;
+package matrix;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class SymmetricSparseMatrix implements Matrix {

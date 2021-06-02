@@ -1,5 +1,7 @@
 package methods.dimensional.poly;
 
+import matrix.DoubleVector;
+
 public class ConjugateGradientMethod extends AbstractGradientMethod {
 
     public ConjugateGradientMethod(final QuadraticForm form, final double eps) {

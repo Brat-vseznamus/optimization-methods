@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import slau.matrix.Matrix;
-import slau.matrix.RegularMatrix;
+import matrix.Matrix;
+import matrix.RegularMatrix;
 
 public class MatrixTest {
 

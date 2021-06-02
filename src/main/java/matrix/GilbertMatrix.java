@@ -1,4 +1,4 @@
-package slau.matrix;
+package matrix;
 
 public class GilbertMatrix implements Matrix {
     private final int n;

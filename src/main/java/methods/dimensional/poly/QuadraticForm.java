@@ -1,5 +1,8 @@
 package methods.dimensional.poly;
 
+import matrix.DoubleMatrix;
+import matrix.DoubleVector;
+
 import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
@@ -8,14 +11,14 @@ public class QuadraticForm {
     private static final double EPS = 1e-6d;
 
     private final int n;
-    private final Matrix a;
+    private final DoubleMatrix a;
     private final DoubleVector b;
     private final double c;
     private final DoubleVector values;
     private final double minValue, maxValue;
 
 
-    public QuadraticForm(final Matrix a, final DoubleVector b, final double c, final DoubleVector values) {
+    public QuadraticForm(final DoubleMatrix a, final DoubleVector b, final double c, final DoubleVector values) {
         this.n = a.getN();
         this.a = a;
         if (a.stream().anyMatch(Objects::isNull) || !(checkMatrix())) {
@@ -37,7 +40,7 @@ public class QuadraticForm {
         }
     }
 
-    public QuadraticForm(final Matrix a, final DoubleVector b, final Double c) {
+    public QuadraticForm(final DoubleMatrix a, final DoubleVector b, final Double c) {
         this(a, b, c, new DoubleVector(1d));
     }
 
@@ -88,7 +91,7 @@ public class QuadraticForm {
         return new DoubleVector(range().mapToDouble(i -> (scalarProduct(x, a.get(i)) + b.get(i))).toArray());
     }
 
-    public Matrix getA() {
+    public DoubleMatrix getA() {
         return a;
     }
 

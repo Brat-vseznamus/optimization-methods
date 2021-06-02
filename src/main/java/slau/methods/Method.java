@@ -1,6 +1,6 @@
 package slau.methods;
 
-import slau.matrix.Matrix;
+import matrix.Matrix;
 
 public interface Method {
     double[] solve(Matrix matrix, double[] numbers);
