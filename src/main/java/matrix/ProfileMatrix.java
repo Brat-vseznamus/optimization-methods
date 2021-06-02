@@ -170,6 +170,11 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
     }
 
     @Override
+    public boolean isDiagonal() {
+        return false;
+    }
+
+    @Override
     public LU getLU() {
         final LComponent L = new LComponent();
         final UComponent U = new UComponent();
@@ -242,7 +247,7 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
         }
     }
 
-    private class AbstractComponent implements Matrix {
+    private abstract class AbstractComponent implements Matrix {
 
         @Override
         public int getN() {
@@ -284,6 +289,11 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
             }
             super.set(row, col, value);
         }
+
+        @Override
+        public boolean isDiagonal() {
+            return false;
+        }
     }
 
     private class UComponent extends AbstractComponent implements Matrix {
@@ -307,6 +317,11 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
                 return;
             }
             super.set(row, col, value);
+        }
+
+        @Override
+        public boolean isDiagonal() {
+            return false;
         }
     }
 }

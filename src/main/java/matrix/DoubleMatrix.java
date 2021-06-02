@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class DoubleMatrix {
+public class DoubleMatrix implements Matrix {
     protected List<DoubleVector> values;
     protected int n, m;
     
@@ -63,7 +63,7 @@ public class DoubleMatrix {
         return m;
     }
 
-    public Double get(final int i, final int j) {
+    public double get(final int i, final int j) {
         return values.get(i).get(j);
     }
 
@@ -105,5 +105,4 @@ public class DoubleMatrix {
     public boolean isDiagonal() {
         return false;
     }
-
 }

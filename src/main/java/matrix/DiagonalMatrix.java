@@ -13,7 +13,7 @@ public class DiagonalMatrix extends DoubleMatrix {
     }
 
     @Override
-    public Double get(final int i, final int j) {
+    public double get(final int i, final int j) {
         return i == j ? values.get(0).get(i) : 0d;
     }
 
@@ -33,9 +33,9 @@ public class DiagonalMatrix extends DoubleMatrix {
                 IntStream.range(0, m).forEach(
                     j -> {
                         if (j == 0) {
-                            sb.append(get(i, j).toString());
+                            sb.append(get(i, j));
                         } else {
-                            sb.append(", ").append(get(i, j).toString());
+                            sb.append(", ").append(get(i, j));
                         }
                     }
                 );

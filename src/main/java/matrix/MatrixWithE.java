@@ -46,6 +46,11 @@ public class MatrixWithE implements Matrix {
         }
     }
 
+    @Override
+    public boolean isDiagonal() {
+        return false;
+    }
+
     public Matrix getReversed() {
         return E;
     }

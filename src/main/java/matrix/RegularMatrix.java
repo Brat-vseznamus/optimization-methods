@@ -77,6 +77,11 @@ public class RegularMatrix implements PresentableMatrix {
         data[row][col] = value;
     }
 
+    @Override
+    public boolean isDiagonal() {
+        return false;
+    }
+
     protected boolean validIndexes(final int row, final int col) {
         return 0 <= row && row < n
                 && 0 <= col && col < m;

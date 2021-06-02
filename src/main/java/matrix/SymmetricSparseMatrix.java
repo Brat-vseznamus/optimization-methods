@@ -85,4 +85,9 @@ public class SymmetricSparseMatrix implements Matrix {
     public void set(final int row, final int col, final double value) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public boolean isDiagonal() {
+        return false;
+    }
 }

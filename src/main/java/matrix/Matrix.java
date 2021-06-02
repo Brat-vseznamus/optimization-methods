@@ -10,9 +10,17 @@ public interface Matrix {
 
     int getM();
 
+    default DoubleVector get(final int row) {
+        final DoubleVector result = new DoubleVector(getN());
+        IntStream.range(0, getM()).forEach(col -> result.set(col, get(row, col)));
+        return result;
+    }
+
     double get(int row, int col);
 
     void set(int row, int col, double value);
+
+    boolean isDiagonal();
 
     default void swapRows(final int row1, final int row2) {
         final int m = getM();
@@ -74,5 +82,9 @@ public interface Matrix {
             }
         }
         return answer;
+    }
+
+    default DoubleVector multiplyBy(final DoubleVector vector) {
+        return new DoubleVector(multiplyBy(vector.toArray()));
     }
 }
