@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class RegularMatrix implements PresentableMatrix {
+public class RegularMatrix extends AbstractMatrix implements PresentableMatrix {
     protected double[][] data;
     protected final int n, m;
 

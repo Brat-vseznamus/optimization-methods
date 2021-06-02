@@ -2,7 +2,7 @@ package matrix;
 
 import java.util.stream.IntStream;
 
-public class SymmetricSparseMatrix implements Matrix {
+public class SymmetricSparseMatrix extends AbstractMatrix {
     private final int n;
     private final double[] diagonal;
     private final double[] rowElements;

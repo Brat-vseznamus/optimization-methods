@@ -17,7 +17,7 @@ public class SparseMatrixTest {
                 {0, 5, 6, 0, 4}};
         final Matrix sparseMatrix = new SymmetricSparseMatrix(data);
 
-        System.out.println(sparseMatrix.output());
+        System.out.println(sparseMatrix.toString());
 
         final boolean result = IntStream.range(0, 5).allMatch(i ->
                 IntStream.range(0, 5).allMatch(j -> {

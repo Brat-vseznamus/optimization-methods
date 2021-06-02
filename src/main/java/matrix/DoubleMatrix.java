@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class DoubleMatrix implements Matrix {
+public class DoubleMatrix extends AbstractMatrix {
     protected List<DoubleVector> values;
     protected int n, m;
     

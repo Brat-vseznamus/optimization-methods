@@ -11,7 +11,7 @@ public class ConjugateGradientMethod implements Method {
         final DoubleVector b = new DoubleVector(numbers);
 
         DoubleVector x = new DoubleVector(numbers.length);
-        DoubleVector r = b.subtract(new DoubleVector(matrix.multiplyBy(x.toArray())));
+        DoubleVector r = b.subtract(matrix.multiplyBy(x));
         DoubleVector z = r;
 
         final int maxIterations = numbers.length * 50;
@@ -20,11 +20,11 @@ public class ConjugateGradientMethod implements Method {
         double scalarProdTemp;
         while (++iteration < maxIterations) {
             final double alpha = scalarProdPrev
-                    / (new DoubleVector(matrix.multiplyBy(z.toArray())).scalar(z));
+                    / (matrix.multiplyBy(z).scalar(z));
 
             x = x.add(z.multiplyBy(alpha));
 
-            r = r.subtract(new DoubleVector(matrix.multiplyBy(z.toArray())).multiplyBy(alpha));
+            r = r.subtract(matrix.multiplyBy(z).multiplyBy(alpha));
 
             if (r.norm() / b.norm() < DEFAULT_EPS) {
                 break;

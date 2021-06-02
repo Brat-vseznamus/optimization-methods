@@ -2,7 +2,7 @@ package matrix;
 
 import java.util.stream.IntStream;
 
-public class MatrixWithE implements Matrix {
+public class MatrixWithE extends AbstractMatrix {
     private final Matrix matrix;
     private final Matrix E;
 

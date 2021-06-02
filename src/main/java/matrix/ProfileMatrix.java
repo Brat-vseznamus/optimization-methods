@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
+public class ProfileMatrix extends AbstractMatrix implements LUDecomposible, PresentableMatrix {
     private final int n;
     private final double[] diagonal;
     private final double[] rowProfile;
@@ -247,7 +247,7 @@ public class ProfileMatrix implements LUDecomposible, PresentableMatrix {
         }
     }
 
-    private abstract class AbstractComponent implements Matrix {
+    private abstract class AbstractComponent extends AbstractMatrix {
 
         @Override
         public int getN() {
