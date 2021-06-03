@@ -1,7 +1,8 @@
 package slau.utils;
 
-import methods.Pair;
+import matrix.DoubleVector;
 import matrix.Matrix;
+import methods.Pair;
 import slau.methods.Method;
 
 import java.io.BufferedWriter;
@@ -14,26 +15,14 @@ import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
 public class TableGenerator {
-    public static class Setting {
-        int base;
-        int maxExp;
-        int maxK;
-
-        public Setting(final int base, final int maxExp, final int maxK) {
-            this.base = base;
-            this.maxExp = maxExp;
-            this.maxK = maxK;
-        }
-    }
-
     public static void generateTable(final Method method,
                                      final Setting setting) {
         generateTable(String.format("%s[%d, %d, %d]",
-                        method.getClass().getSimpleName(),
-                        setting.base,
-                        setting.maxExp,
-                        setting.maxK
-               ),method, setting);
+                method.getClass().getSimpleName(),
+                setting.base,
+                setting.maxExp,
+                setting.maxK
+        ), method, setting);
     }
 
     public static void generateTable(final String filename,
@@ -49,7 +38,7 @@ public class TableGenerator {
         final String format = "%4s  %2s  %8.6e  %8.6e%n";
         Path path = null;
         try {
-            path = Path.of("src/main/java/slau"+
+            path = Path.of("src/main/java/slau" +
                     File.separator
                     + "resources"
                     + File.separator
@@ -70,31 +59,33 @@ public class TableGenerator {
         try (final BufferedWriter writer = Files.newBufferedWriter(path)) {
             for (int exp = 1; exp <= maxExp; exp++) {
                 n *= inc;
-                final double[] answer = new double[n];
-                IntStream.range(0, n).forEach(i -> answer[i] = i + 1);
+                final DoubleVector answer = new DoubleVector(n);
+                IntStream.range(0, n).forEach(i -> answer.set(i, i + 1d));
 
                 for (int k = 0; k <= maxK; k++) {
                     double r1 = 0;
                     double r2 = 0;
                     int success = 0;
                     for (int attempt = 0; attempt < avg; attempt++) {
-                        final Pair<Matrix, double[]> formula = FormulaGenerator.generateFormula(n, k, generator);
-                        double[] result;
+                        final Pair<Matrix, DoubleVector> formula = FormulaGenerator.generateFormula(n, k, generator);
+                        DoubleVector result;
                         int cnt = 0;
                         do {
-                            result = method.solve(
+                            result = new DoubleVector(method.solve(
                                     formula.first,
-                                    formula.second
-                            );
-                        } while (cnt++ < 10 && Arrays.stream(result).anyMatch(Double::isNaN));
-                        if (Arrays.stream(result).noneMatch(Double::isNaN)) {
-                            r1 += VectorUtils.euclideanNorm(
-                                    VectorUtils.subtract(result, answer)
-                            );
-                            r2 += VectorUtils.euclideanNorm(
-                                    VectorUtils.subtract(result, answer)
-                            ) /
-                                    VectorUtils.euclideanNorm(answer);
+                                    formula.second.toArray()
+                            ));
+                        } while (cnt++ < 10 && result.stream().anyMatch(Double::isNaN));
+                        if (result.stream().noneMatch(Double::isNaN)) {
+                            r1 += result.subtract(answer).norm();
+//                            r1 +=        VectorUtils.euclideanNorm(
+//                                    VectorUtils.subtract(result, answer)
+//                            );
+                            r2 += result.subtract(answer).norm() / answer.norm();
+//                            r2 += VectorUtils.euclideanNorm(
+//                                    VectorUtils.subtract(result, answer)
+//                            ) /
+//                                    VectorUtils.euclideanNorm(answer);
                             success++;
                         }
                     }
@@ -123,7 +114,7 @@ public class TableGenerator {
         final String format = "%4s  %8.6e  %8.6e%n";
         Path path = null;
         try {
-            path = Path.of("src/main/java/slau"+
+            path = Path.of("src/main/java/slau" +
                     File.separator
                     + "resources"
                     + File.separator
@@ -138,32 +129,48 @@ public class TableGenerator {
 
         try (final BufferedWriter writer = Files.newBufferedWriter(path)) {
             for (int n : dims) {
-                final double[] answer = new double[n];
-                IntStream.range(0, n).forEach(i -> answer[i] = i + 1);
-                final Pair<Matrix, double[]> formula = FormulaGenerator.generateHilbertFormula(n);
+                final DoubleVector answer = new DoubleVector(n);
+                IntStream.range(0, n).forEach(i -> answer.set(i, i + 1d));
+                final Pair<Matrix, DoubleVector> formula = FormulaGenerator.generateHilbertFormula(n);
                 int cnt = 0;
-                double[] result;
+                DoubleVector result;
                 do {
-                    result = method.solve(
+                    result = new DoubleVector(method.solve(
                             formula.first,
-                            formula.second
-                    );
+                            formula.second.toArray()
+                    ));
 
-                } while (cnt++ < 5 && Arrays.stream(result).anyMatch(Double::isNaN));
+                } while (cnt++ < 5 && result.stream().anyMatch(Double::isNaN));
                 writer.write(String.format(format,
-                    n,
-                    VectorUtils.euclideanNorm(
-                            VectorUtils.subtract(result, answer)
-                    ),
-                    VectorUtils.euclideanNorm(
-                            VectorUtils.subtract(result, answer)
-                    ) /
-                            VectorUtils.euclideanNorm(answer)));
+                        n,
+                        result.subtract(answer).norm()
+                        /*VectorUtils.euclideanNorm(
+                                VectorUtils.subtract(result, answer)
+                        )*/
+                        ,
+                        result.subtract(answer).norm() / answer.norm()
+                        /*VectorUtils.euclideanNorm(
+                                VectorUtils.subtract(result, answer)
+                        ) /
+                                VectorUtils.euclideanNorm(answer)*/
+                ));
             }
         } catch (final IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static class Setting {
+        int base;
+        int maxExp;
+        int maxK;
+
+        public Setting(final int base, final int maxExp, final int maxK) {
+            this.base = base;
+            this.maxExp = maxExp;
+            this.maxK = maxK;
+        }
     }
 
 }

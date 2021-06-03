@@ -1,5 +1,6 @@
 package slau.utils;
 
+import matrix.DoubleVector;
 import methods.Pair;
 import matrix.LUMatrix;
 import matrix.Matrix;
@@ -13,18 +14,18 @@ import java.util.stream.IntStream;
 
 public class FormulaGenerator {
 
-    public static Pair<Matrix, double[]>
+    public static Pair<Matrix, DoubleVector>
         generateFormula(
             final int n,
             final int k,
             final BiFunction<Integer, Integer, Matrix> generator) {
         final Matrix m = generator.apply(n, k);
-        final double[] x = new double[n];
-        IntStream.range(0, n).forEach(i -> x[i] = i + 1);
+        final DoubleVector x = new DoubleVector(n);
+        IntStream.range(0, n).forEach(i -> x.set(i, i + 1d));
         return new Pair<>(m, m.multiplyBy(x));
     }
 
-    public static Pair<Matrix, double[]> generateFormula(final int n, final int k) {
+    public static Pair<Matrix, DoubleVector> generateFormula(final int n, final int k) {
         return generateFormula(n, k, FormulaGenerator::generateMatrix2);
     }
 
@@ -50,7 +51,7 @@ public class FormulaGenerator {
                     double sum = IntStream.range(0, n - 1)
                             .mapToDouble(i -> data[row][i])
                             .sum();
-                    double last = -rnd.nextInt(5);
+                    final double last = -rnd.nextInt(5);
 //                    while (last + sum == 0) {
 //                        last = -rnd.nextInt(5);
 //                    }
@@ -147,7 +148,7 @@ public class FormulaGenerator {
                     double sum = IntStream.range(0, n - 1)
                             .mapToDouble(i -> data[row][i])
                             .sum();
-                    double last = -random5.get();
+                    final double last = -random5.get();
 //                    while (last + sum == 0) {
 //                        last = -rnd.nextInt(5);
 //                    }
@@ -162,7 +163,7 @@ public class FormulaGenerator {
         return new LUMatrix(data);
     }
 
-    public static Matrix generateHilbert(int n) {
+    public static Matrix generateHilbert(final int n) {
         if (n <= 0) {
             throw  new IllegalArgumentException("n > 0");
         }
@@ -175,17 +176,17 @@ public class FormulaGenerator {
         return new ProfileMatrix(data);
     }
 
-    public static Pair<Matrix, double[]> generateHilbertFormula(final int n) {
+    public static Pair<Matrix, DoubleVector> generateHilbertFormula(final int n) {
         final Matrix m = generateHilbert(n);
-        final double[] x = new double[n];
-        IntStream.range(0, n).forEach(i -> x[i] = i + 1);
+        final DoubleVector x = new DoubleVector(n);
+        IntStream.range(0, n).forEach(i -> x.set(i, i + 1d));
         return new Pair<>(m, m.multiplyBy(x));
     }
 
-    public static Matrix generateDiagonal(int n, int k) {
+    public static Matrix generateDiagonal(final int n, int k) {
         final double[][] data = new double[n][n];
-        int range = n / 10;
-        int[] diagonals = new int[range];
+        final int range = n / 10;
+        final int[] diagonals = new int[range];
         IntStream.range(0, range).forEach(
                 i -> diagonals[i] = new Random().nextInt(2*(n - 1) + 1) - (n - 1));
         for (int j = -n + 1; j < n; j++) {
@@ -195,7 +196,7 @@ public class FormulaGenerator {
                 }
             }
         }
-        for (int dig : diagonals) {
+        for (final int dig : diagonals) {
             for (int i = 0; i < n; i++) {
                 if (0 <= i + dig  && i + dig < n) {
                     data[i + dig][i] = -RandomUtils.randomValue(0.05);
@@ -206,13 +207,13 @@ public class FormulaGenerator {
         double eps = 1;
         while (k-- > 0) eps /= 10d;
         for (int i = 0; i < n; i++) {
-            int finalI = i;
+            final int finalI = i;
             double sum = IntStream.range(0, n)
                     .mapToDouble(j -> data[finalI][j]).sum();
             if (sum == 0) {
-                int changer = (i + (int)RandomUtils.randomValue(1, n, 0d)) % n;
-                double val = data[i][changer];
-                double newVal = -(1 - (int)val) % 5;
+                final int changer = (i + (int)RandomUtils.randomValue(1, n, 0d)) % n;
+                final double val = data[i][changer];
+                final double newVal = -(1 - (int)val) % 5;
                 data[i][changer] = newVal;
                 sum += newVal - val;
             }
@@ -230,15 +231,15 @@ public class FormulaGenerator {
          * @param r right bound, r > l
          * @return randomValue with {@code zeroPercent} percent of 0, otherwise from l to r
          * */
-        static double randomValue(int l, int r, double zeroPercent) {
-            Random rnd = new Random();
+        static double randomValue(final int l, final int r, final double zeroPercent) {
+            final Random rnd = new Random();
             if (rnd.nextDouble() <= zeroPercent) {
                 return 0d;
             }
             return rnd.nextInt(r - l) + l;
         }
 
-        static double randomValue(double zeroPercent) {
+        static double randomValue(final double zeroPercent) {
             return randomValue(1, 5, zeroPercent);
         }
 

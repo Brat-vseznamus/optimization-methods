@@ -16,7 +16,7 @@ public class Main {
 
     public static void experimentWithZeroPercent() {
         for (double percent = 3; percent <= 10; percent+=1) {
-            double finalPercent = percent / 10d;
+            final double finalPercent = percent / 10d;
             TableGenerator.generateTable(
                     "zeros/test[zp=" + Double.toString(finalPercent).replace(".", ",") + "]",
                     new GaussMethod(),
@@ -27,7 +27,7 @@ public class Main {
     }
 
     public static void gaussTests() {
-        for (int dim : new int[]{3, 5, 10}) {
+        for (final int dim : new int[]{3, 5, 10}) {
             TableGenerator.generateTable(
                     "gauss/test[dim = "+ dim +"]",
                     new GaussMethod(),
@@ -37,7 +37,7 @@ public class Main {
     }
 
     public static void gaussMainTests() {
-        for (int dim : new int[]{3, 5, 10}) {
+        for (final int dim : new int[]{3, 5, 10}) {
             TableGenerator.generateTable(
                     "gauss/testMain[dim = "+ dim +"]",
                     new GaussWithMainElementMethod(),
@@ -47,7 +47,7 @@ public class Main {
     }
 
     public static void luTests() {
-        for (int dim : new int[]{3, 5, 10}) {
+        for (final int dim : new int[]{3, 5, 10}) {
             TableGenerator.generateTable(
                     "lu/test[dim = "+ dim +"]",
                     new LUMethod(),
@@ -57,7 +57,7 @@ public class Main {
     }
 
     public static void hilbert() {
-        int[] dims = new int[]{1, 2, 3, 5, 10, 15, 30, 50, 100, 200, 500, 1000};
+        final int[] dims = new int[]{1, 2, 3, 5, 10, 15, 30, 50, 100, 200, 500, 1000};
         TableGenerator.generateTableHilbert(
                 "hilbert/gauss_test",
                 new GaussMethod(),
