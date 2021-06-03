@@ -22,7 +22,7 @@ public class ClassicNewtonMethod extends AbstractNewtonMethod {
     @Override
     protected DoubleVector iteration(DoubleVector x0) {
         DoubleVector pk = new DoubleVector(
-                new GaussMethod()
+                new GaussWithMainElementMethod()
                         .solve(
                                 function.hessian(x0),
                                 function.gradient(x0).multiplyBy(-1).toArray()

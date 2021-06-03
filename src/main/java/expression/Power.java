@@ -25,7 +25,7 @@ public class Power implements Expression {
     @Override
     public Expression diff(int var) {
         if (n != 0) {
-            return new Mul(new Const(n), new Power(arg, n - 1));
+            return new Mul(new Const(n), new Mul(new Power(arg, n - 1), arg.diff(var)));
         } else {
             return Const.ZERO;
         }

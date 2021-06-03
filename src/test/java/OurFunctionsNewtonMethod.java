@@ -25,9 +25,9 @@ public class OurFunctionsNewtonMethod {
     public static final FunctionExpression[] functionsTest1 = {
             new FunctionExpression(
                     new Add(
-                        new Power(x1, 2),
+                        new Square(x1),
                         new Add(
-                            new Power(x2, 2),
+                            new Square(x2),
                             new Mul(
                                     new Const(2),
                                     new Mul(x1, x2)
@@ -38,17 +38,22 @@ public class OurFunctionsNewtonMethod {
                     true
             ),
             new FunctionExpression(
-                    new Add(
-                            new Power(x1, 2),
-                            new Add(
-                                    new Power(x2, 2),
-                                    new Mul(
-                                            new Const(2),
-                                            new Mul(x1, x2)
-                                    )
+                    new Mul(
+                        new Cos(
+                            new Mul(
+                                new Add(
+                                       new Square(x1),
+                                       new Add(
+                                           new Square(x2),
+                                           new Power(x3, 4)
+                                       )
+                                ),
+                                new Const(0.04)
                             )
+                        ),
+                        new Const(-4)
                     ),
-                    2,
+                    3,
                     true
             )
     };
@@ -62,21 +67,18 @@ public class OurFunctionsNewtonMethod {
     }
 
     @Test
-    public void test1() {
-        final FunctionExpression func = functionsTest1[0];
-        final DoubleVector start = new DoubleVector(4d, 1d);
-        System.out.println("Function " + func.toString());
-        System.out.println("with start point: " + start.toString());
-        for (final NewtonMethod method : newtonMethods) {
-            method.setFunction(func);
-            testMethodOnFunction(method, start);
-        }
+    public void testForUnsolvableForGauss() {
+        test(0, new DoubleVector(-1, 2));
     }
 
     @Test
-    public void test2() {
-        final FunctionExpression func = functionsTest1[1];
-        final DoubleVector start = new DoubleVector(-1.2d, 1d);
+    public void testForNonQuadratic() {
+        test(1, new DoubleVector(-2, -2, -1));
+    }
+
+    public void test(int n, DoubleVector x0) {
+        final FunctionExpression func = functionsTest1[n];
+        final DoubleVector start = x0;
         System.out.println("Function " + func.toString());
         System.out.println("with start point: " + start.toString());
         for (final NewtonMethod method : newtonMethods) {
