@@ -1,12 +1,15 @@
 package expression;
 
-public class Sub extends BinaryOperation {
-    public Sub(final Expression argLeft, final Expression argRight) {
-        super("-", (a, b) -> a - b, argLeft, argRight);
+public class Mul extends BinaryOperation {
+    public Mul(final Expression argLeft, final Expression argRight) {
+        super("*", (a, b) -> a * b, argLeft, argRight);
     }
 
     @Override
-    public Expression diff() {
-        return new Sub(argLeft.diff(), argRight.diff());
+    public Expression diff(final int var) {
+        return new Add(
+                new Mul(argLeft.diff(var), argRight),
+                new Mul(argLeft, argRight.diff(var))
+        );
     }
 }

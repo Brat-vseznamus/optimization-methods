@@ -1,15 +1,18 @@
 package expression;
 
-public class Mul extends BinaryOperation {
-    public Mul(final Expression argLeft, final Expression argRight) {
+public class Div extends BinaryOperation {
+    public Div(final Expression argLeft, final Expression argRight) {
         super("*", (a, b) -> a * b, argLeft, argRight);
     }
 
     @Override
-    public Expression diff() {
-        return new Mul(
-                new Add(argLeft.diff(), argRight),
-                new Add(argLeft, argRight.diff())
+    public Expression diff(final int var) {
+        return new Div(
+                new Add(
+                        new Mul(argLeft.diff(var), argRight),
+                        new Mul(argLeft, argRight.diff(var))
+                ),
+                new Mul(argRight, argRight)
         );
     }
 }

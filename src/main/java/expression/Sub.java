@@ -1,12 +1,12 @@
 package expression;
 
-public class Add extends BinaryOperation {
-    public Add(final Expression argLeft, final Expression argRight) {
-        super("+", Double::sum, argLeft, argRight);
+public class Sub extends BinaryOperation {
+    public Sub(final Expression argLeft, final Expression argRight) {
+        super("-", (a, b) -> a - b, argLeft, argRight);
     }
 
     @Override
-    public Expression diff() {
-        return new Add(argLeft.diff(), argRight.diff());
+    public Expression diff(final int var) {
+        return new Sub(argLeft.diff(var), argRight.diff(var));
     }
 }
