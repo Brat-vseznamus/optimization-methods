@@ -1,4 +1,5 @@
 import linear.DoubleVector;
+import linear.Matrices;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.stream.IntStream;
@@ -14,6 +15,6 @@ public abstract class TestUtils {
     }
 
     static void assertEqualsDoubleVectorNorms(final double[] first, final double[] second) {
-        Assertions.assertEquals(new DoubleVector(first).subtract(new DoubleVector(second.length)).norm(), DOUBLE_EQUALS_EPS);
+        Assertions.assertTrue(Matrices.epsEquals(new DoubleVector(first).subtract(new DoubleVector(second)).norm(), 0d));
     }
 }

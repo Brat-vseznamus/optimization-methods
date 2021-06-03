@@ -1,10 +1,12 @@
 package methods.dimensional.poly;
 
 import linear.DoubleVector;
+import linear.Matrices;
 import linear.Matrix;
 
 import java.util.Objects;
 import java.util.function.IntPredicate;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 public class QuadraticForm {
@@ -19,29 +21,23 @@ public class QuadraticForm {
 
 
     public QuadraticForm(final Matrix a, final DoubleVector b, final double c, final DoubleVector values) {
-        this.n = a.getN();
-        this.a = a;
-        if (a.stream().anyMatch(Objects::isNull) || !(checkMatrix())) {
+        if (a.stream().anyMatch(Objects::isNull) || !(Matrices.checkSymmetric(a))) {
             throw new IllegalArgumentException("Illegal matrix input.");
         }
+        this.n = a.getN();
         if (b.size() != n) {
             throw new IllegalArgumentException("Vector and Matrix should have same dimension.");
         }
+        this.a = a;
         this.b = b;
         this.c = c;
         this.values = values;
-        if (a.isDiagonal()) {
-            final DoubleVector tmpValues = a.get(0);
-            this.minValue = tmpValues.stream().min().orElse(1d);
-            this.maxValue = tmpValues.stream().max().orElse(1d);
-        } else {
-            this.minValue = values.stream().min().orElse(1d);
-            this.maxValue = values.stream().max().orElse(1d);
-        }
+        minValue = values.stream().min().orElse(1d);
+        maxValue = values.stream().max().orElse(1d);
     }
 
     public QuadraticForm(final Matrix a, final DoubleVector b, final Double c) {
-        this(a, b, c, new DoubleVector(1d));
+        this(a, b, c, new DoubleVector(IntStream.range(0, a.getN()).mapToDouble(i -> a.get(i, i)).toArray()));
     }
 
     public int getN() {
@@ -63,14 +59,17 @@ public class QuadraticForm {
     private IntStream range() {
         return IntStream.range(0, n);
     }
+/*
 
     private boolean checkMatrix() {
+        return Matrices.checkSymmetric(a);
         if (a.isDiagonal()) {
             return true;
         }
         final IntPredicate checkRow = i -> range().allMatch(j -> compare(a.get(i, j), a.get(j, i)));
         return a.stream().allMatch(row -> row.size() == n) && range().allMatch(checkRow);
     }
+*/
 
     private double scalarProduct(final DoubleVector x, final DoubleVector y) {
         return range().mapToDouble(i -> x.get(i) * y.get(i)).sum();

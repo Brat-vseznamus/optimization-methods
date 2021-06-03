@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class Matrices {
-    public static final double EPS = 1e-9d;
+    public static final double EPS = 1e-3d;
 
     private Matrices() {
     }

@@ -57,7 +57,7 @@ public class DiagonalMatrix extends AbstractMatrix {
             throw new IllegalArgumentException("Wide and height must be same.");
         }
         final DoubleVector v = new DoubleVector(n);
-        IntStream.range(0, n).forEach(i -> v.set(i, get(i, i) * vector.get(i)));
+        IntStream.range(0, n).forEach(i -> v.set(i, diagonal.get(i) * vector.get(i)));
         return v;
     }
 

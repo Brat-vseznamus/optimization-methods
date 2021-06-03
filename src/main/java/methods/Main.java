@@ -57,10 +57,10 @@ public class Main {
         // THIS SECTION IS FOR CHECKING THAT METHODS ARE ALIVE AND CALCULATION THE TIME OF WORK
         final int mode = 2;
         if (mode == 0) {
-            steepest.setForm(forms.get(4));
+            conjugate.setForm(form);
 
-            System.out.println(Arrays.toString(steepest.findMin()));
-            System.out.println(steepest.getTable().size());
+            System.out.println(Arrays.toString(conjugate.findMin()));
+            System.out.println(conjugate.getTable().size());
         }
         if (mode == 1) {
             answer = measureMethod(conjugate);
