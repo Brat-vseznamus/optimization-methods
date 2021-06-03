@@ -74,13 +74,13 @@ public abstract class AbstractMatrix implements Matrix {
         return new DoubleVector(multiplyBy(vector.toArray()));
     }
 
-    protected boolean valid(final int row, final int col) {
-        return 0 <= row && row < getN() && 0 <= col && col < getM();
+    protected boolean invalid(final int row, final int col) {
+        return 0 > row || row >= getN() || 0 > col || col >= getM();
     }
 
     @Override
     public double minor(int row, int col, int delta) {
-        if (!valid(row, col) || !valid(row + delta - 1, col + delta - 1)) {
+        if (invalid(row, col) || invalid(row + delta - 1, col + delta - 1)) {
             throw new IllegalArgumentException("row, col and row + delta, col + delta must be in matrix bounds");
         }
         if (delta < 1) {
@@ -118,31 +118,6 @@ public abstract class AbstractMatrix implements Matrix {
         Matrices.requireSquare(this);
 
         return minor(0, 0, getN());
-    }
-
-    private class Minor {
-        private final int n;
-        private final int row, col;
-        private final int ignoreRow, ignoreCol;
-
-        public Minor(int n, int row, int col, int ignoreRow, int ignoreCol) {
-            this.n = n;
-            this.row = row;
-            this.col = col;
-            this.ignoreRow = ignoreRow;
-            this.ignoreCol = ignoreCol;
-        }
-
-        public double get(int i, int j) {
-            if (i >= row) {
-                i++;
-            }
-            if (j >= col) {
-                j++;
-            }
-
-            return AbstractMatrix.this.get(i, j);
-        }
     }
 
     @Override
