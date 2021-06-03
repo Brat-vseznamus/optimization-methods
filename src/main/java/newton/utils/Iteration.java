@@ -1,4 +1,4 @@
-package newton;
+package newton.utils;
 
 import lombok.Data;
 

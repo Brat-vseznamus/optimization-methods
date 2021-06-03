@@ -47,6 +47,16 @@ public class DoubleVector {
         return elementOperation(this, (x, v) -> k * x);
     }
 
+    public DoubleMatrix multiply(DoubleVector vc) {
+        double[][] data = new double[size()][vc.size()];
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < vc.size(); j++) {
+                data[i][j] = get(i) * vc.get(j);
+            }
+        }
+        return new DoubleMatrix(data);
+    }
+
     public double scalar(final DoubleVector vector) {
         return Arrays.stream(elementOperation(vector, (x, y) -> x * y).values)
                 .reduce(0d, Double::sum);

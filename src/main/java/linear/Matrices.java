@@ -74,6 +74,14 @@ public class Matrices {
                         matrix.get(row, col) == matrix.get(col, row)));
     }
 
+    public static DoubleMatrix E(int n) {
+        double[][] data = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            data[i][i] = 1;
+        }
+        return new DoubleMatrix(data);
+    }
+
     public static boolean checkSymmetric(final double[][] data) {
         requireShape(data);
 

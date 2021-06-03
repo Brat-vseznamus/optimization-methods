@@ -36,6 +36,13 @@ public class DoubleMatrix extends AbstractMatrix {
         this((DoubleVector[]) IntStream.range(0, n).mapToObj(i -> new DoubleVector(m)).toArray());
     }
 
+    public DoubleVector multiply(final DoubleVector vector) {
+        if (m != vector.size()) {
+            throw new IllegalArgumentException("Wide and height should be same.");
+        }
+        return new DoubleVector(values.stream().mapToDouble(v -> v.scalar(vector)).toArray());
+    }
+
     public int getN() {
         return n;
     }
@@ -64,16 +71,47 @@ public class DoubleMatrix extends AbstractMatrix {
         return values;
     }
 
+    public DoubleMatrix transpose() {
+        final DoubleMatrix mat = new DoubleMatrix(m, n);
+        IntStream.range(0, n).forEach(
+            i -> IntStream.range(0, m).forEach(
+                j -> mat.set(j, i, get(i, j))
+            )
+        );
+        return mat;
+    }
+
     @Override
     public String toString() {
         return Arrays.deepToString(values.toArray()).replace("],", String.format("],%n"));
+    }
+
+    public Stream<DoubleVector> stream() {
+        return values.stream();
     }
 
     public boolean isDiagonal() {
         return false;
     }
 
-    public Stream<DoubleVector> stream() {
-        return values.stream();
+    public DoubleMatrix getReverse() {
+        final int n = values.size();
+        final double[][] l0 = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                l0[i][j] = values.get(i).get(j);
+            }
+        }
+        return new DoubleMatrix(LUMatrix.reverse(l0));
+    }
+
+    public DoubleMatrix multilpy(double k) {
+        double[][] data = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                data[i][j] = k * get(i, j);
+            }
+        }
+        return new DoubleMatrix(data);
     }
 }

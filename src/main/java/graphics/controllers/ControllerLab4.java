@@ -18,7 +18,7 @@ import linear.DiagonalMatrix;
 import linear.DoubleMatrix;
 import linear.DoubleVector;
 import methods.dimensional.poly.*;
-import newton.Iteration;
+import newton.utils.Iteration;
 
 import java.net.URL;
 import java.util.ArrayList;
