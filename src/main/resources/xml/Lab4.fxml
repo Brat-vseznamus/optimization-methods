@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="557.0" prefWidth="908.0" stylesheets="@../css/StyleLab2.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.controllers.ControllerLab2">
+<AnchorPane prefHeight="557.0" prefWidth="908.0" stylesheets="@../css/StyleLab4.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.controllers.ControllerLab4">
     <children>
         <BorderPane layoutX="114.0" layoutY="54.0" prefHeight="400.0" prefWidth="791.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
@@ -186,7 +186,6 @@
                   <JFXButton buttonType="RAISED" layoutX="89.0" layoutY="243.0" onAction="#setFunction3" ripplerFill="#0a4969" styleClass="function-button" text="51.3x^2+27.9y^2-23.78x-0.9y-0.78" />
                   <JFXButton buttonType="RAISED" layoutX="89.0" layoutY="328.0" onAction="#setFunction4" ripplerFill="#0a4969" styleClass="function-button" text="254𝑥^2 + 506𝑥y + 254y^2 + 50x + 130y − 111" />
                   <JFXButton buttonType="RAISED" layoutX="35.0" layoutY="300.0" onAction="#setFunction5" ripplerFill="#0a4969" styleClass="function-button" text="254𝑥^2 + 254y^2 + 50x + 130y − 111" />
-                  <JFXButton buttonType="RAISED" onAction="#showOrHideLevels" ripplerFill="#0a4969" style="-fx-border-color: #000000; -fx-border-radius: 4;" text="Скрыть/Показать уровни" />
                 </children>
                 <VBox.margin>
                     <Insets />

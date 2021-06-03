@@ -24,10 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Stack;
 import java.util.function.Function;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 
 public class ControllerLab4 implements Initializable {
@@ -69,8 +66,12 @@ public class ControllerLab4 implements Initializable {
     private List<Iteration> currentIterations;
     private int currentIteration = 0;
 
-    private XYChart.Series<Number, Number> tangent = new XYChart.Series<>();
-    private XYChart.Series<Number, Number> fromTangentToF1 = new XYChart.Series<>();
+    private final XYChart.Series<Number, Number> tangent = new XYChart.Series<>();
+    private final XYChart.Series<Number, Number> fromTangentToF1 = new XYChart.Series<>();
+    private final List<XYChart.Series<Number, Number>> point = List.of(
+            new XYChart.Series<>(),
+            new XYChart.Series<>()
+    );
     private final List<QuadraticForm> forms = new ArrayList<>(List.of(
             new QuadraticForm(
                     new DiagonalMatrix(new DoubleVector(60d, 2d)),
@@ -109,30 +110,35 @@ public class ControllerLab4 implements Initializable {
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.setLegendVisible(false);
 
-
         setFunctionN(1);
     }
 
     private void initializeLineChart(final GradientOptimizationMethod method) {
 
         lineChart.getData().clear();
-        tangent = new XYChart.Series<>();
-        fromTangentToF1 = new XYChart.Series<>();
-
-        lineChart.getData().add(tangent);
-        lineChart.getData().add(fromTangentToF1);
-        Platform.runLater(() -> {
-            tangent.getNode().getStyleClass().add("tangent-line");
-            fromTangentToF1.getNode().getStyleClass().add("from-tangent-to-f1-line");
-        });
         // TODO: generating info
         currentSeries = new XYChart.Series<>();
         lineChart.getData().add(currentSeries);
+        lineChart.getData().add(tangent);
+        lineChart.getData().add(fromTangentToF1);
+
+        point.forEach(point -> lineChart.getData().add(point));
+
+        Platform.runLater(() -> {
+            tangent.getNode().getStyleClass().add("tangent-line");
+            fromTangentToF1.getNode().getStyleClass().add("from-tangent-to-f1-line");
+
+
+        });
+
         currentSeries.setName(method.getName());
         currentIterations = new ArrayList<>(); // TODO: getting iterations;
-        for (double x = 0; x < 20; x += 1) {
-            final double nextX = x + 1;
-            final Iteration iteration = new Iteration(x, Math.sin(x), nextX, Math.sin(nextX), Math.cos(x));
+        for (double x = 0; x < 20; x += 0.1) {
+            final double nextX = x + 0.1;
+            final Iteration iteration = new Iteration(
+                    new DoubleVector(x), 10*Math.sin(x),
+                    new DoubleVector(nextX), 10*Math.sin(nextX),
+                    new DoubleVector(10*Math.cos(x)));
             currentIterations.add(iteration);
         }
         currentIteration = 0;
@@ -145,17 +151,17 @@ public class ControllerLab4 implements Initializable {
 
     private void updateCurrentSeries() {
         final Iteration currentInfo = currentIterations.get(currentIteration);
-        final double x0 = currentInfo.getX0();
+        final double x0 = currentInfo.getX0().get(0);
         final double f0 = currentInfo.getF0();
         addPoint(currentSeries, x0, f0);
-        drawTangent(x0, f0, currentInfo.getX1(), currentInfo.getF1(), currentInfo.getSlope());
+        drawTangent(x0, f0, currentInfo.getX1().get(0), currentInfo.getF1(), currentInfo.getSlope().get(0));
         currentIterationText.setText(Integer.toString(currentIteration));
     }
 
     private void drawTangent(final double x0, final double f0, final double x1, final double f1, final double slope) {
         tangent.getData().clear();
         fromTangentToF1.getData().clear();
-        final double step = 0.01;
+        final double step = 0.001;
         final var tangentFunction = getTangentFunction(x0, f0, slope);
         for (double curX = 2 * x0 - x1; curX < x1; curX += step) {
             addPoint(tangent, curX, tangentFunction.apply(curX));
