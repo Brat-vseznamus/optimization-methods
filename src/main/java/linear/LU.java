@@ -1,4 +1,4 @@
-package matrix;
+package linear;
 
 public class LU {
     Matrix l, u;

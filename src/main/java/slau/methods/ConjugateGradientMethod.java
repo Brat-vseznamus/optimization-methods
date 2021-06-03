@@ -1,7 +1,7 @@
 package slau.methods;
 
-import matrix.DoubleVector;
-import matrix.Matrix;
+import linear.DoubleVector;
+import linear.Matrix;
 
 public class ConjugateGradientMethod implements Method {
     public static final double DEFAULT_EPS = 1e-7d;

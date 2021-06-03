@@ -1,6 +1,6 @@
 package methods.dimensional.poly;
 
-import matrix.DoubleVector;
+import linear.DoubleVector;
 
 public class GradientDescendMethod extends AbstractGradientMethod {
 

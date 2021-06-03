@@ -1,6 +1,6 @@
 package methods.dimensional.poly;
 
-import matrix.DoubleVector;
+import linear.DoubleVector;
 import methods.Pair;
 
 import java.util.ArrayList;

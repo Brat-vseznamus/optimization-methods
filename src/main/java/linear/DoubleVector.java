@@ -1,4 +1,4 @@
-package matrix;
+package linear;
 
 import java.util.function.BinaryOperator;
 import java.util.stream.DoubleStream;

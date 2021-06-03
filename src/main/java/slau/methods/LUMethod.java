@@ -1,8 +1,8 @@
 package slau.methods;
 
-import matrix.LU;
-import matrix.LUDecomposible;
-import matrix.Matrix;
+import linear.LU;
+import linear.LUDecomposible;
+import linear.Matrix;
 
 public class LUMethod implements Method{
     @Override

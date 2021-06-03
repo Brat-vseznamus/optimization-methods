@@ -1,4 +1,4 @@
-import matrix.DoubleVector;
+import linear.DoubleVector;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.stream.IntStream;

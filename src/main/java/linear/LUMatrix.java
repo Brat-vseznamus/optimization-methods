@@ -1,4 +1,4 @@
-package matrix;
+package linear;
 
 public class LUMatrix extends RegularMatrix implements LUDecomposible {
 

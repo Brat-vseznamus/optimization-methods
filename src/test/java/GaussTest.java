@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import matrix.Matrix;
-import matrix.MatrixWithE;
-import matrix.RegularMatrix;
+import linear.Matrix;
+import linear.MatrixWithE;
+import linear.RegularMatrix;
 import slau.methods.GaussMethod;
 import slau.methods.GaussWithMainElementMethod;
 

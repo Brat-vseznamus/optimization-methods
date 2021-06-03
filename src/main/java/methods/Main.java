@@ -1,8 +1,8 @@
 package methods;
 
-import matrix.DiagonalMatrix;
-import matrix.DoubleMatrix;
-import matrix.DoubleVector;
+import linear.DiagonalMatrix;
+import linear.DoubleMatrix;
+import linear.DoubleVector;
 import methods.dimensional.one.*;
 import methods.dimensional.poly.*;
 

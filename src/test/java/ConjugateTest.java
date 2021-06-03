@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
-import matrix.Matrix;
-import matrix.RegularMatrix;
+import linear.Matrix;
+import linear.RegularMatrix;
 import slau.methods.ConjugateGradientMethod;
 
 import java.util.Arrays;

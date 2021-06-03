@@ -14,9 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import matrix.DiagonalMatrix;
-import matrix.DoubleMatrix;
-import matrix.DoubleVector;
+import linear.DiagonalMatrix;
+import linear.DoubleMatrix;
+import linear.DoubleVector;
 import methods.dimensional.poly.*;
 
 import java.net.URL;

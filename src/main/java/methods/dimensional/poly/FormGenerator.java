@@ -1,7 +1,7 @@
 package methods.dimensional.poly;
 
-import matrix.DiagonalMatrix;
-import matrix.DoubleVector;
+import linear.DiagonalMatrix;
+import linear.DoubleVector;
 
 import java.util.Random;
 import java.util.stream.IntStream;

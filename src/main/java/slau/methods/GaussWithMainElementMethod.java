@@ -1,6 +1,6 @@
 package slau.methods;
 
-import matrix.Matrix;
+import linear.Matrix;
 
 import java.util.stream.IntStream;
 

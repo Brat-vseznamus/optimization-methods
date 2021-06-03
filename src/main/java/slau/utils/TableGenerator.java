@@ -1,7 +1,7 @@
 package slau.utils;
 
-import matrix.DoubleVector;
-import matrix.Matrix;
+import linear.DoubleVector;
+import linear.Matrix;
 import methods.Pair;
 import slau.methods.Method;
 
@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 

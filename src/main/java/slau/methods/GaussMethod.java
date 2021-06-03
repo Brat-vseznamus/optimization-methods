@@ -1,6 +1,6 @@
 package slau.methods;
 
-import matrix.Matrix;
+import linear.Matrix;
 
 public class GaussMethod implements Method {
 

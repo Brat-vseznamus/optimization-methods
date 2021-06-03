@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import matrix.Matrix;
-import matrix.SymmetricSparseMatrix;
+import linear.Matrix;
+import linear.SymmetricSparseMatrix;
 
 import java.util.stream.IntStream;
 

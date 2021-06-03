@@ -2,7 +2,7 @@ package methods.dimensional.poly;
 
 import java.util.function.UnaryOperator;
 
-import matrix.DoubleVector;
+import linear.DoubleVector;
 import methods.dimensional.one.OneDimensionalOptimizationMethod;
 import methods.dimensional.one.ParabolicMethod;
 

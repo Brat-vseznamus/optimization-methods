@@ -1,4 +1,4 @@
-package matrix;
+package linear;
 
 import java.nio.file.Path;
 

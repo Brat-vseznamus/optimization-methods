@@ -1,7 +1,7 @@
 package methods.dimensional.poly;
 
-import matrix.DoubleMatrix;
-import matrix.DoubleVector;
+import linear.DoubleMatrix;
+import linear.DoubleVector;
 
 import java.util.Objects;
 import java.util.function.IntPredicate;

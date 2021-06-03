@@ -1,4 +1,4 @@
-package matrix;
+package linear;
 
 import java.util.ArrayList;
 import java.util.Arrays;

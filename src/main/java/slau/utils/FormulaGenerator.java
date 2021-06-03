@@ -1,10 +1,10 @@
 package slau.utils;
 
-import matrix.DoubleVector;
+import linear.DoubleVector;
 import methods.Pair;
-import matrix.LUMatrix;
-import matrix.Matrix;
-import matrix.ProfileMatrix;
+import linear.LUMatrix;
+import linear.Matrix;
+import linear.ProfileMatrix;
 
 import java.util.Arrays;
 import java.util.Random;
