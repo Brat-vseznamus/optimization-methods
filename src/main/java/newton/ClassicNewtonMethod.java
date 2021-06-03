@@ -3,6 +3,7 @@ package newton;
 import linear.DoubleVector;
 import newton.utils.FunctionExpression;
 import slau.methods.GaussMethod;
+import slau.methods.GaussWithMainElementMethod;
 
 public class ClassicNewtonMethod extends AbstractNewtonMethod {
 

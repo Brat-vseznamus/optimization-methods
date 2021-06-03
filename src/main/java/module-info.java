@@ -12,4 +12,8 @@ module graphics {
     exports linear;
     exports slau.methods;
     exports slau.utils;
+    exports expression;
+    exports newton;
+    exports newton.quasi;
+    exports newton.utils;
 }

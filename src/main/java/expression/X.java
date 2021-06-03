@@ -9,7 +9,7 @@ public class X implements Expression {
 
     @Override
     public double evaluate(final double... vars) {
-        return vars[no - 1];
+        return vars[no];
     }
 
     @Override

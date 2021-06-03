@@ -1,10 +1,13 @@
-package newton;
-
 import expression.*;
 import linear.DoubleVector;
+import newton.ClassicNewtonMethod;
+import newton.DescentDirectionNewtonMethod;
+import newton.NewtonMethod;
+import newton.OneDimOptimizedNewtonMethod;
 import newton.utils.FunctionExpression;
+import org.junit.jupiter.api.Test;
 
-public class Main {
+public class QuasiNewtonMethodTest {
     public static final NewtonMethod classic = new ClassicNewtonMethod();
     public static final NewtonMethod descend = new DescentDirectionNewtonMethod();
     public static final NewtonMethod oneDim = new OneDimOptimizedNewtonMethod();
@@ -42,7 +45,7 @@ public class Main {
             )
     };
 
-    public static void testMethodOnFunction(final NewtonMethod method, final int no, final DoubleVector start) {
+    public static void testMethodOnFunction(final NewtonMethod method, final DoubleVector start) {
         final DoubleVector result = method.findMin(start);
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString());
@@ -50,30 +53,27 @@ public class Main {
         System.out.println();
     }
 
-    public static void test1() {
+    @Test
+    public void test1() {
         final FunctionExpression func = functionsTest1[0];
         final DoubleVector start = new DoubleVector(4d, 1d);
         System.out.println("Function " + func.toString());
         System.out.println("with start point: " + start.toString());
         for (final NewtonMethod method : newtonMethods) {
             method.setFunction(func);
-            testMethodOnFunction(method, 0, start);
+            testMethodOnFunction(method, start);
         }
     }
 
-    public static void test2() {
+    @Test
+    public void test2() {
         final FunctionExpression func = functionsTest1[1];
         final DoubleVector start = new DoubleVector(-1.2d, 1d);
         System.out.println("Function " + func.toString());
         System.out.println("with start point: " + start.toString());
         for (final NewtonMethod method : newtonMethods) {
             method.setFunction(func);
-            testMethodOnFunction(method, 0, start);
+            testMethodOnFunction(method, start);
         }
-    }
-
-    public static void main(final String[] args) {
-        test1();
-        test2();
     }
 }
