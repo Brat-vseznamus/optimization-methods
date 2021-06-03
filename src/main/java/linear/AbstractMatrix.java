@@ -80,7 +80,7 @@ public abstract class AbstractMatrix implements Matrix {
 
     @Override
     public double minor(int row, int col, int delta) {
-        if (!valid(row, col) || !valid(row + delta, col + delta)) {
+        if (!valid(row, col) || !valid(row + delta - 1, col + delta - 1)) {
             throw new IllegalArgumentException("row, col and row + delta, col + delta must be in matrix bounds");
         }
         if (delta < 1) {
@@ -90,12 +90,59 @@ public abstract class AbstractMatrix implements Matrix {
             return get(row, col);
         }
 
+        // first column decomposition
         double result = 0d;
+        final Matrix tempMinor = new RegularMatrix(delta - 1, delta - 1);
+        for (int i = row; i < row + delta; i++) {
+            int tempRow = -1;
+            for (int r = row; r < row + delta; r++) {
+                if (r == i) {
+                    continue;
+                }
+                tempRow++;
+                int tempCol = -1;
+                for (int c = col + 1; c < col + delta; c++) {
+                    tempCol++;
+                    tempMinor.set(tempRow, tempCol, get(r, c));
+                }
+            }
+            // recursive determinant
+            double coef = (i + col) % 2 == 0 ? 1 : -1;
+            result += coef * get(i, col) * tempMinor.minor(0, 0, delta - 1);
+        }
+        return result;
+    }
 
-//        for (int i = row; i < row + delta; i++) {
-//
-//        }
-        return 0d;
+    @Override
+    public double determinant() {
+        Matrices.requireSquare(this);
+
+        return minor(0, 0, getN());
+    }
+
+    private class Minor {
+        private final int n;
+        private final int row, col;
+        private final int ignoreRow, ignoreCol;
+
+        public Minor(int n, int row, int col, int ignoreRow, int ignoreCol) {
+            this.n = n;
+            this.row = row;
+            this.col = col;
+            this.ignoreRow = ignoreRow;
+            this.ignoreCol = ignoreCol;
+        }
+
+        public double get(int i, int j) {
+            if (i >= row) {
+                i++;
+            }
+            if (j >= col) {
+                j++;
+            }
+
+            return AbstractMatrix.this.get(i, j);
+        }
     }
 
     @Override
