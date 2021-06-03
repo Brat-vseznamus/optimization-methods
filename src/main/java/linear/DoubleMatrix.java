@@ -71,26 +71,16 @@ public class DoubleMatrix extends AbstractMatrix {
         return values;
     }
 
-    public DoubleMatrix transpose() {
-        final DoubleMatrix mat = new DoubleMatrix(m, n);
-        IntStream.range(0, n).forEach(
-            i -> IntStream.range(0, m).forEach(
-                j -> mat.set(j, i, get(i, j))
-            )
-        );
-        return mat;
-    }
-
     @Override
     public String toString() {
         return Arrays.deepToString(values.toArray()).replace("],", String.format("],%n"));
     }
 
-    public Stream<DoubleVector> stream() {
-        return values.stream();
-    }
-
     public boolean isDiagonal() {
         return false;
+    }
+
+    public Stream<DoubleVector> stream() {
+        return values.stream();
     }
 }

@@ -2,6 +2,7 @@ package linear;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public abstract class AbstractMatrix implements Matrix {
     @Override
@@ -98,6 +99,22 @@ public abstract class AbstractMatrix implements Matrix {
     @Override
     public DoubleVector multiplyBy(final DoubleVector vector) {
         return new DoubleVector(multiplyBy(vector.toArray()));
+    }
+
+    @Override
+    public Stream<DoubleVector> stream() {
+        return IntStream.range(0, getN()).mapToObj(this::get);
+    }
+
+    @Override
+    public Matrix transpose() {
+        final DoubleMatrix mat = new DoubleMatrix(getM(), getN());
+        IntStream.range(0, getN()).forEach(
+                i -> IntStream.range(0, getM()).forEach(
+                        j -> mat.set(j, i, get(i, j))
+                )
+        );
+        return mat;
     }
 
     protected boolean invalid(final int row, final int col) {

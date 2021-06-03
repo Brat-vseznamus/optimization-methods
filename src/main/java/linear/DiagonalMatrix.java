@@ -36,6 +36,7 @@ public class DiagonalMatrix extends AbstractMatrix {
         row.set(i, get(i, i));
         return row;
     }
+
     @Override
     public void set(final int i, final int j, final double val) {
         if (i == j) {
@@ -44,30 +45,6 @@ public class DiagonalMatrix extends AbstractMatrix {
             throw new IllegalArgumentException("Can't set out of the main diagonal in DiagonalMatrix");
         }
     }
-
-/*
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        IntStream.range(0, n).forEach(
-            i -> {
-                sb.append("[");
-                IntStream.range(0, m).forEach(
-                    j -> {
-                        if (j == 0) {
-                            sb.append(get(i, j));
-                        } else {
-                            sb.append(", ").append(get(i, j));
-                        }
-                    }
-                );
-                sb.append("]\n");
-            }
-        );
-        return sb.toString();
-    }
-*/
 
     @Override
     public boolean isDiagonal() {
@@ -84,17 +61,11 @@ public class DiagonalMatrix extends AbstractMatrix {
         return v;
     }
 
-//    @Override
     public void set(final int i, final DoubleVector val) {
         throw new UnsupportedOperationException();
     }
 
-//    @Override
-    public Stream<DoubleVector> stream() {
-        throw new UnsupportedOperationException();
-    }
-
-    //    @Override
+    @Override
     public Matrix transpose() {
         return this;
     }

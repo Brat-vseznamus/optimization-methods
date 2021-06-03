@@ -1,5 +1,7 @@
 package linear;
 
+import java.util.stream.Stream;
+
 public interface Matrix {
     double DOUBLE_EQUALS_EPS = 0.0001;
 
@@ -28,6 +30,10 @@ public interface Matrix {
     double[] multiplyBy(final double[] vector);
 
     DoubleVector multiplyBy(final DoubleVector vector);
+
+    public Stream<DoubleVector> stream();
+
+    public Matrix transpose();
 
     double minor(int row, int col, int delta);
 

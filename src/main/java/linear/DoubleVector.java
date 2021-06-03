@@ -80,7 +80,9 @@ public class DoubleVector {
         if (values.length != matrix.getN()) {
             throw new IllegalArgumentException("cringe");
         }
-        return matrix.transpose().multiply(this);
+
+        return IntStream.range(0, values.length).mapToObj(i -> matrix.get(i).multiplyBy(values[i]))
+                .reduce(DoubleVector::add).orElseGet(() -> new DoubleVector(values.length));
     }
 
     public DoubleStream stream() {
