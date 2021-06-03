@@ -74,6 +74,30 @@ public abstract class AbstractMatrix implements Matrix {
         return new DoubleVector(multiplyBy(vector.toArray()));
     }
 
+    protected boolean valid(final int row, final int col) {
+        return 0 <= row && row < getN() && 0 <= col && col < getM();
+    }
+
+    @Override
+    public double minor(int row, int col, int delta) {
+        if (!valid(row, col) || !valid(row + delta, col + delta)) {
+            throw new IllegalArgumentException("row, col and row + delta, col + delta must be in matrix bounds");
+        }
+        if (delta < 1) {
+            throw new IllegalArgumentException("delta must be >= 1");
+        }
+        if (delta == 1) {
+            return get(row, col);
+        }
+
+        double result = 0d;
+
+//        for (int i = row; i < row + delta; i++) {
+//
+//        }
+        return 0d;
+    }
+
     @Override
     public String toString() {
         return IntStream.range(0, getN())

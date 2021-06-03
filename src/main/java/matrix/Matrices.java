@@ -19,33 +19,72 @@ public class Matrices {
         }
     }
 
+    // SHAPE OF MATRIX CHECK
+    public static boolean checkShape(final double[][] data) {
+        requireNonNullComponents(data);
+
+        return Arrays.stream(data).allMatch((row) -> row.length == data[0].length);
+    }
+
+    public static void requireShape(final double[][] data) {
+        if (!checkShape(data)) {
+            throw new IllegalArgumentException("data rows must have same length");
+        }
+    }
+
+    // SQUARE CHECK
     public static boolean checkSquare(final Matrix matrix) {
+        requireNonNullComponents(matrix);
+
         return matrix.getN() == matrix.getM();
     }
 
     public static boolean checkSquare(final double[][] data) {
+        requireShape(data);
+
         return Arrays.stream(data).allMatch((row) -> row.length == data.length);
     }
 
     public static void requireSquare(final Matrix matrix) {
-        requireNonNullComponents(matrix);
-        if (checkSquare(matrix)) {
+        if (!checkSquare(matrix)) {
             throw new IllegalArgumentException("matrix must have same dimensions");
         }
     }
 
     public static void requireSquare(final double[][] data) {
-        requireNonNullComponents(data);
         if (!checkSquare(data)) {
-            throw new IllegalArgumentException("matrix must have same dimensions");
+            throw new IllegalArgumentException("data must have same dimensions");
         }
     }
 
+    // SYMMETRIC CHECK
     public static boolean checkSymmetric(final Matrix matrix) {
         requireNonNullComponents(matrix);
 
         return checkSquare(matrix) && IntStream.range(0, matrix.getN())
                 .anyMatch(row -> IntStream.range(0, row).allMatch(col ->
                         matrix.get(row, col) == matrix.get(col, row)));
+    }
+
+    public static boolean checkSymmetric(final double[][] data) {
+        requireShape(data);
+
+        return checkSquare(data) && IntStream.range(0, data.length)
+                .anyMatch(row -> IntStream.range(0, row).allMatch(col ->
+                        data[row][col] == data[col][row]));
+
+//        return checkSymmetric(new RegularMatrix(data));
+    }
+
+    public static boolean checkPositive(final Matrix matrix) {
+        requireSquare(matrix);
+
+        return false;
+    }
+
+    public static boolean checkNegative(final Matrix matrix) {
+        requireSquare(matrix);
+
+        return false;
     }
 }

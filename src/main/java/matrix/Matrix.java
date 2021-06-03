@@ -24,4 +24,6 @@ public interface Matrix {
     double[] multiplyBy(final double[] vector);
 
     DoubleVector multiplyBy(final DoubleVector vector);
+
+    double minor(int row, int col, int delta);
 }
