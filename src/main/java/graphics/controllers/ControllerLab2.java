@@ -224,11 +224,11 @@ public class ControllerLab2 implements Initializable {
         final double gradesPerStep = 1;
         for (double angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 360 * gradesPerStep) {
             final DoubleVector normal = new DoubleVector(Math.cos(angle), Math.sin(angle));
-            final double a = 1 / 2d * form.getA().multiply(normal).scalar(normal);
-            final double b = form.getB().scalar(normal) + form.getA().multiply(center).scalar(normal);
+            final double a = 1 / 2d * form.getA().multiplyBy(normal).scalar(normal);
+            final double b = form.getB().scalar(normal) + form.getA().multiplyBy(center).scalar(normal);
             final double c = form.getC() - h
                     + center.scalar(form.getB())
-                    + 1 / 2d * (center.scalar(form.getA().multiply(center)));
+                    + 1 / 2d * (center.scalar(form.getA().multiplyBy(center)));
             final double r = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
             final DoubleVector newPoint = normal.multiplyBy(r).add(center);
             series.getData().add(new XYChart.Data<>(newPoint.get(0), newPoint.get(1)));

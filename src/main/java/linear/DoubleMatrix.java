@@ -36,13 +36,6 @@ public class DoubleMatrix extends AbstractMatrix {
         this((DoubleVector[]) IntStream.range(0, n).mapToObj(i -> new DoubleVector(m)).toArray());
     }
 
-    public DoubleVector multiply(final DoubleVector vector) {
-        if (m != vector.size()) {
-            throw new IllegalArgumentException("Wide and height should be same.");
-        }
-        return new DoubleVector(values.stream().mapToDouble(v -> v.scalar(vector)).toArray());
-    }
-
     public int getN() {
         return n;
     }

@@ -1,7 +1,7 @@
 package methods.dimensional.poly;
 
-import linear.DoubleMatrix;
 import linear.DoubleVector;
+import linear.Matrix;
 
 import java.util.Objects;
 import java.util.function.IntPredicate;
@@ -11,14 +11,14 @@ public class QuadraticForm {
     private static final double EPS = 1e-6d;
 
     private final int n;
-    private final DoubleMatrix a;
+    private final Matrix a;
     private final DoubleVector b;
     private final double c;
     private final DoubleVector values;
     private final double minValue, maxValue;
 
 
-    public QuadraticForm(final DoubleMatrix a, final DoubleVector b, final double c, final DoubleVector values) {
+    public QuadraticForm(final Matrix a, final DoubleVector b, final double c, final DoubleVector values) {
         this.n = a.getN();
         this.a = a;
         if (a.stream().anyMatch(Objects::isNull) || !(checkMatrix())) {
@@ -31,7 +31,7 @@ public class QuadraticForm {
         this.c = c;
         this.values = values;
         if (a.isDiagonal()) {
-            final DoubleVector tmpValues = a.getValues().get(0);
+            final DoubleVector tmpValues = a.get(0);
             this.minValue = tmpValues.stream().min().orElse(1d);
             this.maxValue = tmpValues.stream().max().orElse(1d);
         } else {
@@ -40,7 +40,7 @@ public class QuadraticForm {
         }
     }
 
-    public QuadraticForm(final DoubleMatrix a, final DoubleVector b, final Double c) {
+    public QuadraticForm(final Matrix a, final DoubleVector b, final Double c) {
         this(a, b, c, new DoubleVector(1d));
     }
 
@@ -78,7 +78,7 @@ public class QuadraticForm {
 
     public double apply(final DoubleVector x) {
         if (a.isDiagonal()) {
-            return scalarProduct(a.multiply(x), x) / 2d + scalarProduct(x, b) + c;
+            return scalarProduct(a.multiplyBy(x), x) / 2d + scalarProduct(x, b) + c;
         }
         return scalarProduct(new DoubleVector(range().mapToDouble(i -> scalarProduct(x, a.get(i))).toArray()), x) / 2d
                 + scalarProduct(x, b) + c;
@@ -86,12 +86,12 @@ public class QuadraticForm {
 
     public DoubleVector gradient(final DoubleVector x) {
         if (a.isDiagonal()) {
-            return a.multiply(x).add(b);
+            return a.multiplyBy(x).add(b);
         }
         return new DoubleVector(range().mapToDouble(i -> (scalarProduct(x, a.get(i)) + b.get(i))).toArray());
     }
 
-    public DoubleMatrix getA() {
+    public Matrix getA() {
         return a;
     }
 
