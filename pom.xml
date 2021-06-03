@@ -61,7 +61,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>graphics.App</mainClass>
+                    <mainClass>graphics.applications.AppLab1</mainClass>
                 </configuration>
             </plugin>
         </plugins>

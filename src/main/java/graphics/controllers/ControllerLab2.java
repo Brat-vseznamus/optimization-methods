@@ -1,4 +1,4 @@
-package graphics;
+package graphics.controllers;
 
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
@@ -91,7 +91,7 @@ public class ControllerLab2 implements Initializable {
     public void initialize(final URL location, final ResourceBundle resources) {
 
         FullScreenButton.setOnMouseClicked(event -> ((Stage) (((ImageView) event.getSource()).getScene().getWindow())).setFullScreen(true));
-        Controller.initScene(Exit, slider, Menu, MenuClose, lineChart);
+        ControllerLab1.initScene(Exit, slider, Menu, MenuClose, lineChart);
 
         final boolean animations = false;
 

@@ -1,4 +1,4 @@
-package graphics;
+package graphics.controllers;
 
 import methods.dimensional.one.*;
 import javafx.animation.TranslateTransition;
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-public class Controller implements Initializable {
+public class ControllerLab1 implements Initializable {
 
     @FXML
     private ImageView Exit;
@@ -90,10 +90,10 @@ public class Controller implements Initializable {
     static void initScene(final ImageView Exit, final AnchorPane slider, final Label Menu, final Label MenuClose, final LineChart<?, ?> lineChart) {
         Exit.setOnMouseClicked(event -> System.exit(0));
         slider.setTranslateX(-176);
-        Menu.setOnMouseClicked(e -> Controller.openMenu(slider, Menu, MenuClose));
-        MenuClose.setOnMouseClicked(e -> Controller.closeMenu(slider, Menu, MenuClose));
+        Menu.setOnMouseClicked(e -> ControllerLab1.openMenu(slider, Menu, MenuClose));
+        MenuClose.setOnMouseClicked(e -> ControllerLab1.closeMenu(slider, Menu, MenuClose));
 
-        Controller.openMenu(slider, Menu, MenuClose);
+        ControllerLab1.openMenu(slider, Menu, MenuClose);
 
         final ChartPanManager panner = new ChartPanManager(lineChart);
         //while pressing the left mouse button, you can drag to navigate
