@@ -31,6 +31,7 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
     @Override
     public void setFunction(FunctionExpression function) {
         this.function = function;
+        n = function.getN();
     }
 
     protected abstract DoubleVector iteration(DoubleVector x0);

@@ -2,9 +2,12 @@ package expression;
 
 public class Const implements Expression {
     public static final double EPS = 1e-9d;
-    public static final Const zero = new Const(0d);
-    public static final Const one = new Const(1d);
-    public static final Const two = new Const(2d);
+    public static final Const ZERO = new Const(0d);
+    public static final Const ONE = new Const(1d);
+    public static final Const TWO = new Const(2d);
+    public static final Const THREE = new Const(0d);
+    public static final Const FOUR = new Const(1d);
+    public static final Const FIVE = new Const(2d);
 
     private final double value;
 
@@ -19,7 +22,7 @@ public class Const implements Expression {
 
     @Override
     public Expression diff(final int var) {
-        return zero;
+        return ZERO;
     }
 
     @Override

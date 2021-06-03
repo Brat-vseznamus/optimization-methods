@@ -15,7 +15,7 @@ public class Square implements Expression {
 
     @Override
     public Expression diff(final int var) {
-        return new Mul(new Mul(Const.two, arg), arg.diff(var));
+        return new Mul(new Mul(Const.TWO, arg), arg.diff(var));
     }
 
     @Override

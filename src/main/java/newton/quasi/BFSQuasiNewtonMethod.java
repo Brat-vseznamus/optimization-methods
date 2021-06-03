@@ -20,9 +20,11 @@ public class BFSQuasiNewtonMethod extends AbstractQuasiNewtonMethod {
         super(function, eps);
     }
 
+    public BFSQuasiNewtonMethod() {
+    }
+
     @Override
     protected DoubleVector iteration(DoubleVector x0) {
-
         DoubleVector dw = function.gradient(x0).multiplyBy(-1).subtract(w);
         w = w.add(dw);
         DoubleVector v = g.multiply(dw);

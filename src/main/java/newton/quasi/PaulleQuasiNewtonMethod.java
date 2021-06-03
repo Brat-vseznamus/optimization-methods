@@ -19,6 +19,8 @@ public class PaulleQuasiNewtonMethod extends AbstractQuasiNewtonMethod{
         super(function, eps);
     }
 
+    public PaulleQuasiNewtonMethod() { }
+
     @Override
     protected DoubleVector iteration(DoubleVector x0) {
         DoubleVector dw = function.gradient(x0).multiplyBy(-1).subtract(w);

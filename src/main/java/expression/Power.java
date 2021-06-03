@@ -10,7 +10,7 @@ public class Power implements Expression {
         if (n != 0) {
             this.arg = arg;
         } else {
-            this.arg = Const.one;
+            this.arg = Const.ONE;
         }
         this.n = n;
     }
@@ -27,7 +27,7 @@ public class Power implements Expression {
         if (n != 0) {
             return new Mul(new Const(n), new Power(arg, n - 1));
         } else {
-            return Const.zero;
+            return Const.ZERO;
         }
     }
 }

@@ -14,7 +14,7 @@ public class X implements Expression {
 
     @Override
     public Expression diff(final int var) {
-        return var == no ? Const.one : Const.zero;
+        return var == no ? Const.ONE : Const.ZERO;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package newton.quasi;
 
+import expression.Const;
 import expression.Expression;
 import linear.DoubleMatrix;
 import linear.DoubleVector;
@@ -13,18 +14,27 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
     protected DoubleMatrix g;
     protected DoubleVector w, dx, p;
 
-
-    public AbstractQuasiNewtonMethod(FunctionExpression function) {
-        super(function);
+    public AbstractQuasiNewtonMethod(FunctionExpression function, double eps) {
+        super(function, eps);
     }
 
     public AbstractQuasiNewtonMethod(Expression function, int n) {
         super(new FunctionExpression(function, n, false));
     }
 
-    public AbstractQuasiNewtonMethod(FunctionExpression function, double eps) {
-        super(function, eps);
+    public AbstractQuasiNewtonMethod(FunctionExpression function) {
+        super(function, DEFAULT_EPS);
     }
+
+    public AbstractQuasiNewtonMethod() {
+        this(Const.ZERO, 1);
+    }
+/*
+    @Override
+    public void setFunction(final FunctionExpression function) {
+        this.function = function;
+        g = Matrices.E(function.getN());
+    }*/
 
     @Override
     public DoubleVector findMin(DoubleVector x0) {

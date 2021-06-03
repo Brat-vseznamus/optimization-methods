@@ -35,7 +35,7 @@ public class Main {
                             new Mul(
                                     new Const(100),
                                     new Square(new Sub(x2, new Square(x1)))),
-                            new Square(new Sub(Const.one, x1))
+                            new Square(new Sub(Const.ONE, x1))
                     ),
                     2,
                     true
