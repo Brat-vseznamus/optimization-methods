@@ -83,9 +83,19 @@ public class QuasiNewtonMethodTest {
                                             new Add(
                                                     new Add(
                                                             Const.ONE,
-                                                            new Square(new Div(new Sub(x1, Const.ONE), Const.TWO))
+                                                            new Square(
+                                                                    new Div(
+                                                                            new Sub(x1, Const.ONE),
+                                                                            Const.TWO
+                                                                    )
+                                                            )
                                                     ),
-                                                    new Square(new Div(new Sub(x2, Const.ONE), Const.THREE))
+                                                    new Square(
+                                                            new Div(
+                                                                    new Sub(x2, Const.ONE),
+                                                                    Const.THREE
+                                                            )
+                                                    )
                                             )
                                     )),
                             new Div(
@@ -110,12 +120,13 @@ public class QuasiNewtonMethodTest {
         final DoubleVector result = method.findMin(new DoubleVector(func.getN()));
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString());
-        System.out.println(method.getTable().toString().replace("),", "),\n"));
+//        System.out.println(method.getTable().toString().replace("),", "),\n"));
+        System.out.println("iterations: " + method.getTable().size());
         System.out.println();
     }
 
     public void test(final FunctionExpression func) {
-        System.out.println("Function " + func.toString());
+        System.out.println("FUNCTION " + func.toString());
         for (final NewtonMethod method : quasiNewtonMethods) {
             testMethodOnFunction(method, func);
         }

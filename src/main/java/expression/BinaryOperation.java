@@ -24,7 +24,7 @@ public abstract class BinaryOperation implements Expression {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s", argLeft.toString(), op, argRight.toString());
+        return String.format("(%s %s %s)", argLeft.toString(), op, argRight.toString());
     }
 
     @Override
