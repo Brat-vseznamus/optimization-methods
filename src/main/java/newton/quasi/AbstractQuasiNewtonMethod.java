@@ -7,6 +7,7 @@ import linear.Matrices;
 import methods.dimensional.one.GoldenRatioMethod;
 import newton.AbstractNewtonMethod;
 import newton.utils.FunctionExpression;
+import newton.utils.Iteration;
 
 public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod implements QuasiNewtonMethod {
     protected DoubleMatrix g;
@@ -27,6 +28,7 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
 
     @Override
     public DoubleVector findMin(DoubleVector x0) {
+        table.clear();
         g = Matrices.E(n);
         w = function.gradient(x0).multiplyBy(-1);
         p = w;
@@ -40,6 +42,12 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
         do {
             x0 = x1;
             x1 = iteration(x0);
+            table.add(new Iteration(
+                    x0,
+                    function.evaluate(x0.toArray()),
+                    x1,
+                    function.evaluate(x1.toArray()),
+                    function.gradient(x0)));
         } while (x1.subtract(x0).norm() > eps && cnt-- > 0);
         if (cnt == 0) {
             return null;

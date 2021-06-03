@@ -1,17 +1,19 @@
 package newton.utils;
 
+import linear.DoubleVector;
 import lombok.Data;
 
 @Data
 public class Iteration {
-    private double x0, f0, x1, f1, slope;
+    private DoubleVector x0, x1, slope;
+    private double f0, f1;
 
-    public Iteration(final double x0, final double f0, final double x1, final double f1, final double slope) {
+
+    public Iteration(DoubleVector x0, double f0, DoubleVector x1, double f1, DoubleVector slope) {
         this.x0 = x0;
-        this.f0 = f0;
         this.x1 = x1;
-        this.f1 = f1;
         this.slope = slope;
+        this.f0 = f0;
+        this.f1 = f1;
     }
-
 }
