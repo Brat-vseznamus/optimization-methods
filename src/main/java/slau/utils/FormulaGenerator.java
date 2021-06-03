@@ -48,8 +48,7 @@ public class FormulaGenerator {
                             }
                     );
                     data[row][row] = 0;
-                    double sum = IntStream.range(0, n - 1)
-                            .mapToDouble(i -> data[row][i])
+                    double sum = Arrays.stream(data[row], 0, n - 1)
                             .sum();
                     final double last = -rnd.nextInt(5);
 //                    while (last + sum == 0) {
@@ -66,7 +65,7 @@ public class FormulaGenerator {
         return new LUMatrix(data);
     }
 
-    private static Supplier<Integer> random5 = () -> {
+    private static final Supplier<Integer> random5 = () -> {
         int res = 2;
         int[] ratios = new int[]{5, 2, 1, 1, 1};
         int len = Arrays.stream(ratios).sum();
@@ -106,8 +105,7 @@ public class FormulaGenerator {
                             }
                     );
                     data[row][row] = 0;
-                    double sum = IntStream.range(0, n - 1)
-                            .mapToDouble(i -> data[row][i])
+                    double sum = Arrays.stream(data[row], 0, n - 1)
                             .sum();
                     double last = -random5.get();
                     while (last + sum == 0) {
@@ -145,8 +143,7 @@ public class FormulaGenerator {
                             }
                     );
                     data[row][row] = 0;
-                    double sum = IntStream.range(0, n - 1)
-                            .mapToDouble(i -> data[row][i])
+                    double sum = Arrays.stream(data[row], 0, n - 1)
                             .sum();
                     final double last = -random5.get();
 //                    while (last + sum == 0) {
@@ -207,9 +204,7 @@ public class FormulaGenerator {
         double eps = 1;
         while (k-- > 0) eps /= 10d;
         for (int i = 0; i < n; i++) {
-            final int finalI = i;
-            double sum = IntStream.range(0, n)
-                    .mapToDouble(j -> data[finalI][j]).sum();
+            double sum = Arrays.stream(data[i], 0, n).sum();
             if (sum == 0) {
                 final int changer = (i + (int)RandomUtils.randomValue(1, n, 0d)) % n;
                 final double val = data[i][changer];
