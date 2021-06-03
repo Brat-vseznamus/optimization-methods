@@ -24,10 +24,8 @@ public class PaulleQuasiNewtonMethod extends AbstractQuasiNewtonMethod{
         DoubleVector dw = function.gradient(x0).multiplyBy(-1).subtract(w);
         w = w.add(dw);
         DoubleVector v = g.multiply(dw);
-        double ro = w.scalar(g.multiply(w));
-        DoubleVector r = v.multiplyBy(1/ro).subtract(dx.multiplyBy(1/dx.scalar(dw)));
-        g = (DoubleMatrix) g.subtract(dx.multiply(dx).multilpy(1d/dw.scalar(dx)));
-        g = (DoubleMatrix) g.subtract(v.multiply(v).multilpy(1/ro)).add(r.multiply(r).multilpy(ro));
+        DoubleVector dxl = dx.add(v);
+        g = (DoubleMatrix) g.subtract(dxl.multiply(dxl).multilpy(1d/dw.scalar(dxl)));
         p = g.multiply(w);
         double alpha = new GoldenRatioMethod(a -> {
             return function.evaluate(x0.add(p.multiplyBy(a)).toArray());

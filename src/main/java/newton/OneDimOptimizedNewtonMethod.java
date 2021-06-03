@@ -5,9 +5,12 @@ import methods.dimensional.one.GoldenRatioMethod;
 import newton.utils.FunctionExpression;
 import slau.methods.GaussMethod;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class OneDimOptimizedNewtonMethod extends AbstractNewtonMethod {
+    private final List<Double> alphas = new ArrayList<>();
 
     public OneDimOptimizedNewtonMethod(FunctionExpression function, double eps) {
         super(function, eps);
@@ -21,6 +24,7 @@ public class OneDimOptimizedNewtonMethod extends AbstractNewtonMethod {
         super();
     }
 
+
     @Override
     protected DoubleVector iteration(DoubleVector x0) {
         DoubleVector pk = new DoubleVector(
@@ -33,6 +37,18 @@ public class OneDimOptimizedNewtonMethod extends AbstractNewtonMethod {
             return function.evaluate(x0.add(pk.multiplyBy(aplha)).toArray());
         };
         double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
+        alphas.add(alphak);
         return x0.add(pk.multiplyBy(alphak));
     }
+
+    @Override
+    public DoubleVector findMin(DoubleVector x0) {
+        alphas.clear();
+        return super.findMin(x0);
+    }
+
+    public List<Double> getAlphas() {
+        return alphas;
+    }
+
 }
