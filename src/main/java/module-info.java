@@ -3,9 +3,12 @@ module graphics {
     requires javafx.fxml;
     requires jfxutils;
     requires com.jfoenix;
+    requires lombok;
 
-    opens graphics to javafx.fxml;
-    exports graphics;
+    opens graphics.applications to javafx.fxml;
+    opens graphics.controllers to javafx.fxml;
+    exports graphics.applications;
+    exports graphics.controllers;
     exports linear;
     exports slau.methods;
     exports slau.utils;

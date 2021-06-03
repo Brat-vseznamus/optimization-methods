@@ -1,9 +1,12 @@
 package newton;
 
-public class Iteration {
-    public double x0, f0, x1, f1, slope;
+import lombok.Data;
 
-    public Iteration(double x0, double f0, double x1, double f1, double slope) {
+@Data
+public class Iteration {
+    private double x0, f0, x1, f1, slope;
+
+    public Iteration(final double x0, final double f0, final double x1, final double f1, final double slope) {
         this.x0 = x0;
         this.f0 = f0;
         this.x1 = x1;
