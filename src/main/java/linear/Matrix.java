@@ -1,4 +1,4 @@
-package matrix;
+package linear;
 
 public interface Matrix {
     double DOUBLE_EQUALS_EPS = 0.0001;
