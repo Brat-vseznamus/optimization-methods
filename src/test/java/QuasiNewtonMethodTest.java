@@ -1,5 +1,6 @@
 import expression.*;
 import linear.DoubleVector;
+import linear.Matrices;
 import newton.ClassicNewtonMethod;
 import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
@@ -8,7 +9,10 @@ import newton.quasi.BFSQuasiNewtonMethod;
 import newton.quasi.PaulleQuasiNewtonMethod;
 import newton.quasi.QuasiNewtonMethod;
 import newton.utils.FunctionExpression;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.stream.IntStream;
 
 public class QuasiNewtonMethodTest {
     public static final QuasiNewtonMethod bfs = new BFSQuasiNewtonMethod();
@@ -24,7 +28,7 @@ public class QuasiNewtonMethodTest {
     public static final Expression x3 = new X(2);
     public static final Expression x4 = new X(3);
 
-    public static final FunctionExpression[] functionsTest2 = {
+    public static final FunctionExpression[] functions = {
             new FunctionExpression(
                     new Add(
                             new Mul(
@@ -115,27 +119,36 @@ public class QuasiNewtonMethodTest {
             )
     };
 
-    public static void testMethodOnFunction(final NewtonMethod method, final FunctionExpression func) {
+    public static final double[] answers = {
+            0d,
+            0d,
+            0d,
+            97.1531d
+    };
+
+    public static void testMethodOnFunction(final NewtonMethod method, final FunctionExpression func, final double ans) {
         method.setFunction(func);
         final DoubleVector result = method.findMin(new DoubleVector(func.getN()));
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString());
+
 //        System.out.println(method.getTable().toString().replace("),", "),\n"));
         System.out.println("iterations: " + method.getTable().size());
+
         System.out.println();
+
+        Assertions.assertTrue(Matrices.epsEquals(func.evaluate(result.toArray()), ans));
     }
 
-    public void test(final FunctionExpression func) {
+    public void test(final FunctionExpression func, final double ans) {
         System.out.println("FUNCTION " + func.toString());
         for (final NewtonMethod method : quasiNewtonMethods) {
-            testMethodOnFunction(method, func);
+            testMethodOnFunction(method, func, ans);
         }
     }
 
     @Test
     public void test() {
-        for (final FunctionExpression func : functionsTest2) {
-            test(func);
-        }
+        IntStream.range(0, functions.length).forEach(i -> test(functions[i], answers[i]));
     }
 }

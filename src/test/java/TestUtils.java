@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public abstract class TestUtils {
 
-    final static double DOUBLE_EQUALS_EPS = 0.001;
+    final static double DOUBLE_EQUALS_EPS = 1e-3d;
 
     static void assertEqualsDoubleArrays(final double[] first,
                                          final double[] second) {

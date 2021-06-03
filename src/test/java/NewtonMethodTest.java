@@ -1,11 +1,15 @@
 import expression.*;
 import linear.DoubleVector;
+import linear.Matrices;
 import newton.ClassicNewtonMethod;
 import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
 import newton.OneDimOptimizedNewtonMethod;
 import newton.utils.FunctionExpression;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.stream.IntStream;
 
 public class NewtonMethodTest {
     public static final NewtonMethod classic = new ClassicNewtonMethod();
@@ -21,7 +25,7 @@ public class NewtonMethodTest {
     public static final Expression x1 = new X(0);
     public static final Expression x2 = new X(1);
 
-    public static final FunctionExpression[] functionsTest1 = {
+    public static final FunctionExpression[] functions = {
             new FunctionExpression(
                     new Sub(
                             new Add(
@@ -45,35 +49,34 @@ public class NewtonMethodTest {
             )
     };
 
-    public static void testMethodOnFunction(final NewtonMethod method, final DoubleVector start) {
-        final DoubleVector result = method.findMin(start);
+    public static final double[] answers = {
+            0d,
+            0d
+    };
+
+    public static void testMethodOnFunction(final NewtonMethod method, final FunctionExpression func, final double ans) {
+        method.setFunction(func);
+        final DoubleVector result = method.findMin(new DoubleVector(func.getN()));
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString());
-        System.out.println(method.getTable().toString().replace("),", "),\n"));
+
+//        System.out.println(method.getTable().toString().replace("),", "),\n"));
+        System.out.println("iterations: " + method.getTable().size());
+
         System.out.println();
+
+        Assertions.assertTrue(Matrices.epsEquals(func.evaluate(result.toArray()), ans));
     }
 
-    @Test
-    public void test1() {
-        final FunctionExpression func = functionsTest1[0];
-        final DoubleVector start = new DoubleVector(4d, 1d);
-        System.out.println("Function " + func.toString());
-        System.out.println("with start point: " + start.toString());
+    public void test(final FunctionExpression func, final double ans) {
+        System.out.println("FUNCTION " + func.toString());
         for (final NewtonMethod method : newtonMethods) {
-            method.setFunction(func);
-            testMethodOnFunction(method, start);
+            testMethodOnFunction(method, func, ans);
         }
     }
 
     @Test
-    public void test2() {
-        final FunctionExpression func = functionsTest1[1];
-        final DoubleVector start = new DoubleVector(-1.2d, 1d);
-        System.out.println("Function " + func.toString());
-        System.out.println("with start point: " + start.toString());
-        for (final NewtonMethod method : newtonMethods) {
-            method.setFunction(func);
-            testMethodOnFunction(method, start);
-        }
+    public void test() {
+        IntStream.range(0, functions.length).forEach(i -> test(functions[i], answers[i]));
     }
 }
