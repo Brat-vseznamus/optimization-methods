@@ -16,20 +16,19 @@ public class RegularMatrix extends AbstractMatrix implements PresentableMatrix {
     protected double[][] data;
     protected final int n, m;
 
-    public RegularMatrix(final int n, final int m) {
-        this.n = n;
-        this.m = m;
-        data = new double[n][m];
-    }
-
     public RegularMatrix(final double[][] data) {
-        this(data.length, data[0].length);
+        Matrices.requireShape(data);
+
         this.data = data;
-        final int n = data.length;
-        final int m = data[0].length;
+        n = data.length;
+        m = data[0].length;
         if (!IntStream.range(1, n).allMatch(i -> data[i].length == m)) {
             throw new IllegalArgumentException("all rows should have same size");
         }
+    }
+
+    public RegularMatrix(final int n, final int m) {
+        this(new double[n][m]);
     }
 
     public RegularMatrix(final Path pathFile) throws UncheckedIOException {
@@ -51,7 +50,7 @@ public class RegularMatrix extends AbstractMatrix implements PresentableMatrix {
 
     @Override
     public double get(final int row, final int col) {
-        if (!validIndexes(row, col)) {
+        if (invalid(row, col)) {
             throw new IllegalArgumentException(
                     "illegal row or column:[" + row + ", " + col + "]");
         }
@@ -70,7 +69,7 @@ public class RegularMatrix extends AbstractMatrix implements PresentableMatrix {
 
     @Override
     public void set(final int row, final int col, final double value) {
-        if (!validIndexes(row, col)) {
+        if (invalid(row, col)) {
             throw new IllegalArgumentException(
                     "illegal row or column:[" + row + ", " + col + "]");
         }
@@ -80,11 +79,6 @@ public class RegularMatrix extends AbstractMatrix implements PresentableMatrix {
     @Override
     public boolean isDiagonal() {
         return false;
-    }
-
-    protected boolean validIndexes(final int row, final int col) {
-        return 0 <= row && row < n
-                && 0 <= col && col < m;
     }
 
     @Override

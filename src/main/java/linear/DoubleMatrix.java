@@ -10,19 +10,12 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class DoubleMatrix extends AbstractMatrix {
-    protected List<DoubleVector> values;
-    protected int n, m;
-    
-    public DoubleMatrix(final int n, final int m) {
-        this.n = n;
-        this.m = m;
-        values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(m)));
-        for (int i = 0; i < n; i++) {
-            values.set(i, new DoubleVector(m));
-        }
-    }
+    protected final int n, m;
+    protected final List<DoubleVector> values;
 
     public DoubleMatrix(final DoubleVector... rows) {
+        Vectors.requireEqualSizes(rows);
+
         n = rows.length;
         if (Arrays.stream(rows).anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("Rows have null vectors.");
@@ -35,17 +28,12 @@ public class DoubleMatrix extends AbstractMatrix {
         );
     }
 
-    public DoubleMatrix(final double[][] matrix) {
-        n = matrix.length;
-        if (Arrays.stream(matrix).anyMatch(Objects::isNull)) {
-            throw new IllegalArgumentException("Rows have null vectors.");
-        }
-        final int maxSize = Arrays.stream(matrix).map(v -> v.length).max(Comparator.naturalOrder()).orElse(0);
-        m = maxSize;
-        values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(maxSize)));
-        IntStream.range(0, n).forEach(
-                i -> values.set(i, new DoubleVector(matrix[i], maxSize))
-        );
+    public DoubleMatrix(final double[]... data) {
+        this((DoubleVector[]) Arrays.stream(data).map(DoubleVector::new).toArray());
+    }
+
+    public DoubleMatrix(final int n, final int m) {
+        this((DoubleVector[]) IntStream.range(0, n).mapToObj(i -> new DoubleVector(m)).toArray());
     }
 
     public DoubleVector multiply(final DoubleVector vector) {

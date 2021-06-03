@@ -55,6 +55,32 @@ public abstract class AbstractMatrix implements Matrix {
     }
 
     @Override
+    public Matrix add(final Matrix other) {
+        final Matrix result = new DoubleMatrix(getN(), getM());
+
+        IntStream.range(0, getN()).forEach(row ->
+                IntStream.range(0, getN()).forEach(col ->
+                        result.set(row, col, get(row, col) + other.get(row, col))
+                )
+        );
+
+        return result;
+    }
+
+    @Override
+    public Matrix subtract(final Matrix other) {
+        final Matrix result = new DoubleMatrix(getN(), getM());
+
+        IntStream.range(0, getN()).forEach(row ->
+                IntStream.range(0, getN()).forEach(col ->
+                        result.set(row, col, get(row, col) - other.get(row, col))
+                )
+        );
+
+        return result;
+    }
+
+    @Override
     public double[] multiplyBy(final double[] vector) {
         if (vector.length != this.getM()) {
             throw new IllegalArgumentException("illegal vector size");
@@ -106,6 +132,7 @@ public abstract class AbstractMatrix implements Matrix {
                     tempMinor.set(tempRow, tempCol, get(r, c));
                 }
             }
+
             // recursive determinant
             double coef = (i + col) % 2 == 0 ? 1 : -1;
             result += coef * get(i, col) * tempMinor.minor(0, 0, delta - 1);

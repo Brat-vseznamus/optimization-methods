@@ -5,6 +5,14 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class Matrices {
+    public static final double EPS = 1e-9d;
+
+    private Matrices() {
+    }
+
+    public static boolean epsEquals(final double a, final double b) {
+        return Math.abs(a - b) < EPS;
+    }
 
     public static void requireNonNullComponents(final Matrix matrix) {
         if (matrix == null || IntStream.range(0, matrix.getN())
@@ -69,22 +77,14 @@ public class Matrices {
     public static boolean checkSymmetric(final double[][] data) {
         requireShape(data);
 
-        return checkSquare(data) && IntStream.range(0, data.length)
-                .anyMatch(row -> IntStream.range(0, row).allMatch(col ->
-                        data[row][col] == data[col][row]));
-
-//        return checkSymmetric(new RegularMatrix(data));
+        return checkSymmetric(new RegularMatrix(data));
     }
 
     public static boolean checkPositive(final Matrix matrix) {
-        requireSquare(matrix);
-
-        return false;
+        return matrix.determinant() > EPS;
     }
 
     public static boolean checkNegative(final Matrix matrix) {
-        requireSquare(matrix);
-
-        return false;
+        return matrix.determinant() < EPS;
     }
 }

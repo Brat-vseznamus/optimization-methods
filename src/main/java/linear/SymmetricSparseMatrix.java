@@ -10,7 +10,8 @@ public class SymmetricSparseMatrix extends AbstractMatrix {
     private final int[] beginIndex;
 
     public SymmetricSparseMatrix(final double[][] data) {
-        // TODO quadratic check
+        Matrices.requireSquare(data);
+
         n = data.length;
         diagonal = new double[n];
         IntStream.range(0, n).forEach(i -> diagonal[i] = data[i][i]);

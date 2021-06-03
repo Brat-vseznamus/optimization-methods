@@ -7,9 +7,9 @@ public interface Matrix {
 
     int getM();
 
-    DoubleVector get(final int row);
-
     double get(int row, int col);
+
+    DoubleVector get(final int row);
 
     void set(int row, int col, double value);
 
@@ -18,6 +18,10 @@ public interface Matrix {
     void swapRows(final int row1, final int row2);
 
     boolean equals(final Matrix matrix);
+
+    Matrix add(final Matrix matrix);
+
+    Matrix subtract(final Matrix matrix);
 
     Matrix multiply(final Matrix matrix);
 

@@ -92,6 +92,17 @@ public class DoubleVector {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof DoubleVector) {
+
+            final DoubleVector other = (DoubleVector) obj;
+            return size() == other.size()
+                    && IntStream.range(0, size()).allMatch(i -> Matrices.epsEquals(get(i), other.get(i)));
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return Arrays.toString(values);
     }

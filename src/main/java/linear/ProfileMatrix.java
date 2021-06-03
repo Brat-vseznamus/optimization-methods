@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
+import static linear.Matrices.epsEquals;
+
 public class ProfileMatrix extends AbstractMatrix implements LUDecomposible, PresentableMatrix {
     private final int n;
     private final double[] diagonal;
@@ -22,7 +24,8 @@ public class ProfileMatrix extends AbstractMatrix implements LUDecomposible, Pre
     private final int[] colBeginInProfile;
 
     public ProfileMatrix(final double[][] data) {
-        // TODO quadratic check
+        Matrices.requireSquare(data);
+
         n = data.length;
         diagonal = new double[n];
         IntStream.range(0, n).forEach(i -> diagonal[i] = data[i][i]);
@@ -35,8 +38,7 @@ public class ProfileMatrix extends AbstractMatrix implements LUDecomposible, Pre
             rowBeginInProfile[row] = rowElementsList.size();
             boolean wasNonZero = false;
             for (int col = 0; col < row; col++) {
-                // TODO think about (|data[row][col]| < eps)
-                if (data[row][col] != 0) {
+                if (epsEquals(data[row][col], 0d)) {
                     wasNonZero = true;
                 }
 
@@ -53,8 +55,7 @@ public class ProfileMatrix extends AbstractMatrix implements LUDecomposible, Pre
             colBeginInProfile[col] = colElementsList.size();
             boolean wasNonZero = false;
             for (int row = 0; row < col; row++) {
-                // TODO think about (|data[row][col]| < eps)
-                if (data[row][col] != 0) {
+                if (epsEquals(data[row][col], 0d)) {
                     wasNonZero = true;
                 }
 
