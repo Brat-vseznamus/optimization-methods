@@ -88,4 +88,9 @@ public class FunctionExpression implements Expression {
     public int getN() {
         return n;
     }
+
+    @Override
+    public String toString() {
+        return expression.toString();
+    }
 }

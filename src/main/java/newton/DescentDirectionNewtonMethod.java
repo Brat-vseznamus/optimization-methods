@@ -7,13 +7,18 @@ import slau.methods.GaussMethod;
 
 import java.util.function.UnaryOperator;
 
-public class DescentDirectionNewtonMethod extends AbstractNewtonMethod{
+public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
+
+    public DescentDirectionNewtonMethod(FunctionExpression function, double eps) {
+        super(function, eps);
+    }
+
     public DescentDirectionNewtonMethod(FunctionExpression function) {
         super(function);
     }
 
-    public DescentDirectionNewtonMethod(FunctionExpression function, double eps) {
-        super(function, eps);
+    public DescentDirectionNewtonMethod() {
+        super();
     }
 
     @Override

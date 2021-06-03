@@ -1,5 +1,6 @@
 package newton;
 
+import expression.Const;
 import linear.DoubleVector;
 import newton.utils.FunctionExpression;
 import newton.utils.Iteration;
@@ -13,14 +14,23 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
     protected double eps;
     protected List<Iteration> table = new ArrayList<>();
 
-    public AbstractNewtonMethod(FunctionExpression function) {
+    public AbstractNewtonMethod(FunctionExpression function, double eps) {
         this.function = function;
         n = function.getN();
+        this.eps = eps;
     }
 
-    public AbstractNewtonMethod(FunctionExpression function, double eps) {
-        this(function);
-        this.eps = eps;
+    public AbstractNewtonMethod(FunctionExpression function) {
+        this(function, DEFAULT_EPS);
+    }
+
+    public AbstractNewtonMethod() {
+        this(new FunctionExpression(new Const(0), 2, true));
+    }
+
+    @Override
+    public void setFunction(FunctionExpression function) {
+        this.function = function;
     }
 
     protected abstract DoubleVector iteration(DoubleVector x0);

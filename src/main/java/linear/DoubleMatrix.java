@@ -28,8 +28,20 @@ public class DoubleMatrix extends AbstractMatrix {
         );
     }
 
-    public DoubleMatrix(final double[]... data) {
-        this((DoubleVector[]) Arrays.stream(data).map(DoubleVector::new).toArray());
+    public DoubleMatrix(final double[][] data) {
+//        this((DoubleVector[]) Arrays.stream(data).map(DoubleVector::new).toArray());
+
+        n = data.length;
+        m = data[0].length;
+        if (Arrays.stream(data).anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("Rows have null vectors.");
+        }
+//        final int maxSize = Arrays.stream(data).map(DoubleVector::size).max(Comparator.naturalOrder()).orElse(0);
+//        m = maxSize;
+        values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(data[0].length)));
+        IntStream.range(0, n).forEach(
+                i -> values.set(i, new DoubleVector(data[i]))
+        );
     }
 
     public DoubleMatrix(final int n, final int m) {
