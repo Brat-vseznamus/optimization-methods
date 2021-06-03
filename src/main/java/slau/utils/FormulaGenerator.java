@@ -29,6 +29,7 @@ public class FormulaGenerator {
         return generateFormula(n, k, FormulaGenerator::generateMatrix2);
     }
 
+    @Deprecated
     public static Matrix generateMatrix(final int n, final int k) {
         if (n <= 0) {
             throw  new IllegalArgumentException("n > 0");
