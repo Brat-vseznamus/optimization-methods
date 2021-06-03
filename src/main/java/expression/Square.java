@@ -17,4 +17,14 @@ public class Square implements Expression {
     public Expression diff(final int var) {
         return new Mul(new Mul(Const.two, arg), arg.diff(var));
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%s)^2", arg.toString());
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return obj instanceof Square && arg.equals(((Square) obj).arg);
+    }
 }

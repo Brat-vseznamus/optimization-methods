@@ -23,6 +23,11 @@ public class Const implements Expression {
     }
 
     @Override
+    public String toString() {
+        return Double.toString(value);
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         return obj instanceof Const && Math.abs(value - ((Const) obj).value) < EPS;
     }

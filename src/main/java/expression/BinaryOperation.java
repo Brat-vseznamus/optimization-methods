@@ -1,6 +1,5 @@
 package expression;
 
-import java.util.Objects;
 import java.util.function.DoubleBinaryOperator;
 
 public abstract class BinaryOperation implements Expression {
@@ -21,6 +20,11 @@ public abstract class BinaryOperation implements Expression {
     @Override
     public double evaluate(final double... vars) {
         return eval.applyAsDouble(argLeft.evaluate(vars), argRight.evaluate(vars));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", argLeft.toString(), op, argRight.toString());
     }
 
     @Override
