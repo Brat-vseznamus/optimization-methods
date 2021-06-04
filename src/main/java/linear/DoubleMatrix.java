@@ -48,7 +48,10 @@ public class DoubleMatrix extends AbstractMatrix {
 //        this((double[][]) IntStream.range(0, n).mapToObj(i -> new DoubleVector(m)).toArray());
         this.n = n;
         this.m = m;
-        values = new ArrayList<>(Collections.nCopies(n, new DoubleVector(m)));
+        values = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            values.add(new DoubleVector(m));
+        }
     }
 
     public DoubleVector multiply(final DoubleVector vector) {
