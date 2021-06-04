@@ -20,7 +20,7 @@ public class Square implements Expression {
 
     @Override
     public String toString() {
-        return String.format("(%s)^2", arg.toString());
+        return String.format("%s^2", arg.toString());
     }
 
     @Override

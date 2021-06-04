@@ -126,29 +126,46 @@ public class QuasiNewtonMethodTest {
             97.1531d
     };
 
-    public static void testMethodOnFunction(final NewtonMethod method, final FunctionExpression func, final double ans) {
+    public static void testMethodOnFunction(final NewtonMethod method, final FunctionExpression func, final DoubleVector start, final double ans) {
         method.setFunction(func);
-        final DoubleVector result = method.findMin(new DoubleVector(func.getN()));
+        final DoubleVector result = method.findMin(
+                start
+        );
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString());
 
-//        System.out.println(method.getTable().toString().replace("),", "),\n"));
-        System.out.println("iterations: " + method.getTable().size());
+        System.out.println(method.getTable().toString().replace("),", "),\n"));
+//        System.out.println("iterations: " + method.getTable().size());
 
         System.out.println();
 
         Assertions.assertTrue(Matrices.epsEquals(func.evaluate(result.toArray()), ans));
     }
 
-    public void test(final FunctionExpression func, final double ans) {
+    public void test(final FunctionExpression func, final DoubleVector start, final double ans) {
         System.out.println("FUNCTION " + func.toString());
         for (final NewtonMethod method : quasiNewtonMethods) {
-            testMethodOnFunction(method, func, ans);
+            testMethodOnFunction(method, func, start, ans);
         }
     }
 
     @Test
-    public void test() {
-        IntStream.range(0, functions.length).forEach(i -> test(functions[i], answers[i]));
+    public void test1() {
+        test(functions[0], new DoubleVector(0d, 1d), answers[0]);
+    }
+
+    @Test
+    public void test2() {
+        test(functions[1], new DoubleVector(0d, 1d), answers[1]);
+    }
+
+    @Test
+    public void test3() {
+        test(functions[2], new DoubleVector(0.05d, 0.05d, 0.05d, 0.05d), answers[2]);
+    }
+
+    @Test
+    public void test4() {
+        test(functions[3], new DoubleVector(0d, 1d), answers[3]);
     }
 }

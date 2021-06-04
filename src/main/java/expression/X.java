@@ -19,7 +19,7 @@ public class X implements Expression {
 
     @Override
     public String toString() {
-        return "x" + no;
+        return "x" + (no + 1);
     }
 
     @Override
