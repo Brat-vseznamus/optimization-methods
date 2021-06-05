@@ -7,6 +7,7 @@ import newton.OneDimOptimizedNewtonMethod;
 import newton.utils.PythonUtils;
 
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import static graphics.controllers.ControllerLab4.functions;
 import static graphics.controllers.ControllerLab4.startVectors;
@@ -29,7 +30,7 @@ public class PythonGenerator {
 
         PythonUtils.printTwoDimensionalIterationsToFileWithPrefix(
                 method.getTable(),
-                methodName + "_iter.txt",
+                methodName + "_" + n + "_iter.txt",
                 func.toPythonStyleString());
         System.err.println("Printing function: " +
                 func.toPythonStyleString() +
@@ -37,8 +38,14 @@ public class PythonGenerator {
     }
 
     public static void main(final String[] args) {
-        generateTxt(1, "classic");
-        generateTxt(1, "oneDim");
-        generateTxt(1, "descent");
+        generateAll();
+    }
+
+    private static void generateAll() {
+        IntStream.range(0, functions.length).forEach(i -> {
+            for (final String methodName : newtonMethods.keySet()) {
+                generateTxt(i, methodName);
+            }
+        });
     }
 }
