@@ -117,12 +117,27 @@ public class ControllerLab4 implements Initializable {
                     ),
                     2,
                     true
+            ),
+            new FunctionExpression(
+                    new Add(
+                            new Square(x1),
+                            new Add(
+                                    new Square(x2),
+                                    new Mul(
+                                            new Const(2),
+                                            new Mul(x1, x2)
+                                    )
+                            )
+                    ),
+                    2,
+                    true
             )
     };
     public static final List<DoubleVector> startVectors = List.of(
             new DoubleVector(4, 1),
             new DoubleVector(-1.2, 1),
-            new DoubleVector(-2, -2)
+            new DoubleVector(4, 0),
+            new DoubleVector(1, -5)
     );
     FunctionExpression functionExpression;
     DoubleVector startVector;
