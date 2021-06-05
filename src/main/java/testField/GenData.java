@@ -5,6 +5,7 @@ import linear.DoubleVector;
 import newton.ClassicNewtonMethod;
 import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
+import newton.OneDimOptimizedNewtonMethod;
 import newton.quasi.BFSQuasiNewtonMethod;
 import newton.quasi.PaulleQuasiNewtonMethod;
 import newton.utils.FunctionExpression;
@@ -135,8 +136,8 @@ public class GenData {
     };
 
     public static void main(String[] args) {
-        final NewtonMethod m = new ClassicNewtonMethod();
-        final NewtonMethod m2 = new DescentDirectionNewtonMethod();
+        final NewtonMethod m = new OneDimOptimizedNewtonMethod();
+//        final NewtonMethod m2 = new DescentDirectionNewtonMethod();
 
         int indf = 5;
         List<DoubleVector> starts = List.of(
@@ -156,12 +157,13 @@ public class GenData {
         for (int j = 0; j < starts.size(); j++) {
             DoubleVector start = starts.get(j);
             m.setFunction(functions[indf - 1]);
-            m2.setFunction(functions[indf - 1]);
+//            m2.setFunction(functions[indf - 1]);
             m.findMin(start);
-            m2.findMin(start);
-            System.out.println("Sizes: " + m.getTable().size() + " " + m2.getTable().size());
+//            m2.findMin(start);
+//            System.out.println("Sizes: " + m.getTable().size() + " " + m2.getTable().size());
+            System.out.println("Sizes: " + m.getTable().size());
             genListOf(functions[indf - 1], m, indf + "." + j, start);
-            genListOf(functions[indf - 1], m2, indf + "." + j, start);
+//            genListOf(functions[indf - 1], m2, indf + "." + j, start);
         }
     }
 
