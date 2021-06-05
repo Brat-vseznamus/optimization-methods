@@ -37,6 +37,8 @@ public class PythonGenerator {
     }
 
     public static void main(final String[] args) {
+        generateTxt(1, "classic");
         generateTxt(1, "oneDim");
+        generateTxt(1, "descent");
     }
 }
