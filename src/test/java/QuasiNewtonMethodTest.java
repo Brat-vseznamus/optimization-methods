@@ -117,20 +117,40 @@ public class QuasiNewtonMethodTest {
                     2,
                     false
             )
+            ,
+            new FunctionExpression(
+                    new Add(
+                            new Square(
+                                    new MultiAdd(
+                                            new Square(x1),
+                                            x2,
+                                            new Const(-7)
+                                    )
+                            ),
+                            new Square(
+                                    new MultiAdd(
+                                            new Square(x2),
+                                            x1,
+                                            new Const(-11)
+                                    )
+                            )
+                    ),
+                    2,
+                    false
+            )
     };
 
     public static final double[] answers = {
             0d,
             0d,
             0d,
-            97.1531d
+            97.1531d,
+            0d
     };
 
     public static void testMethodOnFunction(final NewtonMethod method, final FunctionExpression func, final DoubleVector start, final double ans) {
         method.setFunction(func);
-        final DoubleVector result = method.findMin(
-                start
-        );
+        final DoubleVector result = method.findMin(start);
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString() + ", \ndiff: " + (func.evaluate(result.toArray()) - ans));
 
@@ -177,6 +197,11 @@ public class QuasiNewtonMethodTest {
     }
 
     @Test
+    public void testBFS5() {
+        test(functions[4], bfs, new DoubleVector(1d, 1d), answers[4]);
+    }
+
+    @Test
     public void testPaulle1() {
         test(functions[0], paulle, new DoubleVector(1d, 0d), answers[0]);
     }
@@ -194,5 +219,10 @@ public class QuasiNewtonMethodTest {
     @Test
     public void testPaulle4() {
         test(functions[3], paulle, new DoubleVector(2d, -1d), answers[3]);
+    }
+
+    @Test
+    public void testPaulle5() {
+        test(functions[4], paulle, new DoubleVector(2d, -1d), answers[4]);
     }
 }
