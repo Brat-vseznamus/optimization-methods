@@ -2,6 +2,7 @@ package testField;
 
 import expression.*;
 import linear.DoubleVector;
+import newton.ClassicNewtonMethod;
 import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
 import newton.quasi.BFSQuasiNewtonMethod;
@@ -111,14 +112,33 @@ public class GenData {
                     ),
                     2,
                     false
+            ),
+            new FunctionExpression(
+                    new Mul(
+                            new Cos(
+                                    new Mul(
+                                            new Add(
+                                                    new Square(x1),
+                                                    new Add(
+                                                            Const.ONE,
+                                                            new Power(x2, 4)
+                                                    )
+                                            ),
+                                            new Const(0.04)
+                                    )
+                            ),
+                            new Const(-4)
+                    ),
+                    2,
+                    true
             )
     };
 
     public static void main(String[] args) {
-        final NewtonMethod m = new BFSQuasiNewtonMethod();
-        final NewtonMethod m2 = new PaulleQuasiNewtonMethod();
+        final NewtonMethod m = new ClassicNewtonMethod();
+        final NewtonMethod m2 = new DescentDirectionNewtonMethod();
 
-        int indf = 3;
+        int indf = 5;
         List<DoubleVector> starts = List.of(
                 new DoubleVector(-2d, -2d),
                 new DoubleVector(1d, 1d),
@@ -132,14 +152,16 @@ public class GenData {
 //        genListOf(functions[indf - 1], m, 2 + ".(0, 0)", starts.get(4));
 //        genListOf(functions[indf - 1], m2, 2 + ".(0, 0)", starts.get(4));
 //        System.out.println(m.getTable().size() + " " + m2.getTable().size());
-        for (DoubleVector start : starts2) {
+
+        for (int j = 0; j < starts.size(); j++) {
+            DoubleVector start = starts.get(j);
             m.setFunction(functions[indf - 1]);
             m2.setFunction(functions[indf - 1]);
             m.findMin(start);
             m2.findMin(start);
             System.out.println("Sizes: " + m.getTable().size() + " " + m2.getTable().size());
-            genListOf(functions[indf - 1], m, start);
-            genListOf(functions[indf - 1], m2, start);
+            genListOf(functions[indf - 1], m, indf + "." + j, start);
+            genListOf(functions[indf - 1], m2, indf + "." + j, start);
         }
     }
 

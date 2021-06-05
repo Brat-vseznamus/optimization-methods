@@ -55,6 +55,25 @@ public class OurFunctionsNewtonMethod {
                     ),
                     3,
                     true
+            ),
+            new FunctionExpression(
+                    new Mul(
+                            new Cos(
+                                    new Mul(
+                                            new Add(
+                                                    new Square(x1),
+                                                    new Add(
+                                                            Const.ONE,
+                                                            new Power(x2, 4)
+                                                    )
+                                            ),
+                                            new Const(0.04)
+                                    )
+                            ),
+                            new Const(-4)
+                    ),
+                    2,
+                    true
             )
     };
 
@@ -74,6 +93,11 @@ public class OurFunctionsNewtonMethod {
     @Test
     public void testForNonQuadratic() {
         test(1, new DoubleVector(-2, -2, -1));
+    }
+
+    @Test
+    public void testForNonQuadratic2() {
+        test(2, new DoubleVector(-2, -2));
     }
 
     public void test(final int n, final DoubleVector x0) {
