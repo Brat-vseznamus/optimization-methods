@@ -1,11 +1,16 @@
 package graphics;
 
+import methods.dimensional.one.OneDimensionalOptimizationMethod;
 import newton.ClassicNewtonMethod;
 import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
 import newton.OneDimOptimizedNewtonMethod;
+import newton.quasi.BFSQuasiNewtonMethod;
+import newton.quasi.PaulleQuasiNewtonMethod;
+import newton.utils.Iteration;
 import newton.utils.PythonUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -17,7 +22,9 @@ public class PythonGenerator {
     public static Map<String, NewtonMethod> newtonMethods = Map.of(
             "classic", new ClassicNewtonMethod(),
             "oneDim", new OneDimOptimizedNewtonMethod(),
-            "descent", new DescentDirectionNewtonMethod()
+            "descent", new DescentDirectionNewtonMethod(),
+            "bfs", new BFSQuasiNewtonMethod(),
+            "paulle", new PaulleQuasiNewtonMethod()
     );
 
     public static void generateTxt(final int n, final String methodName) {
@@ -28,10 +35,18 @@ public class PythonGenerator {
         method.setFunction(func);
         method.findMin(start);
 
-        PythonUtils.printTwoDimensionalIterationsToFileWithPrefix(
+        List<Double> alphas = List.of();
+        if (method instanceof DescentDirectionNewtonMethod) {
+            alphas = ((DescentDirectionNewtonMethod) method).getAlphas();
+        } else if (method instanceof OneDimOptimizedNewtonMethod) {
+            alphas = ((OneDimOptimizedNewtonMethod) method).getAlphas();
+        }
+
+        PythonUtils.writeTwoDimIterations(
                 method.getTable(),
                 methodName + "_" + n + "_iter.txt",
-                func.toPythonStyleString());
+                func.toPythonStyleString(),
+                alphas);
         System.err.println("Printing function: " +
                 func.toPythonStyleString() +
                 "\n With method: " + methodName);
@@ -44,7 +59,9 @@ public class PythonGenerator {
     private static void generateAll() {
         IntStream.range(0, functions.length).forEach(i -> {
             for (final String methodName : newtonMethods.keySet()) {
-                generateTxt(i, methodName);
+                if (functions[i].getN() == 2) {
+                    generateTxt(i, methodName);
+                }
             }
         });
     }

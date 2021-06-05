@@ -15,4 +15,14 @@ public class Cos extends UnaryOperation {
     public Expression diff(final int var) {
         return new Mul(arg.diff(var), new Mul(new Const(-1), new Sin(arg)));
     }
+
+    @Override
+    public String toString() {
+        return "cos(" + arg.toString() + ")";
+    }
+
+    @Override
+    public String toPythonStyleString() {
+        return "math.cos(" + arg.toPythonStyleString() + ")";
+    }
 }

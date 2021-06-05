@@ -76,6 +76,7 @@ public class ControllerLab4 implements Initializable {
 
     public static final Expression x1 = new X(0);
     public static final Expression x2 = new X(1);
+    public static final Expression x3 = new X(2);
     public static final FunctionExpression[] functions = {
             new FunctionExpression(
                     new Sub(
@@ -97,11 +98,46 @@ public class ControllerLab4 implements Initializable {
                     ),
                     2,
                     true
+            ),
+            new FunctionExpression(
+                    new Add(
+                            new Square(x1),
+                            new Add(
+                                    new Square(x2),
+                                    new Mul(
+                                            new Const(2),
+                                            new Mul(x1, x2)
+                                    )
+                            )
+                    ),
+                    2,
+                    true
+            ),
+            new FunctionExpression(
+                    new Mul(
+                            new Cos(
+                                    new Mul(
+                                            new Add(
+                                                    new Square(x1),
+                                                    new Add(
+                                                            new Square(x2),
+                                                            new Power(x3, 4)
+                                                    )
+                                            ),
+                                            new Const(0.04)
+                                    )
+                            ),
+                            new Const(-4)
+                    ),
+                    3,
+                    true
             )
     };
     public static final List<DoubleVector> startVectors = List.of(
             new DoubleVector(4, 1),
-            new DoubleVector(-1.2, 1)
+            new DoubleVector(-1.2, 1),
+            new DoubleVector(-1, 2),
+            new DoubleVector(-2, -2, -1)
     );
     FunctionExpression functionExpression;
     DoubleVector startVector;

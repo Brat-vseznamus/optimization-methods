@@ -30,7 +30,12 @@ public class Power implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "cos(" + arg.toString() + ")";
+    }
+
+    @Override
     public String toPythonStyleString() {
-        return toString();
+        return "(" + arg.toPythonStyleString() + ")**" + n;
     }
 }

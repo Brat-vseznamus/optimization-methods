@@ -14,4 +14,14 @@ public class Sin extends UnaryOperation{
     public Expression diff(final int var) {
         return new Mul(arg.diff(var), new Cos(arg));
     }
+
+    @Override
+    public String toString() {
+        return "sin(" + arg.toString() + ")";
+    }
+
+    @Override
+    public String toPythonStyleString() {
+        return "math.sin(" + arg.toPythonStyleString() + ")";
+    }
 }
