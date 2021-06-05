@@ -3,7 +3,6 @@ module graphics {
     requires javafx.fxml;
     requires jfxutils;
     requires com.jfoenix;
-    requires lombok;
 
     opens graphics.applications to javafx.fxml;
     opens graphics.controllers to javafx.fxml;
