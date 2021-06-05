@@ -32,6 +32,9 @@ public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
                                 function.hessian(x0),
                                 function.gradient(x0).multiplyBy(-1).toArray()
                         ));
+        if (pk.stream().anyMatch(Double::isNaN)) {
+            pk = function.gradient(x0).multiplyBy(-1);
+        }
         if (pk.scalar(function.gradient(x0)) > 0) {
             pk = function.gradient(x0).multiplyBy(-1);
         }

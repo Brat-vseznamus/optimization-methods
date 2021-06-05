@@ -21,12 +21,15 @@ public class ClassicNewtonMethod extends AbstractNewtonMethod {
 
     @Override
     protected DoubleVector iteration(final DoubleVector x0) {
-        final DoubleVector pk = new DoubleVector(
+        DoubleVector pk = new DoubleVector(
                 new GaussWithMainElementMethod()
                         .solve(
                                 function.hessian(x0),
                                 function.gradient(x0).multiplyBy(-1).toArray()
                         ));
+        if (pk.stream().anyMatch(Double::isNaN)) {
+            pk = function.gradient(x0).multiplyBy(-1);
+        }
         return x0.add(pk);
     }
 }

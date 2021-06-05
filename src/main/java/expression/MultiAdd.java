@@ -24,13 +24,14 @@ public class MultiAdd implements Expression{
         return new MultiAdd(dargs);
     }
 
-    @Override
-    public String toPythonStyleString() {
-        return Arrays.stream(args).map(Expression::toPythonStyleString).collect(Collectors.joining("+"));
-    }
 
     @Override
     public String toString() {
-        return "(" + Arrays.stream(args).map(Expression::toString).collect(Collectors.joining("+")) + ")";
+        return "((" + Arrays.stream(args).map(Expression::toString).collect(Collectors.joining(") + (")) + "))";
+    }
+
+    @Override
+    public String toPythonStyleString() {
+        return "((" + Arrays.stream(args).map(Expression::toPythonStyleString).collect(Collectors.joining(") + (")) + "))";
     }
 }

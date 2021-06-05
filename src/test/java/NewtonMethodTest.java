@@ -75,6 +75,7 @@ public class NewtonMethodTest {
         }
     }
 
+
     @Test
     public void test() {
         IntStream.range(0, functions.length).forEach(i -> test(functions[i], answers[i]));

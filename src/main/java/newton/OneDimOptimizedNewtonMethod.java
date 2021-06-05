@@ -27,14 +27,18 @@ public class OneDimOptimizedNewtonMethod extends AbstractNewtonMethod {
 
     @Override
     protected DoubleVector iteration(final DoubleVector x0) {
-        final DoubleVector pk = new DoubleVector(
+        DoubleVector pk = new DoubleVector(
                 new GaussMethod()
                         .solve(
                                 function.hessian(x0),
                                 function.gradient(x0).multiplyBy(-1).toArray()
                         ));
+        if (pk.stream().anyMatch(Double::isNaN)) {
+            pk = function.gradient(x0).multiplyBy(-1);
+        }
+        DoubleVector finalPk = pk;
         final UnaryOperator<Double> oneDimOpt = aplha -> {
-            return function.evaluate(x0.add(pk.multiplyBy(aplha)).toArray());
+            return function.evaluate(x0.add(finalPk.multiplyBy(aplha)).toArray());
         };
         final double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
         alphas.add(alphak);
