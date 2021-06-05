@@ -38,8 +38,12 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
 
     @Override
     public DoubleVector findMin(DoubleVector x0) {
-        DoubleVector x1 = x0;
         table.clear();
+        return iterate(x0);
+    }
+
+    protected DoubleVector iterate(DoubleVector x0) {
+        DoubleVector x1 = x0;
         int cnt = 100*n;
         do {
             x0 = x1;
@@ -56,6 +60,7 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
         }
         return x1;
     }
+
 
     @Override
     public List<Iteration> getTable() {

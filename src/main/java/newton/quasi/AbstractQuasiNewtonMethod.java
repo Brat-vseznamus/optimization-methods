@@ -48,20 +48,12 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
         }).findMin(0, 1);
         DoubleVector x1 = x0.add(p.multiplyBy(alpha));
         dx = x1.subtract(x0);
-        int cnt = 100*n;
-        do {
-            x0 = x1;
-            x1 = iteration(x0);
-            table.add(new Iteration(
-                    x0,
-                    function.evaluate(x0.toArray()),
-                    x1,
-                    function.evaluate(x1.toArray()),
-                    function.gradient(x0)));
-        } while (x1.subtract(x0).norm() > eps && cnt-- > 0);
-        if (cnt == 0) {
-            return null;
-        }
-        return x1;
+        table.add(new Iteration(
+                x0,
+                function.evaluate(x0.toArray()),
+                x1,
+                function.evaluate(x1.toArray()),
+                function.gradient(x0)));
+        return super.iterate(x1);
     }
 }

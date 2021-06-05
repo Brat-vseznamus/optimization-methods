@@ -173,7 +173,7 @@ public class QuasiNewtonMethodTest {
 
     @Test
     public void testBFS4() {
-        test(functions[3], bfs, new DoubleVector(0d, 1d), answers[3]);
+        test(functions[3], bfs, new DoubleVector(1d, 1d), answers[3]);
     }
 
     @Test
@@ -193,6 +193,6 @@ public class QuasiNewtonMethodTest {
 
     @Test
     public void testPaulle4() {
-        test(functions[3], paulle, new DoubleVector(0d, 1d), answers[3]);
+        test(functions[3], paulle, new DoubleVector(2d, -1d), answers[3]);
     }
 }

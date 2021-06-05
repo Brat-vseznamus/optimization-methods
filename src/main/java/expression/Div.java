@@ -2,7 +2,7 @@ package expression;
 
 public class Div extends BinaryOperation {
     public Div(final Expression argLeft, final Expression argRight) {
-        super("/", (a, b) -> a * b, argLeft, argRight);
+        super("/", (a, b) -> a / b, argLeft, argRight);
     }
 
     @Override
