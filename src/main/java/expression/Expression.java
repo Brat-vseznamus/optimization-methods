@@ -6,5 +6,7 @@ public interface Expression {
 
     Expression diff(int var);
 
-    String toPythonStyleString();
+    default String toPythonStyleString() {
+        return toString();
+    }
 }

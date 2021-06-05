@@ -35,8 +35,6 @@ public class BFSQuasiNewtonMethod extends AbstractQuasiNewtonMethod {
         final double alpha = new GoldenRatioMethod(a -> {
             return function.evaluate(x0.add(p.multiplyBy(a)).toArray());
         }).findMin(-1, 1);
-
-
         final DoubleVector x1 = x0.add(p.multiplyBy(alpha));
         dx = x1.subtract(x0);
         return x1;

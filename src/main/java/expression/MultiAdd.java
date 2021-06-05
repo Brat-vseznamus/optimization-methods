@@ -31,6 +31,6 @@ public class MultiAdd implements Expression{
 
     @Override
     public String toString() {
-        return Arrays.stream(args).map(Expression::toString).collect(Collectors.joining("+"));
+        return "(" + Arrays.stream(args).map(Expression::toString).collect(Collectors.joining("+")) + ")";
     }
 }
