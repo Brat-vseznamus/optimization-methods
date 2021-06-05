@@ -1,12 +1,7 @@
 package linear.tensor;
 
-import linear.DoubleVector;
-import linear.Matrix;
-
-public interface Tensor {
-    double getValue(int...indices);
-    DoubleVector getVector(int...indices);
-    Matrix getMatrix(int...indices);
-    Tensor getTensor(int...indices);
+public interface Tensor<T> {
+    T get(int...indices);
+    Tensor<T> getTensor(int...indices);
     int getDimensional();
 }

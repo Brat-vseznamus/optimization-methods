@@ -132,7 +132,7 @@ public class QuasiNewtonMethodTest {
                 start
         );
         System.out.println(method.getClass().getSimpleName() + ":");
-        System.out.println("found: " + result.toString());
+        System.out.println("found: " + result.toString() + ", \ndiff: " + (func.evaluate(result.toArray()) - ans));
 
         System.out.println(method.getTable().toString().replace("),", "),\n"));
 //        System.out.println("iterations: " + method.getTable().size());
@@ -149,23 +149,50 @@ public class QuasiNewtonMethodTest {
         }
     }
 
-    @Test
-    public void test1() {
-        test(functions[0], new DoubleVector(0d, 1d), answers[0]);
+    public void test(final FunctionExpression func,
+                     final QuasiNewtonMethod method,
+                     final DoubleVector start, final double ans) {
+        System.out.println("FUNCTION " + func.toString());
+        testMethodOnFunction(method, func, start, ans);
     }
 
     @Test
-    public void test2() {
-        test(functions[1], new DoubleVector(0d, 1d), answers[1]);
+    public void testBFS1() {
+        test(functions[0], bfs, new DoubleVector(1d, 0d), answers[0]);
     }
 
     @Test
-    public void test3() {
-        test(functions[2], new DoubleVector(0.05d, 0.05d, 0.05d, 0.05d), answers[2]);
+    public void testBFS2() {
+        test(functions[1], bfs, new DoubleVector(1d, 0d), answers[1]);
     }
 
     @Test
-    public void test4() {
-        test(functions[3], new DoubleVector(0d, 1d), answers[3]);
+    public void testBFS3() {
+        test(functions[2], bfs, new DoubleVector(0.05d, 0.05d, 0.05d, 0.05d), answers[2]);
+    }
+
+    @Test
+    public void testBFS4() {
+        test(functions[3], bfs, new DoubleVector(0d, 1d), answers[3]);
+    }
+
+    @Test
+    public void testPaulle1() {
+        test(functions[0], paulle, new DoubleVector(1d, 0d), answers[0]);
+    }
+
+    @Test
+    public void testPaulle2() {
+        test(functions[1], paulle, new DoubleVector(1d, 0d), answers[1]);
+    }
+
+    @Test
+    public void testPaulle3() {
+        test(functions[2], paulle, new DoubleVector(0.05d, 0.05d, 0.05d, 0.05d), answers[2]);
+    }
+
+    @Test
+    public void testPaulle4() {
+        test(functions[3], paulle, new DoubleVector(0d, 1d), answers[3]);
     }
 }
