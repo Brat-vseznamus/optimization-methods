@@ -7,3 +7,4 @@
 **.classpath
 **.project
 **settings**
+/pythonUtils/.ipynb_checkpoints/

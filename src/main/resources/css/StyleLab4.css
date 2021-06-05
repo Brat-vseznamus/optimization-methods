@@ -41,3 +41,11 @@
     -fx-stroke-dash-array: 5px;
     -fx-opacity: 0.6;
 }
+
+.special-point {
+    -fx-content-display: center;
+    -fx-padding: 3 px;
+    -fx-background-size: 30px;
+    -fx-stroke: red;
+    -fx-stroke-width: 10px;
+}

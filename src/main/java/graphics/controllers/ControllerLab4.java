@@ -1,5 +1,6 @@
 package graphics.controllers;
 
+import expression.*;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -14,14 +15,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import linear.DiagonalMatrix;
-import linear.DoubleMatrix;
 import linear.DoubleVector;
-import methods.dimensional.poly.*;
+import newton.ClassicNewtonMethod;
+import newton.DescentDirectionNewtonMethod;
+import newton.NewtonMethod;
+import newton.OneDimOptimizedNewtonMethod;
+import newton.utils.FunctionExpression;
 import newton.utils.Iteration;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -60,7 +62,6 @@ public class ControllerLab4 implements Initializable {
     private ImageView FullScreenButton;
 
     PseudoClass nowSelected = PseudoClass.getPseudoClass("now-selected");
-    PseudoClass hiddenLevelLine = PseudoClass.getPseudoClass("hidden-level-line");
 
     private XYChart.Series<Number, Number> currentSeries;
     private List<Iteration> currentIterations;
@@ -68,30 +69,42 @@ public class ControllerLab4 implements Initializable {
 
     private final XYChart.Series<Number, Number> tangent = new XYChart.Series<>();
     private final XYChart.Series<Number, Number> fromTangentToF1 = new XYChart.Series<>();
-    private final List<XYChart.Series<Number, Number>> point = List.of(
+    private final List<XYChart.Series<Number, Number>> points = List.of(
             new XYChart.Series<>(),
             new XYChart.Series<>()
     );
-    private final List<QuadraticForm> forms = new ArrayList<>(List.of(
-            new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(60d, 2d)),
-                    new DoubleVector(-10d, 10d), 2d),
-            new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(1 * 2d, 64 * 2d)),
-                    new DoubleVector(-5d, 15d), 2d),
-            new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(51.3d * 2, 27.9d * 2)),
-                    new DoubleVector(-23.78d, -0.9d), -0.78d),
-            new QuadraticForm(
-                    new DoubleMatrix(new DoubleVector(254 * 2d, 506 / 2d),
-                            new DoubleVector(506 / 2d, 254 * 2d)),
-                    new DoubleVector(50d, 130d), -111d,
-                    new DoubleVector(1, 507)),
-            new QuadraticForm(
-                    new DiagonalMatrix(new DoubleVector(254 * 2d, 254 * 2d)),
-                    new DoubleVector(50d, 130d), -111d)
-    ));
-    QuadraticForm form;
+
+    public static final Expression x1 = new X(0);
+    public static final Expression x2 = new X(1);
+    public static final FunctionExpression[] functions = {
+            new FunctionExpression(
+                    new Sub(
+                            new Add(
+                                    new Square(x1),
+                                    new Square(x2)
+                            ),
+                            new Mul(new Const(1.2d), new Mul(x1, x2))
+                    ),
+                    2,
+                    true
+            ),
+            new FunctionExpression(
+                    new Add(
+                            new Mul(
+                                    new Const(100),
+                                    new Square(new Sub(x2, new Square(x1)))),
+                            new Square(new Sub(Const.ONE, x1))
+                    ),
+                    2,
+                    true
+            )
+    };
+    public static final List<DoubleVector> startVectors = List.of(
+            new DoubleVector(4, 1),
+            new DoubleVector(-1.2, 1)
+    );
+    FunctionExpression functionExpression;
+    DoubleVector startVector;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -110,11 +123,12 @@ public class ControllerLab4 implements Initializable {
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.setLegendVisible(false);
 
-        setFunctionN(1);
+        setFunctionN(0);
     }
 
-    private void initializeLineChart(final GradientOptimizationMethod method) {
+    private void initializeLineChart(final NewtonMethod method) {
 
+        method.findMin(startVector);
         lineChart.getData().clear();
         // TODO: generating info
         currentSeries = new XYChart.Series<>();
@@ -122,25 +136,20 @@ public class ControllerLab4 implements Initializable {
         lineChart.getData().add(tangent);
         lineChart.getData().add(fromTangentToF1);
 
-        point.forEach(point -> lineChart.getData().add(point));
+        points.forEach(point -> lineChart.getData().add(point));
 
         Platform.runLater(() -> {
             tangent.getNode().getStyleClass().add("tangent-line");
             fromTangentToF1.getNode().getStyleClass().add("from-tangent-to-f1-line");
-
+            points.forEach(pnt -> {
+                pnt.getNode().getStyleClass().add("special-point");
+            });
 
         });
 
-        currentSeries.setName(method.getName());
-        currentIterations = new ArrayList<>(); // TODO: getting iterations;
-        for (double x = 0; x < 20; x += 0.1) {
-            final double nextX = x + 0.1;
-            final Iteration iteration = new Iteration(
-                    new DoubleVector(x), 10*Math.sin(x),
-                    new DoubleVector(nextX), 10*Math.sin(nextX),
-                    new DoubleVector(10*Math.cos(x)));
-            currentIterations.add(iteration);
-        }
+        currentIterations = method.getTable(); // TODO: getting iterations;
+
+        //PythonUtils.printTwoDimensionalIterationsToFile(currentIterations, "pythonUtils/sample.txt");
         currentIteration = 0;
 
         currentSeries.getNode().setStyle("-fx-stroke: orange");
@@ -153,17 +162,26 @@ public class ControllerLab4 implements Initializable {
         final Iteration currentInfo = currentIterations.get(currentIteration);
         final double x0 = currentInfo.getX0().get(0);
         final double f0 = currentInfo.getF0();
+        final double x1 = currentInfo.getX1().get(0);
+        final double f1 = currentInfo.getF1();
         addPoint(currentSeries, x0, f0);
-        drawTangent(x0, f0, currentInfo.getX1().get(0), currentInfo.getF1(), currentInfo.getSlope().get(0));
-        currentIterationText.setText(Integer.toString(currentIteration));
+        drawTangent(x0, f0, x1, f1, currentInfo.getSlope().get(0));
+        currentIterationText.setText(Integer.toString(currentIteration + 1));
     }
 
     private void drawTangent(final double x0, final double f0, final double x1, final double f1, final double slope) {
         tangent.getData().clear();
         fromTangentToF1.getData().clear();
+        points.forEach(point -> point.getData().clear());
+
+        points.get(0).getData().add(new XYChart.Data<>(x0, f0));
+        points.get(1).getData().add(new XYChart.Data<>(x1, f1));
+
         final double step = 0.001;
         final var tangentFunction = getTangentFunction(x0, f0, slope);
-        for (double curX = 2 * x0 - x1; curX < x1; curX += step) {
+        final double minX = Math.min(2 * x0 - x1, x1);
+        final double maxX = Math.max(2 * x0 - x1, x1);
+        for (double curX = minX; curX < maxX; curX += step) {
             addPoint(tangent, curX, tangentFunction.apply(curX));
         }
         addPoint(fromTangentToF1, x1, tangentFunction.apply(x1));
@@ -178,9 +196,9 @@ public class ControllerLab4 implements Initializable {
     private void prevIteration(final int cnt) {
         int i = cnt;
         while (i-- > 0) {
-            if (currentIterations == null || currentIteration == 1) return;
-            currentIteration--;
+            if (currentIterations == null || currentIteration == 0) return;
             currentSeries.getData().remove(currentIteration, currentSeries.getData().size());
+            currentIteration--;
             updateCurrentSeries();
         }
     }
@@ -225,20 +243,20 @@ public class ControllerLab4 implements Initializable {
 
     @FXML
     private void loadGradient(final ActionEvent e) {
-        loadMethod(new GradientDescendMethod(form), e, 0);
+        loadMethod(new ClassicNewtonMethod(functionExpression), e, 0);
     }
 
     @FXML
     private void loadSteepest(final ActionEvent e) {
-        loadMethod(new SteepestDescendMethod(form), e, 1);
+        loadMethod(new DescentDirectionNewtonMethod(functionExpression), e, 1);
     }
 
     @FXML
     private void loadConjugate(final ActionEvent e) {
-        loadMethod(new ConjugateGradientMethod(form), e, 2);
+        loadMethod(new OneDimOptimizedNewtonMethod(functionExpression), e, 2);
     }
 
-    private void loadMethod(final GradientOptimizationMethod method, final ActionEvent e, final int n) {
+    private void loadMethod(final NewtonMethod method, final ActionEvent e, final int n) {
         clearNowSelected(methodsButtons);
         if (e != null) {
             setNowSelectedToNth(methodsButtons, n);
@@ -274,7 +292,8 @@ public class ControllerLab4 implements Initializable {
     }
 
     private void setFunctionN(final int n) {
-        form = forms.get(n);
+        functionExpression = functions[n];
+        startVector = startVectors.get(n);
         clearPaneStyle(methodsButtons);
         clearNowSelected(functionsButtons);
         setNowSelectedToNth(functionsButtons, n);
