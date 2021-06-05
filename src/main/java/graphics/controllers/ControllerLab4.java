@@ -100,20 +100,6 @@ public class ControllerLab4 implements Initializable {
                     true
             ),
             new FunctionExpression(
-                    new Add(
-                            new Square(x1),
-                            new Add(
-                                    new Square(x2),
-                                    new Mul(
-                                            new Const(2),
-                                            new Mul(x1, x2)
-                                    )
-                            )
-                    ),
-                    2,
-                    true
-            ),
-            new FunctionExpression(
                     new Mul(
                             new Cos(
                                     new Mul(
@@ -136,8 +122,7 @@ public class ControllerLab4 implements Initializable {
     public static final List<DoubleVector> startVectors = List.of(
             new DoubleVector(4, 1),
             new DoubleVector(-1.2, 1),
-            new DoubleVector(5, -2),
-            new DoubleVector(-1, -1)
+            new DoubleVector(-2, -2)
     );
     FunctionExpression functionExpression;
     DoubleVector startVector;
