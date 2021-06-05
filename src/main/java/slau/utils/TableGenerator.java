@@ -127,7 +127,7 @@ public class TableGenerator {
         }
 
         try (final BufferedWriter writer = Files.newBufferedWriter(path)) {
-            for (int n : dims) {
+            for (final int n : dims) {
                 final DoubleVector answer = new DoubleVector(n);
                 IntStream.range(0, n).forEach(i -> answer.set(i, i + 1d));
                 final Pair<Matrix, DoubleVector> formula = FormulaGenerator.generateHilbertFormula(n);

@@ -14,15 +14,15 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
     protected DoubleMatrix g;
     protected DoubleVector w, dx, p;
 
-    public AbstractQuasiNewtonMethod(FunctionExpression function, double eps) {
+    public AbstractQuasiNewtonMethod(final FunctionExpression function, final double eps) {
         super(function, eps);
     }
 
-    public AbstractQuasiNewtonMethod(Expression function, int n) {
+    public AbstractQuasiNewtonMethod(final Expression function, final int n) {
         super(new FunctionExpression(function, n, false));
     }
 
-    public AbstractQuasiNewtonMethod(FunctionExpression function) {
+    public AbstractQuasiNewtonMethod(final FunctionExpression function) {
         super(function, DEFAULT_EPS);
     }
 
@@ -37,16 +37,16 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
     }*/
 
     @Override
-    public DoubleVector findMin(DoubleVector x0) {
+    public DoubleVector findMin(final DoubleVector x0) {
         table.clear();
         g = Matrices.E(n);
         w = function.gradient(x0).multiplyBy(-1);
         p = w;
-        DoubleVector finalX = x0;
-        double alpha = new GoldenRatioMethod(a -> {
+        final DoubleVector finalX = x0;
+        final double alpha = new GoldenRatioMethod(a -> {
             return function.evaluate(finalX.add(p.multiplyBy(a)).toArray());
         }).findMin(0, 1);
-        DoubleVector x1 = x0.add(p.multiplyBy(alpha));
+        final DoubleVector x1 = x0.add(p.multiplyBy(alpha));
         dx = x1.subtract(x0);
         table.add(new Iteration(
                 x0,

@@ -64,7 +64,6 @@ public class SteepestDescendMethod extends AbstractGradientMethod {
                 return form.apply(vc);
             };
             method.setFunction(function);
-;
             final double alpha = method.findMin(a, b);
             final DoubleVector alphaX = gradient.multiplyBy(alpha);
             x = x.subtract(alphaX);

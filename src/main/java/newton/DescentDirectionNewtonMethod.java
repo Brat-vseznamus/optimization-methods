@@ -12,11 +12,11 @@ import java.util.function.UnaryOperator;
 public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
     private final List<Double> alphas = new ArrayList<>();
 
-    public DescentDirectionNewtonMethod(FunctionExpression function, double eps) {
+    public DescentDirectionNewtonMethod(final FunctionExpression function, final double eps) {
         super(function, eps);
     }
 
-    public DescentDirectionNewtonMethod(FunctionExpression function) {
+    public DescentDirectionNewtonMethod(final FunctionExpression function) {
         super(function);
     }
 
@@ -25,7 +25,7 @@ public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
     }
 
     @Override
-    protected DoubleVector iteration(DoubleVector x0) {
+    protected DoubleVector iteration(final DoubleVector x0) {
         DoubleVector pk = new DoubleVector(
                 new GaussMethod()
                         .solve(
@@ -35,17 +35,17 @@ public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
         if (pk.scalar(function.gradient(x0)) > 0) {
             pk = function.gradient(x0).multiplyBy(-1);
         }
-        DoubleVector finalPk = pk;
-        UnaryOperator<Double> oneDimOpt = aplha -> {
+        final DoubleVector finalPk = pk;
+        final UnaryOperator<Double> oneDimOpt = aplha -> {
             return function.evaluate(x0.add(finalPk.multiplyBy(aplha)).toArray());
         };
-        double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
+        final double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
         alphas.add(alphak);
         return x0.add(pk.multiplyBy(alphak));
     }
 
     @Override
-    public DoubleVector findMin(DoubleVector x0) {
+    public DoubleVector findMin(final DoubleVector x0) {
         alphas.clear();
         return super.findMin(x0);
     }

@@ -10,8 +10,6 @@ import java.util.Map;
 
 import static graphics.controllers.ControllerLab4.functions;
 import static graphics.controllers.ControllerLab4.startVectors;
-import static graphics.controllers.ControllerLab4.x1;
-import static graphics.controllers.ControllerLab4.x2;
 
 public class PythonGenerator {
 
@@ -29,15 +27,16 @@ public class PythonGenerator {
         method.setFunction(func);
         method.findMin(start);
 
-        PythonUtils.printTwoDimensionalIterationsToFile(method.getTable(), methodName + "_iter.txt");
+        PythonUtils.printTwoDimensionalIterationsToFileWithPrefix(
+                method.getTable(),
+                methodName + "_iter.txt",
+                func.toPythonStyleString());
         System.err.println("Printing function: " +
-                func.toString() +
+                func.toPythonStyleString() +
                 "\n With method: " + methodName);
     }
 
     public static void main(final String[] args) {
-        generateTxt(0, "classic");
-        generateTxt(0, "oneDim");
-        generateTxt(0, "descent");
+        generateTxt(1, "oneDim");
     }
 }

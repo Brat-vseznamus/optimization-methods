@@ -122,7 +122,7 @@ public abstract class AbstractMatrix implements Matrix {
     }
 
     @Override
-    public double minor(int row, int col, int delta) {
+    public double minor(final int row, final int col, final int delta) {
         if (invalid(row, col) || invalid(row + delta - 1, col + delta - 1)) {
             throw new IllegalArgumentException("row, col and row + delta, col + delta must be in matrix bounds");
         }
@@ -151,7 +151,7 @@ public abstract class AbstractMatrix implements Matrix {
             }
 
             // recursive determinant
-            double coef = (i + col) % 2 == 0 ? 1 : -1;
+            final double coef = (i + col) % 2 == 0 ? 1 : -1;
             result += coef * get(i, col) * tempMinor.minor(0, 0, delta - 1);
         }
         return result;

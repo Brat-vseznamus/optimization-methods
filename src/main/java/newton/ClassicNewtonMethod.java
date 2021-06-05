@@ -7,11 +7,11 @@ import slau.methods.GaussWithMainElementMethod;
 
 public class ClassicNewtonMethod extends AbstractNewtonMethod {
 
-    public ClassicNewtonMethod(FunctionExpression function, double eps) {
+    public ClassicNewtonMethod(final FunctionExpression function, final double eps) {
         super(function, eps);
     }
 
-    public ClassicNewtonMethod(FunctionExpression function) {
+    public ClassicNewtonMethod(final FunctionExpression function) {
         super(function);
     }
 
@@ -20,8 +20,8 @@ public class ClassicNewtonMethod extends AbstractNewtonMethod {
     }
 
     @Override
-    protected DoubleVector iteration(DoubleVector x0) {
-        DoubleVector pk = new DoubleVector(
+    protected DoubleVector iteration(final DoubleVector x0) {
+        final DoubleVector pk = new DoubleVector(
                 new GaussWithMainElementMethod()
                         .solve(
                                 function.hessian(x0),

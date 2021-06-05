@@ -47,8 +47,8 @@ public class DoubleVector {
         return elementOperation(this, (x, v) -> k * x);
     }
 
-    public DoubleMatrix multiply(DoubleVector vc) {
-        double[][] data = new double[size()][vc.size()];
+    public DoubleMatrix multiply(final DoubleVector vc) {
+        final double[][] data = new double[size()][vc.size()];
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < vc.size(); j++) {
                 data[i][j] = get(i) * vc.get(j);
@@ -104,7 +104,7 @@ public class DoubleVector {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof DoubleVector) {
 
             final DoubleVector other = (DoubleVector) obj;

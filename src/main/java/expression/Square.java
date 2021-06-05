@@ -24,6 +24,11 @@ public class Square implements Expression {
     }
 
     @Override
+    public String toPythonStyleString() {
+        return String.format("%s**2", arg.toPythonStyleString());
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         return obj instanceof Square && arg.equals(((Square) obj).arg);
     }

@@ -8,12 +8,12 @@ public class TensorImpl<T> implements Tensor<T>{
     protected final int dim;
     protected final int size;
 
-    public TensorImpl(List<? extends Tensor<T>> tensors) {
+    public TensorImpl(final List<? extends Tensor<T>> tensors) {
         this.size = tensors.size();
         if (this.size == 0) {
             throw new IllegalArgumentException("wrong size");
         }
-        int maxDim = tensors.stream().mapToInt(Tensor::getDimensional).max().orElse(0);
+        final int maxDim = tensors.stream().mapToInt(Tensor::getDimensional).max().orElse(0);
         if (!tensors.stream().allMatch(t -> t.getDimensional() == maxDim)) {
             throw new IllegalArgumentException("all tensors should be same sizes");
         }
@@ -22,12 +22,12 @@ public class TensorImpl<T> implements Tensor<T>{
     }
 
     @SafeVarargs
-    public TensorImpl(Tensor<T>... tensors) {
+    public TensorImpl(final Tensor<T>... tensors) {
         this(Arrays.asList(tensors));
     }
 
     @Override
-    public T get(int... indices) {
+    public T get(final int... indices) {
         if (indices.length != dim) {
             throw new IllegalArgumentException("wrong size of input");
         }
@@ -38,7 +38,7 @@ public class TensorImpl<T> implements Tensor<T>{
     }
 
     @Override
-    public Tensor<T> getTensor(int... indices) {
+    public Tensor<T> getTensor(final int... indices) {
         if (indices.length > dim) {
             throw new IllegalArgumentException("wrong size of input");
         } else if (indices.length == dim) {

@@ -9,10 +9,14 @@ import java.nio.file.Path;
 import java.util.List;
 
 public abstract class PythonUtils {
-    public static void printTwoDimensionalIterationsToFile(final List<Iteration> list, String fileName) {
+    public static void printTwoDimensionalIterationsToFileWithPrefix(final List<Iteration> list, String fileName, final String prefix) {
         fileName = "pythonUtils/iterations/" + fileName;
         PresentationUtils.createDir(Path.of(fileName));
         try (final BufferedWriter writer = Files.newBufferedWriter(Path.of(fileName))) {
+
+            writer.write(prefix);
+            writer.write(System.lineSeparator());
+
             for (final Iteration iteration : list) {
                 writer.write(PresentationUtils.getFormattedDouble(iteration.getX0().get(0)));
                 writer.write(" ");
@@ -32,5 +36,9 @@ public abstract class PythonUtils {
         } catch (final IOException e) {
             System.err.println("Error while saving iterations: " + e.getMessage());
         }
+    }
+
+    public static void printTwoDimensionalIterationsToFile(final List<Iteration> list, final String fileName) {
+        printTwoDimensionalIterationsToFileWithPrefix(list, fileName,"");
     }
 }

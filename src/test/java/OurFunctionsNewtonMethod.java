@@ -76,7 +76,7 @@ public class OurFunctionsNewtonMethod {
         test(1, new DoubleVector(-2, -2, -1));
     }
 
-    public void test(int n, DoubleVector x0) {
+    public void test(final int n, final DoubleVector x0) {
         final FunctionExpression func = functionsTest1[n];
         final DoubleVector start = x0;
         System.out.println("Function " + func.toString());

@@ -18,6 +18,11 @@ public class X implements Expression {
     }
 
     @Override
+    public String toPythonStyleString() {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         return "x" + (no + 1);
     }

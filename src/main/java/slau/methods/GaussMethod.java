@@ -12,7 +12,7 @@ public class GaussMethod implements Method {
             throw new IllegalArgumentException("vector of numbers must have same size with matrix");
         }
         for (int i = 1; i < len; i++) {
-            double aii = matrix.get(i - 1, i - 1);
+            final double aii = matrix.get(i - 1, i - 1);
             //swap
 //            if (aii == 0) {
 //                final int curLine = i - 1;

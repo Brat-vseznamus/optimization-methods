@@ -9,7 +9,7 @@ public class Iteration {
     private double f0, f1;
 
 
-    public Iteration(DoubleVector x0, double f0, DoubleVector x1, double f1, DoubleVector slope) {
+    public Iteration(final DoubleVector x0, final double f0, final DoubleVector x1, final double f1, final DoubleVector slope) {
         this.x0 = x0;
         this.x1 = x1;
         this.slope = slope;

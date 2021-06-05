@@ -16,7 +16,7 @@ public class FunctionExpression implements Expression {
     private List<Expression> firstDiffs;
     private List<List<Expression>> secondsDiffs;
 
-    public FunctionExpression(Expression expression, int n, boolean cnt2ndDiffs) {
+    public FunctionExpression(final Expression expression, final int n, final boolean cnt2ndDiffs) {
         this.expression = expression;
         this.n = n;
         calculateFirstDiffs();
@@ -27,7 +27,7 @@ public class FunctionExpression implements Expression {
         }
     }
 
-    public FunctionExpression(Expression expression, int n) {
+    public FunctionExpression(final Expression expression, final int n) {
         this(expression, n, true);
     }
 
@@ -48,21 +48,26 @@ public class FunctionExpression implements Expression {
     }
 
     @Override
-    public double evaluate(double... vars) {
-        double[] values = Arrays.copyOf(vars, n);
+    public double evaluate(final double... vars) {
+        final double[] values = Arrays.copyOf(vars, n);
         return expression.evaluate(values);
     }
 
     @Override
-    public Expression diff(int var) {
+    public Expression diff(final int var) {
         if (var < 0 || var > n) {
             throw  new IllegalArgumentException("illegal number of variable");
         }
         return expression.diff(var);
     }
 
-    public DoubleVector gradient(DoubleVector vars) {
-        double[] values = vars.toArray();
+    @Override
+    public String toPythonStyleString() {
+        return expression.toPythonStyleString();
+    }
+
+    public DoubleVector gradient(final DoubleVector vars) {
+        final double[] values = vars.toArray();
         return new DoubleVector(
             firstDiffs
                 .stream()
@@ -71,9 +76,9 @@ public class FunctionExpression implements Expression {
         );
     }
 
-    public DoubleMatrix hessian(DoubleVector vars) {
-        double[] values = vars.toArray();
-        double[][] data = new double[n][n];
+    public DoubleMatrix hessian(final DoubleVector vars) {
+        final double[] values = vars.toArray();
+        final double[][] data = new double[n][n];
         IntStream.range(0, n).forEach(
             i -> IntStream.range(0, n).forEach(
                 j -> data[i][j] =

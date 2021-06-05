@@ -12,11 +12,11 @@ import java.util.function.UnaryOperator;
 public class OneDimOptimizedNewtonMethod extends AbstractNewtonMethod {
     private final List<Double> alphas = new ArrayList<>();
 
-    public OneDimOptimizedNewtonMethod(FunctionExpression function, double eps) {
+    public OneDimOptimizedNewtonMethod(final FunctionExpression function, final double eps) {
         super(function, eps);
     }
 
-    public OneDimOptimizedNewtonMethod(FunctionExpression function) {
+    public OneDimOptimizedNewtonMethod(final FunctionExpression function) {
         super(function);
     }
 
@@ -26,23 +26,23 @@ public class OneDimOptimizedNewtonMethod extends AbstractNewtonMethod {
 
 
     @Override
-    protected DoubleVector iteration(DoubleVector x0) {
-        DoubleVector pk = new DoubleVector(
+    protected DoubleVector iteration(final DoubleVector x0) {
+        final DoubleVector pk = new DoubleVector(
                 new GaussMethod()
                         .solve(
                                 function.hessian(x0),
                                 function.gradient(x0).multiplyBy(-1).toArray()
                         ));
-        UnaryOperator<Double> oneDimOpt = aplha -> {
+        final UnaryOperator<Double> oneDimOpt = aplha -> {
             return function.evaluate(x0.add(pk.multiplyBy(aplha)).toArray());
         };
-        double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
+        final double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
         alphas.add(alphak);
         return x0.add(pk.multiplyBy(alphak));
     }
 
     @Override
-    public DoubleVector findMin(DoubleVector x0) {
+    public DoubleVector findMin(final DoubleVector x0) {
         alphas.clear();
         return super.findMin(x0);
     }

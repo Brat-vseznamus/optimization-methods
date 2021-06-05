@@ -123,8 +123,8 @@ public class DoubleMatrix extends AbstractMatrix {
         return new DoubleMatrix(LUMatrix.reverse(l0));
     }
 
-    public DoubleMatrix multilpy(double k) {
-        double[][] data = new double[n][n];
+    public DoubleMatrix multilpy(final double k) {
+        final double[][] data = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 data[i][j] = k * get(i, j);

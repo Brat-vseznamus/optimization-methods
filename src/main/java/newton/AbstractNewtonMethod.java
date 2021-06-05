@@ -14,13 +14,13 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
     protected double eps;
     protected List<Iteration> table = new ArrayList<>();
 
-    public AbstractNewtonMethod(FunctionExpression function, double eps) {
+    public AbstractNewtonMethod(final FunctionExpression function, final double eps) {
         this.function = function;
         n = function.getN();
         this.eps = eps;
     }
 
-    public AbstractNewtonMethod(FunctionExpression function) {
+    public AbstractNewtonMethod(final FunctionExpression function) {
         this(function, DEFAULT_EPS);
     }
 
@@ -29,7 +29,7 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
     }
 
     @Override
-    public void setFunction(FunctionExpression function) {
+    public void setFunction(final FunctionExpression function) {
         this.function = function;
         n = function.getN();
     }
@@ -37,7 +37,7 @@ public abstract class AbstractNewtonMethod implements NewtonMethod {
     protected abstract DoubleVector iteration(DoubleVector x0);
 
     @Override
-    public DoubleVector findMin(DoubleVector x0) {
+    public DoubleVector findMin(final DoubleVector x0) {
         table.clear();
         return iterate(x0);
     }

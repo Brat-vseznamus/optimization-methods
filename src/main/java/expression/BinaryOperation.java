@@ -28,6 +28,11 @@ public abstract class BinaryOperation implements Expression {
     }
 
     @Override
+    public String toPythonStyleString() {
+        return String.format("(%s %s %s)", argLeft.toPythonStyleString(), op, argRight.toPythonStyleString());
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         if (obj instanceof BinaryOperation) {
             final BinaryOperation other = (BinaryOperation) obj;

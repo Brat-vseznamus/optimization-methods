@@ -26,6 +26,11 @@ public class Const implements Expression {
     }
 
     @Override
+    public String toPythonStyleString() {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         return Double.toString(value);
     }

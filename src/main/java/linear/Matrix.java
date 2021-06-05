@@ -31,9 +31,9 @@ public interface Matrix {
 
     DoubleVector multiplyBy(final DoubleVector vector);
 
-    public Stream<DoubleVector> stream();
+    Stream<DoubleVector> stream();
 
-    public Matrix transpose();
+    Matrix transpose();
 
     double minor(int row, int col, int delta);
 

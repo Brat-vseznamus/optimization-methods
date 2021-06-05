@@ -5,4 +5,6 @@ public interface Expression {
     double evaluate(double... vars);
 
     Expression diff(int var);
+
+    String toPythonStyleString();
 }

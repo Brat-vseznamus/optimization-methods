@@ -1,17 +1,17 @@
 package expression;
 
 public class Sin extends UnaryOperation{
-    public Sin(Expression arg) {
+    public Sin(final Expression arg) {
         super(arg);
     }
 
     @Override
-    public double evaluate(double... vars) {
+    public double evaluate(final double... vars) {
         return Math.sin(arg.evaluate(vars));
     }
 
     @Override
-    public Expression diff(int var) {
+    public Expression diff(final int var) {
         return new Mul(arg.diff(var), new Cos(arg));
     }
 }
