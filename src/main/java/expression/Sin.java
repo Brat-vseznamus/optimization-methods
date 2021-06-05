@@ -22,6 +22,6 @@ public class Sin extends UnaryOperation{
 
     @Override
     public String toPythonStyleString() {
-        return "math.sin(" + arg.toPythonStyleString() + ")";
+        return "np.sin(" + arg.toPythonStyleString() + ")";
     }
 }

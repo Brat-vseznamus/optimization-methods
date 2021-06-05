@@ -31,7 +31,7 @@ public class Power implements Expression {
 
     @Override
     public String toString() {
-        return "cos(" + arg.toString() + ")";
+        return "(" + arg.toString() + ")^" + n;
     }
 
     @Override

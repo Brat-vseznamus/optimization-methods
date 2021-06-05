@@ -23,6 +23,6 @@ public class Cos extends UnaryOperation {
 
     @Override
     public String toPythonStyleString() {
-        return "math.cos(" + arg.toPythonStyleString() + ")";
+        return "np.cos(" + arg.toPythonStyleString() + ")";
     }
 }

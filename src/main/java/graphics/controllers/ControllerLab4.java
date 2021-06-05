@@ -120,8 +120,8 @@ public class ControllerLab4 implements Initializable {
                                             new Add(
                                                     new Square(x1),
                                                     new Add(
-                                                            new Square(x2),
-                                                            new Power(x3, 4)
+                                                            Const.ONE,
+                                                            new Power(x2, 4)
                                                     )
                                             ),
                                             new Const(0.04)
@@ -129,15 +129,15 @@ public class ControllerLab4 implements Initializable {
                             ),
                             new Const(-4)
                     ),
-                    3,
+                    2,
                     true
             )
     };
     public static final List<DoubleVector> startVectors = List.of(
             new DoubleVector(4, 1),
             new DoubleVector(-1.2, 1),
-            new DoubleVector(-1, 2),
-            new DoubleVector(-2, -2, -1)
+            new DoubleVector(5, -2),
+            new DoubleVector(-1, -1)
     );
     FunctionExpression functionExpression;
     DoubleVector startVector;
