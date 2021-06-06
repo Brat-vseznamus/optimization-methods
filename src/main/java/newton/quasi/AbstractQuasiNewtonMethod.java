@@ -9,8 +9,9 @@ import methods.dimensional.one.GoldenRatioMethod;
 import newton.AbstractNewtonMethod;
 import newton.utils.FunctionExpression;
 import newton.utils.Iteration;
+import newton.utils.NewtonMethodWithSavedAlphas;
 
-public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod implements QuasiNewtonMethod {
+public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod implements QuasiNewtonMethod, NewtonMethodWithSavedAlphas {
     protected DoubleMatrix g;
     protected DoubleVector w, dx, p;
 
@@ -46,6 +47,7 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
         final double alpha = new GoldenRatioMethod(a -> {
             return function.evaluate(finalX.add(p.multiplyBy(a)).toArray());
         }).findMin(0, 1);
+        addAlpha(alpha);
         final DoubleVector x1 = x0.add(p.multiplyBy(alpha));
         dx = x1.subtract(x0);
         table.add(new Iteration(

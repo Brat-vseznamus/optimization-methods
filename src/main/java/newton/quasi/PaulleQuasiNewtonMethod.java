@@ -5,7 +5,7 @@ import linear.DoubleMatrix;
 import linear.DoubleVector;
 import newton.utils.FunctionExpression;
 
-public class PaulleQuasiNewtonMethod extends BFSQuasiNewtonMethod{
+public class PaulleQuasiNewtonMethod extends BFSQuasiNewtonMethod {
     public PaulleQuasiNewtonMethod(final FunctionExpression function) {
         super(function);
     }
@@ -18,11 +18,12 @@ public class PaulleQuasiNewtonMethod extends BFSQuasiNewtonMethod{
         super(function, eps);
     }
 
-    public PaulleQuasiNewtonMethod() { }
+    public PaulleQuasiNewtonMethod() {
+    }
 
     @Override
     protected void updatingG(final DoubleVector dw) {
         final DoubleVector dxl = dx.add(g.multiply(dw));
-        g = (DoubleMatrix) g.subtract(dxl.multiply(dxl).multilpy(1d/dw.scalar(dxl)));
+        g = (DoubleMatrix) g.subtract(dxl.multiply(dxl).multilpy(1d / dw.scalar(dxl)));
     }
 }

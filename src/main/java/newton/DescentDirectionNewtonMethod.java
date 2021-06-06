@@ -3,14 +3,14 @@ package newton;
 import linear.DoubleVector;
 import methods.dimensional.one.GoldenRatioMethod;
 import newton.utils.FunctionExpression;
+import newton.utils.NewtonMethodWithSavedAlphas;
 import slau.methods.GaussMethod;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
-    private final List<Double> alphas = new ArrayList<>();
+public class DescentDirectionNewtonMethod extends AbstractNewtonMethod implements NewtonMethodWithSavedAlphas {
 
     public DescentDirectionNewtonMethod(final FunctionExpression function, final double eps) {
         super(function, eps);
@@ -39,21 +39,15 @@ public class DescentDirectionNewtonMethod extends AbstractNewtonMethod {
             pk = function.gradient(x0).multiplyBy(-1);
         }
         final DoubleVector finalPk = pk;
-        final UnaryOperator<Double> oneDimOpt = aplha -> {
-            return function.evaluate(x0.add(finalPk.multiplyBy(aplha)).toArray());
-        };
-        final double alphak = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
-        alphas.add(alphak);
-        return x0.add(pk.multiplyBy(alphak));
+        final UnaryOperator<Double> oneDimOpt = alpha -> function.evaluate(x0.add(finalPk.multiplyBy(alpha)).toArray());
+        final double alphaK = new GoldenRatioMethod(oneDimOpt).findMin(0, 1);
+        addAlpha(alphaK);
+        return x0.add(pk.multiplyBy(alphaK));
     }
 
     @Override
     public DoubleVector findMin(final DoubleVector x0) {
-        alphas.clear();
+        clearAlphas();
         return super.findMin(x0);
-    }
-
-    public List<Double> getAlphas() {
-        return alphas;
     }
 }

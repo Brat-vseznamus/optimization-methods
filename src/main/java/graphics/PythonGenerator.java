@@ -1,13 +1,12 @@
 package graphics;
 
-import methods.dimensional.one.OneDimensionalOptimizationMethod;
 import newton.ClassicNewtonMethod;
 import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
 import newton.OneDimOptimizedNewtonMethod;
 import newton.quasi.BFSQuasiNewtonMethod;
 import newton.quasi.PaulleQuasiNewtonMethod;
-import newton.utils.Iteration;
+import newton.utils.NewtonMethodWithSavedAlphas;
 import newton.utils.PythonUtils;
 
 import java.util.List;
@@ -36,10 +35,8 @@ public class PythonGenerator {
         method.findMin(start);
 
         List<Double> alphas = List.of();
-        if (method instanceof DescentDirectionNewtonMethod) {
-            alphas = ((DescentDirectionNewtonMethod) method).getAlphas();
-        } else if (method instanceof OneDimOptimizedNewtonMethod) {
-            alphas = ((OneDimOptimizedNewtonMethod) method).getAlphas();
+        if (method instanceof NewtonMethodWithSavedAlphas) {
+            alphas = ((NewtonMethodWithSavedAlphas) method).getAlphas();
         }
 
         PythonUtils.writeTwoDimIterations(
