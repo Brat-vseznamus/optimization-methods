@@ -10,6 +10,14 @@ public class Matrices {
     private Matrices() {
     }
 
+    public static DoubleMatrix E(final int n) {
+        final double[][] data = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            data[i][i] = 1;
+        }
+        return new DoubleMatrix(data);
+    }
+
     public static boolean epsEquals(final double a, final double b) {
         return Math.abs(a - b) < EPS;
     }
@@ -74,25 +82,33 @@ public class Matrices {
                         matrix.get(row, col) == matrix.get(col, row)));
     }
 
-    public static DoubleMatrix E(final int n) {
-        final double[][] data = new double[n][n];
-        for (int i = 0; i < n; i++) {
-            data[i][i] = 1;
-        }
-        return new DoubleMatrix(data);
-    }
-
     public static boolean checkSymmetric(final double[][] data) {
         requireShape(data);
 
         return checkSymmetric(new RegularMatrix(data));
     }
 
-    public static boolean checkPositive(final Matrix matrix) {
-        return matrix.determinant() > EPS;
+    public static void requireSymmetric(final Matrix matrix) {
+        if (!checkSymmetric(matrix)) {
+            throw new IllegalArgumentException("matrix must be symmetric");
+        }
     }
 
-    public static boolean checkNegative(final Matrix matrix) {
-        return matrix.determinant() < EPS;
+    public static void requireSymmetric(final double[][] data) {
+        if (!checkSymmetric(data)) {
+            throw new IllegalArgumentException("matrix must be symmetric");
+        }
+    }
+
+    public static boolean checkPositive(final Matrix matrix) {
+        requireSquare(matrix);
+
+        return IntStream.range(1, matrix.getN()).allMatch(k -> matrix.minor(0, 0, k) > 0);
+    }
+
+    public static void requirePositive(final Matrix matrix) {
+        if (!checkPositive(matrix)) {
+            throw new IllegalArgumentException("Matrix must be positively determined");
+        }
     }
 }

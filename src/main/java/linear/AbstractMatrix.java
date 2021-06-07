@@ -123,11 +123,11 @@ public abstract class AbstractMatrix implements Matrix {
 
     @Override
     public double minor(final int row, final int col, final int delta) {
-        if (invalid(row, col) || invalid(row + delta - 1, col + delta - 1)) {
-            throw new IllegalArgumentException("row, col and row + delta, col + delta must be in matrix bounds");
-        }
         if (delta < 1) {
             throw new IllegalArgumentException("delta must be >= 1");
+        }
+        if (invalid(row, col) || invalid(row + delta - 1, col + delta - 1)) {
+            throw new IllegalArgumentException("row, col and row + delta, col + delta must be in matrix bounds");
         }
         if (delta == 1) {
             return get(row, col);

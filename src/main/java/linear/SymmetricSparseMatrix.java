@@ -17,7 +17,7 @@ public class SymmetricSparseMatrix extends AbstractMatrix {
         IntStream.range(0, n).forEach(i -> diagonal[i] = data[i][i]);
 
         final int size = IntStream.range(0, n).map(i ->
-                IntStream.range(0, i).map(j -> data[i][j] != 0 ? 1 : 0).sum()
+                IntStream.range(0, i).map(j -> Matrices.epsEquals(data[i][j], 0d) ? 0 : 1).sum()
         ).sum();
         rowElements = new double[size];
         columns = new int[size];
@@ -28,7 +28,7 @@ public class SymmetricSparseMatrix extends AbstractMatrix {
             beginIndex[i] = index;
             for (int j = 0; j < i; ++j) {
                 final double element = data[i][j];
-                if (element != 0d) {
+                if (!Matrices.epsEquals(element, 0d)) {
                     rowElements[index] = element;
                     columns[index++] = j;
                 }

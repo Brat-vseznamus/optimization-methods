@@ -19,6 +19,10 @@ public class DoubleVector {
         values = Arrays.copyOf(vector.values, size);
     }
 
+    public DoubleVector(final DoubleVector vector) {
+        this(vector, vector.values.length);
+    }
+
     public DoubleVector(final double... doubles) {
         values = new double[doubles.length];
         System.arraycopy(doubles, 0, values, 0, doubles.length);
