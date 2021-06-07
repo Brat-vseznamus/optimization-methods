@@ -30,12 +30,6 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
     public AbstractQuasiNewtonMethod() {
         this(Const.ZERO, 1);
     }
-/*
-    @Override
-    public void setFunction(final FunctionExpression function) {
-        this.function = function;
-        g = Matrices.E(function.getN());
-    }*/
 
     @Override
     public DoubleVector findMin(final DoubleVector x0) {

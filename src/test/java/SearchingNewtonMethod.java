@@ -5,10 +5,11 @@ import newton.DescentDirectionNewtonMethod;
 import newton.NewtonMethod;
 import newton.OneDimOptimizedNewtonMethod;
 import newton.utils.FunctionExpression;
-import newton.utils.Iteration;
 import org.junit.jupiter.api.Test;
 
-public class OurFunctionsNewtonMethod {
+import java.util.List;
+
+public class SearchingNewtonMethod {
     public static final NewtonMethod classic = new ClassicNewtonMethod();
     public static final NewtonMethod descend = new DescentDirectionNewtonMethod();
     public static final NewtonMethod oneDim = new OneDimOptimizedNewtonMethod();
@@ -22,41 +23,9 @@ public class OurFunctionsNewtonMethod {
     public static final Expression x1 = new X(0);
     public static final Expression x2 = new X(1);
     public static final Expression x3 = new X(2);
+    public static final Expression x4 = new X(3);
 
-    public static final FunctionExpression[] functionsTest1 = {
-            new FunctionExpression(
-                    new Add(
-                        new Square(x1),
-                        new Add(
-                            new Square(x2),
-                            new Mul(
-                                    new Const(2),
-                                    new Mul(x1, x2)
-                            )
-                        )
-                    ),
-                    2,
-                    true
-            ),
-            new FunctionExpression(
-                    new Mul(
-                        new Cos(
-                            new Mul(
-                                new Add(
-                                       new Square(x1),
-                                       new Add(
-                                           new Square(x2),
-                                           new Power(x3, 4)
-                                       )
-                                ),
-                                new Const(0.04)
-                            )
-                        ),
-                        new Const(-4)
-                    ),
-                    3,
-                    true
-            ),
+    public static final FunctionExpression[] functions = {
             new FunctionExpression(
                     new Mul(
                             new Cos(
@@ -78,37 +47,39 @@ public class OurFunctionsNewtonMethod {
             )
     };
 
+    public static final List<DoubleVector> starts = List.of(
+            new DoubleVector(-2d, -2d),
+            new DoubleVector(1d, 1d),
+            new DoubleVector(4d, 0d),
+            new DoubleVector(20d, 20d),
+            new DoubleVector(0d, 0d));
+
     public static void testMethodOnFunction(final NewtonMethod method, final DoubleVector start) {
         final DoubleVector result = method.findMin(start);
         System.out.println(method.getClass().getSimpleName() + ":");
         System.out.println("found: " + result.toString());
-        System.out.println(method.getTable().toString().replace("),", "),\n"));
+//        System.out.println(method.getTable().toString().replace("),", "),\n"));
+        System.out.println(method.getTable().size());
         System.out.println();
     }
 
-    @Test
-    public void testForUnsolvableForGauss() {
-        test(0, new DoubleVector(-1, 2));
-    }
-
-    @Test
-    public void testForNonQuadratic() {
-        test(1, new DoubleVector(-2, -2, -1));
-    }
-
-    @Test
-    public void testForNonQuadratic2() {
-        test(2, new DoubleVector(-2, -2));
-    }
-
-    public void test(final int n, final DoubleVector x0) {
-        final FunctionExpression func = functionsTest1[n];
-        final DoubleVector start = x0;
+    public void test(final int n1, final int n2) {
+        final FunctionExpression func = functions[n1];
+        final DoubleVector start = starts.get(n2);
         System.out.println("Function " + func.toString());
         System.out.println("with start point: " + start.toString());
         for (final NewtonMethod method : newtonMethods) {
             method.setFunction(func);
             testMethodOnFunction(method, start);
+        }
+    }
+
+    @Test
+    public void testAll() {
+        for (int n1 = 0; n1 < 1; ++n1) {
+            for (int n2 = 0; n2 < 5; ++n2) {
+                test(n1, n2);
+            }
         }
     }
 }
