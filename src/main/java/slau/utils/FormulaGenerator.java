@@ -217,6 +217,38 @@ public class FormulaGenerator {
         return new LUMatrix(data);
     }
 
+    public static Matrix generateDigMatrix(int n, double zp) {
+        if (n <= 0) {
+            throw  new IllegalArgumentException("n > 0");
+        }
+        double eps = 1;
+        final double[][] data = new double[n][n];
+        final Random rnd = new Random();
+        final double finalEps = eps;
+        IntStream.range(0, n).forEach(
+                row -> {
+                    IntStream.range(0, row).forEach(
+                            col -> {
+                                data[row][col] = -RandomUtils.randomValue(zp);
+                            }
+                    );
+                    IntStream.range(row + 1, n).forEach(
+                            col -> {
+                                data[row][col] = data[row][n - 1 - col];
+                            }
+                    );
+                    data[row][row] = 0;
+                    double sum = Arrays.stream(data[row], 0, n).sum();
+                    data[row][row] = -sum;
+                    if (row == 0) {
+                        data[row][row] += finalEps;
+                    }
+                }
+        );
+        return new LUMatrix(data);
+    }
+
+
     private static class RandomUtils {
         /**
          * Generate random value from [l, r) or 0 with {@code zeroPercent} chance
