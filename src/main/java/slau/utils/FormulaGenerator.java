@@ -245,7 +245,7 @@ public class FormulaGenerator {
                     }
                 }
         );
-        return new LUMatrix(data);
+        return new SymmetricSparseMatrix(data);
     }
 
 

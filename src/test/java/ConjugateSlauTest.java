@@ -17,13 +17,14 @@ public class ConjugateSlauTest {
 
     private void test(final Function<Integer, Matrix> generator, final int n1, final int n2) {
         final ConjugateGradientMethod conjugate = new ConjugateGradientMethod();
+        System.out.println("  dim  iters  |x - x*|    |x - x*|/|x*|  cond");
         for (int n = n1; n <= n2; n = (int) (((double) n) * Math.PI)) {
             final Matrix matrix = generator.apply(n);
             final DoubleVector x = rangeVector(n);
             final DoubleVector solve = new DoubleVector(conjugate.solve(matrix, matrix.multiplyBy(x).toArray()));
             final double delta = x.subtract(solve).norm();
             final double minCond = (delta / x.norm()) / (matrix.multiplyBy(x).norm() / x.norm());
-            System.out.printf("%d %d %f %f %f%n",
+            System.out.printf("%5d %6d  %.8f  %.8f     %.8f%n",
                     n, conjugate.getIterations(), delta, delta / x.norm(), minCond);
         }
     }
@@ -31,7 +32,7 @@ public class ConjugateSlauTest {
     @Test
     public void diagonalDominanceTest() {
         test((n) -> FormulaGenerator.generateDigMatrix(n, 0.5),
-                10, 100000);
+                10, 100);
     }
 
     @Test
