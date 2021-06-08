@@ -96,4 +96,21 @@ public class SymmetricSparseMatrix extends AbstractMatrix {
     public boolean isDiagonal() {
         return false;
     }
+
+    @Override
+    public DoubleVector multiplyBy(final DoubleVector vector) {
+        final DoubleVector result = new DoubleVector(n);
+        for (int row = 0; row < n; row++) {
+            for (int index = beginIndex[row]; index < beginIndex[row + 1]; index++) {
+                final int col = columns[index];
+                var el = rowElements[index];
+                result.set(row, result.get(row) + rowElements[index] * vector.get(col));
+                result.set(col, result.get(col) + rowElements[index] * vector.get(row));
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            result.set(i, result.get(i) + diagonal[i] * vector.get(i));
+        }
+        return result;
+    }
 }

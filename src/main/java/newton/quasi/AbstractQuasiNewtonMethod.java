@@ -33,6 +33,7 @@ public abstract class AbstractQuasiNewtonMethod extends AbstractNewtonMethod imp
 
     @Override
     public DoubleVector findMin(final DoubleVector x0) {
+        clearAlphas();
         table.clear();
         g = Matrices.E(n);
         w = function.gradient(x0).multiplyBy(-1);

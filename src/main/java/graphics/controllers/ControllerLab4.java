@@ -131,13 +131,71 @@ public class ControllerLab4 implements Initializable {
                     ),
                     2,
                     true
+            ),
+            new FunctionExpression(
+                    new Add(
+                            new Square(
+                                    new MultiAdd(
+                                            new Square(x1),
+                                            x2,
+                                            new Const(-11)
+                                    )),
+                            new Square(
+                                    new MultiAdd(
+                                            x1,
+                                            new Square(x2),
+                                            new Const(-7)
+                                    ))
+                    ),
+                    2,
+                    true
+            ),
+            new FunctionExpression(
+                    new Sub(
+                            new Sub(
+                                    new Const(100d),
+                                    new Div(
+                                            Const.TWO,
+                                            new Add(
+                                                    new Add(
+                                                            Const.ONE,
+                                                            new Square(
+                                                                    new Div(
+                                                                            new Sub(x1, Const.ONE),
+                                                                            Const.TWO
+                                                                    )
+                                                            )
+                                                    ),
+                                                    new Square(
+                                                            new Div(
+                                                                    new Sub(x2, Const.ONE),
+                                                                    Const.THREE
+                                                            )
+                                                    )
+                                            )
+                                    )),
+                            new Div(
+                                    Const.ONE,
+                                    new Add(
+                                            new Add(
+                                                    Const.ONE,
+                                                    new Square(new Div(new Sub(x1, Const.TWO), Const.TWO))
+                                            ),
+                                            new Square(new Div(new Sub(x2, Const.ONE), Const.THREE))
+                                    )
+                            )
+
+                    ),
+                    2,
+                    false
             )
     };
     public static final List<DoubleVector> startVectors = List.of(
             new DoubleVector(4, 1),
-            new DoubleVector(-1.2, 1),
+            new DoubleVector(-2, 2),
             new DoubleVector(4, 0),
-            new DoubleVector(1, -5)
+            new DoubleVector(1, -5),
+            new DoubleVector(20, 20)
     );
     FunctionExpression functionExpression;
     DoubleVector startVector;
