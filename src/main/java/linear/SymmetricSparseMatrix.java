@@ -84,7 +84,12 @@ public class SymmetricSparseMatrix extends AbstractMatrix {
 
     @Override
     public void set(final int row, final int col, final double value) {
-        throw new UnsupportedOperationException();
+        int index;
+        for (index = beginIndex[row]; index < beginIndex[row + 1] && columns[index] <= col; ++index) {
+            if (index == columns[index]) {
+                rowElements[index] = value;
+            }
+        }
     }
 
     @Override
