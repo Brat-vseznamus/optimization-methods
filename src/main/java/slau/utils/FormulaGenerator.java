@@ -1,10 +1,7 @@
 package slau.utils;
 
-import linear.DoubleVector;
+import linear.*;
 import methods.Pair;
-import linear.LUMatrix;
-import linear.Matrix;
-import linear.ProfileMatrix;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -171,7 +168,8 @@ public class FormulaGenerator {
                         j -> data[i][j] = 1d/(i + j + 1)
                 )
         );
-        return new ProfileMatrix(data);
+        return new RegularMatrix(data);
+//        return new ProfileMatrix(data);
     }
 
     public static Pair<Matrix, DoubleVector> generateHilbertFormula(final int n) {

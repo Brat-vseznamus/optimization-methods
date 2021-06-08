@@ -7,10 +7,16 @@ import linear.Matrix;
 public class ConjugateGradientMethod implements Method {
     public static final double DEFAULT_EPS = 1e-7d;
 
+    private int iterations;
+
+    public int getIterations() {
+        return iterations;
+    }
+
     @Override
     public double[] solve(final Matrix matrix, final double[] numbers) {
         Matrices.requireSymmetric(matrix);
-        Matrices.requirePositive(matrix);
+//        Matrices.requirePositive(matrix);
 
         final DoubleVector f = new DoubleVector(numbers);
         DoubleVector x = new DoubleVector(numbers.length);
@@ -18,10 +24,10 @@ public class ConjugateGradientMethod implements Method {
         DoubleVector z = new DoubleVector(r);
 
         final int maxIterations = numbers.length * 50;
-        int iteration = 0;
+        iterations = 0;
         double rScalarPrev = r.scalar(r);
         double rScalarTemp;
-        while (++iteration < maxIterations) {
+        while (++iterations < maxIterations) {
             final DoubleVector az = matrix.multiplyBy(z);
             final double alpha = rScalarPrev / (az.scalar(z));
 
